@@ -2,11 +2,13 @@
     <h2>Prueba</h2>
 </template>
 <script lang="ts">
+ import { loadScript } from "vue-plugin-load-script";
 export default {
-  mounted() {
+ async mounted() {
+   await loadScript("https://telegram.org/js/telegram-web-app.js")
+   console.log(window.Telegram)
  
 
- //   console.log(window.Telegram.WebApp)
   }
 };
 </script>
