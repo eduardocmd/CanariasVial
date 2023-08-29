@@ -6,7 +6,7 @@ export default {
   mounted() {
  
 
-    console.log(window.Telegram.WebApp)
+ //   console.log(window.Telegram.WebApp)
   }
 };
 </script>
