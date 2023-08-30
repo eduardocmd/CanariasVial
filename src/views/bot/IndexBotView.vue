@@ -11,6 +11,8 @@ export default {
 if(window.Telegram.WebApp.initDataUnsafe.user){
   this.nombre =  window.Telegram.WebApp.initDataUnsafe.user?.first_name
  
+}else{
+  this.nombre =  'Error al cargar nombre'
 }
 this.instance = import.meta.env.VITE_APP_Telegram_Script
 console.log(import.meta.env.VITE_APP_Telegram_Script)
