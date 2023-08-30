@@ -7,11 +7,13 @@
  import { loadScript } from "vue-plugin-load-script";
 export default {
  async created() {
-  await loadScript("http://telegram.org/js/telegram-web-app.js")
+  await loadScript(import.meta.env.VITE_APP_Telegram_Script)
 if(window.Telegram.WebApp.initDataUnsafe.user){
   this.nombre =  window.Telegram.WebApp.initDataUnsafe.user?.first_name
-  this.instance = window.Telegram.WebApp.initDataUnsafe.chat_instance
+ 
 }
+this.instance = import.meta.env.VITE_APP_Telegram_Script
+console.log(import.meta.env.VITE_APP_Telegram_Script)
 
 
 
