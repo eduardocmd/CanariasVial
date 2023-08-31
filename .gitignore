@@ -1,8 +1,5 @@
 # Logs
-.env
-.env.development
-.env.production
-*.env
+
 logs
 *.log
 npm-debug.log*
@@ -30,3 +27,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+.env.development
+.env.production
