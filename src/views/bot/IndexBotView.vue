@@ -14,6 +14,8 @@ onMounted(async () => {
   if (window.Telegram.WebApp.initDataUnsafe.user) {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
   }
+  //Comprobar que los servidores funcionen
+  
 
 })
 

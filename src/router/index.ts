@@ -12,7 +12,8 @@ const router = createRouter({
     {
       path: '/bot',
       name: 'bot',
-      component: IndexBotView
+      component: IndexBotView,
+      meta: { hideHeader: true } 
     },
     {
       path: '/about',
