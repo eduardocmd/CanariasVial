@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@twa-dev/types": "^6.7.0",
+    "axios": "^1.5.0",
     "vue": "^3.3.4",
     "vue-plugin-load-script": "^2.1.1",
     "vue-router": "^4.2.4"
