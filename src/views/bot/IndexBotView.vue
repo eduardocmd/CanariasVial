@@ -4,10 +4,10 @@
    <p>Instancia {{ instance }}</p>
 </template>
 <script lang="ts">
- import { loadScript } from "vue-plugin-load-script";
+
 export default {
  async created() {
-  
+  await this.$loadScript(import.meta.env.VITE_APP_Telegram_Script)
   console.log(window.Telegram.WebApp.initDataUnsafe)
 if(window.Telegram.WebApp.initDataUnsafe.user){
   this.nombre =  window.Telegram.WebApp.initDataUnsafe.user?.first_name
