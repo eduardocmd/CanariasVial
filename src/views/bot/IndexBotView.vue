@@ -1,33 +1,19 @@
 <template>
     <h2>Prueba</h2>
-   <p>Hola  {{ nombre }}</p>
-   <p>Instancia {{ instance }}</p>
+<AlertsSelector/>
 </template>
-<script lang="ts">
+<script setup lang="ts">
+  import { loadScript } from "vue-plugin-load-script";
+import AlertsSelector from "@/components/bot/AlertsSelector.vue"
+import { onMounted } from "vue"
 
-export default {
- async created() {
-  await this.$loadScript(import.meta.env.VITE_APP_Telegram_Script)
-  console.log(window.Telegram.WebApp.initDataUnsafe)
-if(window.Telegram.WebApp.initDataUnsafe.user){
-  this.nombre =  window.Telegram.WebApp.initDataUnsafe.user?.first_name
- 
-}else{
-  this.nombre =  'Error al cargar nombre'
-}
-this.instance = import.meta.env.VITE_APP_Telegram_Script
-console.log(import.meta.env.VITE_APP_Telegram_Script)
+onMounted(async() => {
+
+  await loadScript(import.meta.env.VITE_APP_Telegram_Script);
+  
+
+})
 
 
 
-
-
-  },
-  data() {
-    return {
-      nombre: '',
-      instance: ''
-    }
-  }
-};
 </script>
