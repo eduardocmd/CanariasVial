@@ -8,6 +8,9 @@
     <section v-if="status === 500">
       <p>No cargó</p>
     </section>
+    <section v-else>
+<p>Cargando</p>
+    </section>
 
   </main>
 </template>
@@ -41,7 +44,7 @@ const getStatus = async (): Promise<number> => {
   try {
     console.log(configuracion.url)
     let respuesta = await axios(configuracion)
-    if (respuesta.status === 200) salida = respuesta.status
+    if (respuesta.data) salida = respuesta.status
 
   } catch (error) {
     console.log(error)
