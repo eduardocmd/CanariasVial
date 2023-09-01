@@ -17,9 +17,10 @@
 </template>
 <script setup lang="ts">
 import { loadScript } from "vue-plugin-load-script";
+import * as api_request from "@/api_request"
 import AlertsSelector from "@/components/bot/AlertsSelector.vue"
 import { ref, onMounted } from "vue"
-import axios from 'axios';
+
 
 const nombre = ref('')
 let status = ref(0)
@@ -30,30 +31,11 @@ onMounted(async () => {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
   }
 
-  status.value = await getStatus()
+  status.value = await api_request.getStatus()
 
 })
 
-const getStatus = async (): Promise<number> => {
-  let salida = 500
-  const configuracion = {
 
-    method: 'GET',
-    url: `${import.meta.env.VITE_APP_Web_IP}/status`
-  }
-
-  try {
-    console.log(configuracion.url)
-    let respuesta = await axios(configuracion)
-    salida = respuesta.data ? respuesta.status : 500
-
-  } catch (error) {
-    salida = 500
-    console.log(error)
-  }
-  return salida
-
-}
 
 
 
