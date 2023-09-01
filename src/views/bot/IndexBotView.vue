@@ -45,7 +45,6 @@ const getStatus = async (): Promise<number> => {
   try {
     console.log(configuracion.url)
     let respuesta = await axios(configuracion)
-    if (respuesta.data) salida = respuesta.status
     salida = respuesta.data ? respuesta.status : 500
 
   } catch (error) {
