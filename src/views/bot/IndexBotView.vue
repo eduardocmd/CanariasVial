@@ -39,6 +39,7 @@ const getStatus = async ():Promise<boolean> => {
   }
 
 try {
+  console.log(configuracion.url)
   let respuesta  = await axios(configuracion)
   if (respuesta.status === 200) salida = true 
   
