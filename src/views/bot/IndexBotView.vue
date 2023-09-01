@@ -1,5 +1,6 @@
 <template>
   <main>
+    {{ status }}
     <section v-if="status === 200">
       <h2>Prueba</h2>
       {{ nombre }}
