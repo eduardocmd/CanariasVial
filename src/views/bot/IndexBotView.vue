@@ -1,12 +1,12 @@
 <template>
   <main>
-    <section v-if="status">
+    <section v-if="status === 200">
       <h2>Prueba</h2>
       {{ nombre }}
       <AlertsSelector />
     </section>
-    <section v-else>
-<p>No cargó</p>
+    <section v-if="status === 500">
+      <p>No cargó</p>
     </section>
 
   </main>
@@ -18,7 +18,7 @@ import { ref, onMounted } from "vue"
 import axios from 'axios';
 
 const nombre = ref('')
-let status = ref(false)
+let status = ref(0)
 
 onMounted(async () => {
   await loadScript(import.meta.env.VITE_APP_Telegram_Script);
@@ -30,23 +30,23 @@ onMounted(async () => {
 
 })
 
-const getStatus = async ():Promise<boolean> => {
-  let salida = false
+const getStatus = async (): Promise<number> => {
+  let salida = 500
   const configuracion = {
 
     method: 'GET',
     url: `${import.meta.env.VITE_APP_Web_IP}/status`
   }
 
-try {
-  console.log(configuracion.url)
-  let respuesta  = await axios(configuracion)
-  if (respuesta.status === 200) salida = true 
-  
-} catch (error) {
-  console.log(error)
-}
-return salida
+  try {
+    console.log(configuracion.url)
+    let respuesta = await axios(configuracion)
+    if (respuesta.status === 200) salida = respuesta.status
+
+  } catch (error) {
+    console.log(error)
+  }
+  return salida
 
 }
 
