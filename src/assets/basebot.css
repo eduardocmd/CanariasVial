@@ -11,3 +11,19 @@
   
     --section-gap: 160px;
   } 
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background: var(--tg-theme-bg-color);
+      --color-background-soft: var(--tg-theme-secondary-bg-color);
+      --color-background-mute: var(--vt-c-white-mute);
+    
+      --color-border: var(--vt-c-divider-light-2);
+      --color-border-hover: var(--vt-c-divider-light-1);
+    
+      --color-heading: var(--vt-c-text-light-1);
+      --color-text: var(--tg-theme-text-color);
+    
+      --section-gap: 160px;
+    } 
+  }

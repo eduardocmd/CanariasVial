@@ -21,6 +21,12 @@ const getStatus = async (): Promise<number> => {
     return salida
   
   }
+  const sleep = async (milliseconds : number) => {
+    await new Promise(resolve => {
+        return setTimeout(resolve, milliseconds)
+    });
+};
   export{
-    getStatus
+    getStatus,
+    sleep
   }

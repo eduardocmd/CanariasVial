@@ -30,7 +30,7 @@ const selectores = [
 </script>
 <template>
   <main>
-    <h2>Selecciona un tipo de alerta</h2>
+    
     <section id="selector">
       <RouterLink v-for="selector in selectores" :key="selector.tipo" to="{path: '/bot/' + selector.tipo}">
         <div class="tipoalerta" :style="{ 'background-image': 'url(' + selector.image + ')' }"></div>
@@ -45,26 +45,33 @@ main {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: start;
+
+  background-color:  var(--tg-theme-secondary-bg-color);
+  color: var(--tg-theme-text-color);
+
 
 }
 
 #selector {
+  border-radius: 1rem;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   margin: 1rem;
-  background-color: var(--color-background);
+  background-color:  var(--tg-theme-bg-color);
 }
 
 
 .tipoalerta {
 
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
   cursor: pointer;
-  margin: 0.2em;
+  margin: 0.4em;
 
   &:hover {
     transform: scale(1.2);
