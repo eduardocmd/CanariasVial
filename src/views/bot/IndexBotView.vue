@@ -43,10 +43,12 @@ onMounted(async () => {
 
 <style scoped> 
 
-@import url('../../assets/');
+
 
 main{
-  background-color: var(--color-background-soft)
+  background-color:  var(--tg-theme-secondary-bg-color);
+  height: var(--tg-viewport-height);
+  
 }
 
 </style>
