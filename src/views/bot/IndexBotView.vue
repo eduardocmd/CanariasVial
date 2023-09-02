@@ -40,3 +40,13 @@ onMounted(async () => {
 
 
 </script>
+
+<style scoped> 
+
+@import url('../../assets/');
+
+main{
+  background-color: var(--color-background-soft)
+}
+
+</style>

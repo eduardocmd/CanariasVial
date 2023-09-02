@@ -40,29 +40,31 @@ const selectores = [
 </template>
     
 <style scoped >
+
 main {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 
 }
 
 #selector {
   display: flex;
   flex-wrap: wrap;
-  margin: 2rem;
+  margin: 1rem;
+  background-color: var(--color-background);
 }
 
 
 .tipoalerta {
 
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
-  border-radius: 1em;
   cursor: pointer;
-  margin: 0.4em;
+  margin: 0.2em;
 
   &:hover {
     transform: scale(1.2);
