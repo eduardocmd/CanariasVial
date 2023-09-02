@@ -14,7 +14,7 @@
       <p>No cargó</p>
     </section>
 
-
+<p id="version">Bot Alertas Canarias Vial v0.0.1 - Beta</p>
   </main>
 </template>
 <script setup lang="ts">
@@ -31,6 +31,7 @@ onMounted(async () => {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
   }
   //Comprobar si los servidores funcinan Status retorna un boolean a true.
+  await api_request.sleep(800)
   status.value = await api_request.getStatus()
 
 })
@@ -43,9 +44,16 @@ onMounted(async () => {
 
 <style scoped> 
 
-
+#version{
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.5rem;
+  margin: 0;
+}
 
 main{
+  position: relative;
   background-color:  var(--tg-theme-secondary-bg-color);
   height: var(--tg-viewport-height);
   
