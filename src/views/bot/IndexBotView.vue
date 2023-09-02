@@ -18,7 +18,7 @@
   </main>
 </template>
 <script setup lang="ts">
-import { loadScript } from "vue-plugin-load-script";
+
 import * as api_request from "@/api_request"
 import AlertsSelector from "@/components/bot/AlertsSelector.vue"
 import { ref, onMounted } from "vue"
@@ -26,7 +26,7 @@ const nombre = ref('')
 let status = ref(0)
 
 onMounted(async () => {
-  await loadScript(import.meta.env.VITE_APP_Telegram_Script);
+ 
   if (window.Telegram.WebApp.initDataUnsafe.user?.first_name) {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
   }
@@ -53,10 +53,9 @@ onMounted(async () => {
 }
 
 main{
-  position: relative;
-  background-color:  var(--tg-theme-secondary-bg-color);
-  height: var(--tg-viewport-height);
   
+  background-color:  var(--color-background-soft);
+ 
 }
 
 </style>
