@@ -8,10 +8,11 @@ const getStatus = async (): Promise<number> => {
     }
   
     try {
-      console.log(configuracion.url)
+   
       const respuesta = await axios(configuracion)
       //Si respuesta.data es da true El status será 200 si no la variable salida se iguala a 500
       salida = respuesta.data ? respuesta.status : 500
+   
   
     } catch (error) {
       salida = 500
