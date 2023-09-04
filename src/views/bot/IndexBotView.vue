@@ -28,7 +28,9 @@ const nombre = ref('')
 let status = ref(0)
 
 onMounted(async () => {
- 
+  window.Telegram.WebApp.showScanQrPopup({},(data:any) => {
+    console.log("prueba")
+  })
   if (window.Telegram.WebApp.initDataUnsafe.user?.first_name) {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
   }
@@ -36,14 +38,20 @@ onMounted(async () => {
    window.Telegram.WebApp.ready()
   await api_request.sleep(800)
   status.value = await api_request.getStatus()
-  console.log("Datos usuario")
-
- const response =  await api_request.checkUser(window.Telegram.WebApp.initDataUnsafe.user , window.Telegram.WebApp.initData)
-//Si no hay usuario crear
-if(response.status === 404){
-  api_request.createUser(window.Telegram.WebApp.initDataUnsafe.user , window.Telegram.WebApp.initData)
-}
  
+let dataUser = window.Telegram.WebApp.initDataUnsafe.user
+ const userInDb =  await api_request.checkUser(dataUser, window.Telegram.WebApp.initData)
+//Si no hay usuario crear
+
+if(userInDb.status === 404)
+
+ window.Telegram.WebApp.showConfirm(`Vamos a registrar tus datos básicos:\nIdTelegram: ${dataUser?.id}\nNombre: ${dataUser?.first_name}\nApellido: ${dataUser?.last_name}\n`, ((confirm) => {
+  if(confirm){
+    api_request.createUser(window.Telegram.WebApp.initDataUnsafe.user , window.Telegram.WebApp.initData)
+  }else{
+    window.Telegram.WebApp.close()
+  }
+ }))
 
 })
 
