@@ -14,7 +14,7 @@
       <p>No cargó</p>
     </section>
 
-<p id="version">Bot Alertas Canarias Vial v0.0.1 - Beta</p>
+<p id="version">Bot Alertas Canarias Vial - WebApp v{{ versionWebApp }} </p>
   </main>
 </template>
 <script setup lang="ts">
@@ -22,7 +22,9 @@
 import * as api_request from "@/api_request"
 import AlertsSelector from "@/components/bot/AlertsSelector.vue"
 import { ref, onMounted } from "vue"
+const versionWebApp = window.Telegram.WebApp.version
 const nombre = ref('')
+
 let status = ref(0)
 
 onMounted(async () => {
@@ -34,6 +36,14 @@ onMounted(async () => {
    window.Telegram.WebApp.ready()
   await api_request.sleep(800)
   status.value = await api_request.getStatus()
+  console.log("Datos usuario")
+
+ const response =  await api_request.checkUser(window.Telegram.WebApp.initDataUnsafe.user , window.Telegram.WebApp.initData)
+//Si no hay usuario crear
+if(response.status === 404){
+  api_request.createUser(window.Telegram.WebApp.initDataUnsafe.user , window.Telegram.WebApp.initData)
+}
+ 
 
 })
 

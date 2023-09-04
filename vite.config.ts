@@ -13,6 +13,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   }, server: {
-    host: '0.0.0.0' // Escucha en todas las interfaces, incluida tu IP privada
+    host: '0.0.0.0', // Escucha en todas las interfaces, incluida tu IP privada,
+
   }
 })

@@ -1,4 +1,12 @@
-import axios, { Axios, AxiosError, type AxiosRequestConfig, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError} from 'axios';
+import type{   WebAppUser } from "@twa-dev/types";
+
+interface ApiResponse {
+  status: number; // El código de estado HTTP
+  data: any;      // Los datos de la respuesta, pueden ser de cualquier tipo
+}
+
+
 const getStatus = async (): Promise<number> => {
     let salida: number;
     const configuracion = {
@@ -21,42 +29,85 @@ const getStatus = async (): Promise<number> => {
     return salida
   
   }
-  const checkUser = async (): Promise<AxiosResponse | undefined> => {
-    let salida: AxiosResponse | undefined;
-    const configuracion: AxiosRequestConfig = {
-      method: 'GET',
-      url: `${import.meta.env.VITE_APP_Web_IP}/checkUser`,
+  const checkUser = async (user: WebAppUser | undefined, stringdata :string): Promise<ApiResponse> => {
+    let salida: ApiResponse = {
+      status: 500,
+            data: 'Error interno del servidor',
     };
+    const configuracion = {
+  
+      method: 'POST',
+      url: `${import.meta.env.VITE_APP_Web_IP}/checkUser`,
+      data: {
+        user: user,
+        dataTelegram: stringdata
+      }, // Coloca los datos que deseas enviar aquí
+    headers: {
+      'Content-Type': 'application/json', // Establece el tipo de contenido como JSON
+    },
+    }
   
     try {
-      const respuesta = await axios(configuracion);
-      // Si respuesta.data es true, el status será 200; de lo contrario, la variable salida se iguala a 500
-      salida = respuesta;
+      const respuesta = await axios(configuracion)
+      // ...
+      salida = {
+        status: respuesta.status,
+        data: respuesta.data,
+      };
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // El error es de tipo AxiosError
         const axiosError: AxiosError = error;
         if (axiosError.response) {
-          salida = axiosError.response;
-        } else {
-          // Si no hay respuesta en el error, puedes establecer el código de estado en 500
-          const config: InternalAxiosRequestConfig = {
-            
-          }
           salida = {
-            status: 500,
-            data: 'Error interno del servidor', // Puedes personalizar el mensaje de error
-            headers: {},
-            config: configuracion, // Usamos la configuración predeterminada
-            request: axiosError.request,
-            statusText: '',
+            status: axiosError.response.status,
+            data: axiosError.response.data,
           };
-        }
+        } 
       }
     }
   
     return salida;
   };
+  const createUser = async (user: WebAppUser | undefined, stringdata :string): Promise<ApiResponse> => {
+    let salida: ApiResponse = {
+      status: 500,
+            data: 'Error interno del servidor',
+    };
+    const configuracion = {
+  
+      method: 'POST',
+      url: `${import.meta.env.VITE_APP_Web_IP}/createUser`,
+      data: {
+        user: user,
+        dataTelegram: stringdata
+      }, // Coloca los datos que deseas enviar aquí
+    headers: {
+      'Content-Type': 'application/json', // Establece el tipo de contenido como JSON
+    },
+    }
+  
+    try {
+      const respuesta = await axios(configuracion)
+      // ...
+      salida = {
+        status: respuesta.status,
+        data: respuesta.data,
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError: AxiosError = error;
+        if (axiosError.response) {
+          salida = {
+            status: axiosError.response.status,
+            data: axiosError.response.data,
+          };
+        } 
+      }
+    }
+  
+    return salida;
+  };
+  
   const sleep = async (milliseconds : number) => {
     await new Promise(resolve => {
         return setTimeout(resolve, milliseconds)
@@ -64,5 +115,7 @@ const getStatus = async (): Promise<number> => {
 };
   export{
     getStatus,
+    checkUser,
+    createUser,
     sleep
   }
