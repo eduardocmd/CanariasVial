@@ -108,6 +108,58 @@ const getStatus = async (): Promise<number> => {
     return salida;
   };
   
+
+
+  const getUserFromIdTelegram = async (user: WebAppUser | undefined, stringdata :string): Promise<ApiResponse> => {
+  
+    let salida: ApiResponse = {
+      status: 500,
+            data: 'Error interno del servidor',
+    };
+    const configuracion = {
+  
+      method: 'POST',
+      url: `${import.meta.env.VITE_APP_Web_IP}/getUserFromIdTelegram`,
+      data: {
+        user: user,
+        dataTelegram: stringdata
+      }, // Coloca los datos que deseas enviar aquí
+    headers: {
+      'Content-Type': 'application/json', // Establece el tipo de contenido como JSON
+    },
+    }
+  
+    try {
+      const respuesta = await axios(configuracion)
+      // ...
+      salida = {
+        status: respuesta.status,
+        data: respuesta.data,
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError: AxiosError = error;
+        if (axiosError.response) {
+          salida = {
+            status: axiosError.response.status,
+            data: axiosError.response.data,
+          };
+        } 
+      }
+    }
+  
+    return salida;
+  };
+
+
+
+
+
+
+
+
+
+  
   const sleep = async (milliseconds : number) => {
     await new Promise(resolve => {
         return setTimeout(resolve, milliseconds)
@@ -117,5 +169,6 @@ const getStatus = async (): Promise<number> => {
     getStatus,
     checkUser,
     createUser,
+    getUserFromIdTelegram,
     sleep
   }

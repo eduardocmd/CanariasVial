@@ -2,6 +2,8 @@
 import { computed, onMounted} from 'vue';
 import {  useRoute } from "vue-router";
 import HeadderApp from "@/components/HeadderApp.vue"
+import router from '@/router'
+
 
 // Obtén la información de la ruta actual
 const route = useRoute();
@@ -16,6 +18,12 @@ onMounted(async () => {
    return
   }else{
     window.Telegram.WebApp.ready()
+    window.Telegram.WebApp.BackButton.onClick(() => {
+
+router.back()
+window.Telegram.WebApp.BackButton.hide()
+window.Telegram.WebApp.MainButton.hide()
+})
   }
  
 
