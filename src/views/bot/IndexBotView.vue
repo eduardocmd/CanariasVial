@@ -40,7 +40,7 @@ onMounted(async () => {
   await api_request.sleep(800)
 
   status.value = await api_request.getStatus()
-  window.Telegram.WebApp.ready()
+ 
 
   let dataUser = window.Telegram.WebApp.initDataUnsafe.user
   const userInDb = await api_request.checkUser(dataUser, window.Telegram.WebApp.initData)

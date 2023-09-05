@@ -14,6 +14,8 @@ onMounted(async () => {
   if(!window.Telegram.WebApp.initDataUnsafe.user){
    import('./assets/base.css');
    return
+  }else{
+    window.Telegram.WebApp.ready()
   }
  
 
