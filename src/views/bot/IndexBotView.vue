@@ -35,10 +35,12 @@ const intancia = ref('')
 let status = ref(0)
 
 onMounted(async () => {
-
+  if(window.Telegram.WebApp.initDataUnsafe.chat_instance) {
+    intancia.value = window.Telegram.WebApp.initDataUnsafe.chat_instance
+  }
   if (window.Telegram.WebApp.initDataUnsafe.user?.first_name) {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
-   if(window.Telegram.WebApp.initDataUnsafe.chat_instance) intancia.value = window.Telegram.WebApp.initDataUnsafe.chat_instance
+ 
   }
   //Comprobar si los servidores funcinan Status retorna un boolean a true.
 
