@@ -45,7 +45,6 @@ onMounted(async () => {
   }
   //Comprobar si los servidores funcinan Status retorna un boolean a true.
 
-  await api_request.sleep(800)
 
   status.value = await api_request.getStatus()
  
