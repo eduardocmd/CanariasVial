@@ -1,7 +1,7 @@
 :root {
     --color-background: var(--tg-theme-bg-color);
     --color-background-soft: var(--tg-theme-secondary-bg-color);
-    --color-background-mute: var(--vt-c-white-mute);
+    --color-background-mute: var(--tg-theme-secondary-bg-color);
   
     --color-border: var(--vt-c-divider-light-2);
     --color-border-hover: var(--vt-c-divider-light-1);
@@ -27,3 +27,5 @@
       --section-gap: 160px;
     } 
   }
+ 
+  

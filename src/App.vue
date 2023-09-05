@@ -14,7 +14,11 @@ onMounted(async () => {
   if(!window.Telegram.WebApp.initDataUnsafe.user){
   
    import('./assets/base.css');
+   return
+  
   }
+  console.log("hay bot")
+ 
 
 })
 

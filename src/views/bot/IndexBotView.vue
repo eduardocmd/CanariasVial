@@ -33,8 +33,9 @@ onMounted(async () => {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
   }
   //Comprobar si los servidores funcinan Status retorna un boolean a true.
-   window.Telegram.WebApp.ready()
+  
   await api_request.sleep(800)
+  window.Telegram.WebApp.ready()
   status.value = await api_request.getStatus()
  
 let dataUser = window.Telegram.WebApp.initDataUnsafe.user
