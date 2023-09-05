@@ -35,8 +35,9 @@ onMounted(async () => {
   //Comprobar si los servidores funcinan Status retorna un boolean a true.
   
   await api_request.sleep(800)
-  window.Telegram.WebApp.ready()
+  
   status.value = await api_request.getStatus()
+  window.Telegram.WebApp.ready()
  
 let dataUser = window.Telegram.WebApp.initDataUnsafe.user
  const userInDb =  await api_request.checkUser(dataUser, window.Telegram.WebApp.initData)
