@@ -1,6 +1,7 @@
 <template>
     <h2>NuevaAlerta</h2>
     <p>{{ ruta }}</p>
+    <textarea placeholder="Introduce la alerta" id="alerta" :value='alerta'  rows="1" type="text" style="overflow: hidden; overflow-wrap: break-word; "></textarea>
 
 
 </template>
@@ -16,14 +17,14 @@ const route = useRoute();
 
 const ruta = ref()
 ruta.value = route.params.tipo
-
+const alerta = ref()
 window.Telegram.WebApp.BackButton.show()
 window.Telegram.WebApp.MainButton.show()
 window.Telegram.WebApp.MainButton.setText('Enviar Alerta') 
-let alerta =   alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
+let alertaF =   alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
 
      window.Telegram.WebApp.MainButton.setParams({
-            color: alerta[0].color 
+            color: alertaF[0].color 
          })
        window.Telegram.WebApp.MainButton.onClick(() => {
        //Methods
@@ -31,3 +32,29 @@ let alerta =   alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
 
 
 </script>
+<style scoped>
+
+#alerta{
+
+min-height: 100px;
+margin-bottom: 2em;
+font-size: 17px;
+color: black;
+line-height: 21px;
+-webkit-font-smoothing: antialiased;
+padding: 20px 20px 36px;
+overflow: hidden;
+box-sizing: border-box;
+display: block;
+outline: none;
+border: none;
+border-radius: 0;
+resize: none;
+color: var(--text-color);
+background: var( --color-background);
+-webkit-user-select: auto;
+user-select: auto;
+cursor: auto;
+width: 100%;
+}
+</style>
