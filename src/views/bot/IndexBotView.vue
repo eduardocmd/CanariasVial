@@ -7,6 +7,8 @@
     <section v-if="status === 200">
       <!--Estado funciona el server-->
       <h2>Bienvenido {{ nombre }}</h2>
+      <p>Instancia{{ intancia }}</p>
+     
       <AlertsSelector />
     </section>
     <section v-if="status === 500">
@@ -14,6 +16,7 @@
     <div id="dont-work">
       <img src="../../assets/banned.svg" alt="">
       <p>Opss... Los servidores no funcionan correctamente</p>
+      <p>Instancia{{ intancia }}</p>
     </div>
     </section>
 
@@ -27,6 +30,7 @@ import AlertsSelector from "@/components/bot/AlertsSelector.vue"
 import { ref, onMounted } from "vue"
 const versionWebApp = window.Telegram.WebApp.version
 const nombre = ref('')
+const intancia = ref('')
 
 let status = ref(0)
 
@@ -34,6 +38,7 @@ onMounted(async () => {
 
   if (window.Telegram.WebApp.initDataUnsafe.user?.first_name) {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
+   if(window.Telegram.WebApp.initDataUnsafe.chat_instance) intancia.value = window.Telegram.WebApp.initDataUnsafe.chat_instance
   }
   //Comprobar si los servidores funcinan Status retorna un boolean a true.
 
