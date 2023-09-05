@@ -2,19 +2,19 @@
   <main>
     <section v-if="status === 0">
       <!--Estado cargando-->
-<p>Cargando</p>
+      <img id="loadder" src="../../assets/loading.svg" alt="">
     </section>
     <section v-if="status === 200">
-          <!--Estado funciona el server-->
+      <!--Estado funciona el server-->
       <h2>Bienvenido {{ nombre }}</h2>
       <AlertsSelector />
     </section>
     <section v-if="status === 500">
-          <!--No funciona el server-->
+      <!--No funciona el server-->
       <p>No cargó</p>
     </section>
 
-<p id="version">Bot Alertas Canarias Vial - WebApp v{{ versionWebApp }} </p>
+    <p id="version">Bot Alertas Canarias Vial - WebApp v{{ versionWebApp }} </p>
   </main>
 </template>
 <script setup lang="ts">
@@ -28,30 +28,30 @@ const nombre = ref('')
 let status = ref(0)
 
 onMounted(async () => {
- 
+
   if (window.Telegram.WebApp.initDataUnsafe.user?.first_name) {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
   }
   //Comprobar si los servidores funcinan Status retorna un boolean a true.
-  
+
   await api_request.sleep(800)
-  
+
   status.value = await api_request.getStatus()
   window.Telegram.WebApp.ready()
- 
-let dataUser = window.Telegram.WebApp.initDataUnsafe.user
- const userInDb =  await api_request.checkUser(dataUser, window.Telegram.WebApp.initData)
-//Si no hay usuario crear
 
-if(userInDb.status === 404)
+  let dataUser = window.Telegram.WebApp.initDataUnsafe.user
+  const userInDb = await api_request.checkUser(dataUser, window.Telegram.WebApp.initData)
+  //Si no hay usuario crear
 
- window.Telegram.WebApp.showConfirm(`Vamos a registrar tus datos básicos:\nIdTelegram: ${dataUser?.id}\nNombre: ${dataUser?.first_name}\nApellido: ${dataUser?.last_name}\n`, ((confirm) => {
-  if(confirm){
-    api_request.createUser(window.Telegram.WebApp.initDataUnsafe.user , window.Telegram.WebApp.initData)
-  }else{
-    window.Telegram.WebApp.close()
-  }
- }))
+  if (userInDb.status === 404)
+
+    window.Telegram.WebApp.showConfirm(`Vamos a registrar tus datos básicos:\nIdTelegram: ${dataUser?.id}\nNombre: ${dataUser?.first_name}\nApellido: ${dataUser?.last_name}\n`, ((confirm) => {
+      if (confirm) {
+        api_request.createUser(window.Telegram.WebApp.initDataUnsafe.user, window.Telegram.WebApp.initData)
+      } else {
+        window.Telegram.WebApp.close()
+      }
+    }))
 
 })
 
@@ -61,20 +61,29 @@ if(userInDb.status === 404)
 
 </script>
 
-<style scoped> 
+<style scoped> #loadder {
+   height: 20%;
+   
+   position: absolute;
+   margin-left: auto;
+   margin-right: auto;
+   left: 0;
+   right: 0;
+   bottom: 50%;
+   text-align: center;
+ }
 
-#version{
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  font-size: 0.5rem;
-  margin: 0;
-}
+ #version {
+   position: absolute;
+   bottom: 1rem;
+   right: 1rem;
+   font-size: 0.5rem;
+   margin: 0;
+ }
 
-main{
-  
-  background-color:  var(--color-background-soft);
- 
-}
+ main {
 
+   background-color: var(--color-background-soft);
+
+ }
 </style>

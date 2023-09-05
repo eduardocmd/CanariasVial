@@ -10,14 +10,11 @@ const hideHeader = computed(() => {
   return route.meta.hideHeader === true;
 });
 onMounted(async () => {
-  
+  //Si no hay bot, carga la base de la web.
   if(!window.Telegram.WebApp.initDataUnsafe.user){
-  
    import('./assets/base.css');
    return
-  
   }
-  console.log("hay bot")
  
 
 })
