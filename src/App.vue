@@ -11,9 +11,9 @@ const hideHeader = computed(() => {
 });
 onMounted(async () => {
   
-  if(window.Telegram.WebApp.initDataUnsafe.user){
+  if(!window.Telegram.WebApp.initDataUnsafe.user){
   
-   import('./assets/basebot.css');
+   import('./assets/base.css');
   }
 
 })

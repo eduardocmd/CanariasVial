@@ -28,9 +28,7 @@ const nombre = ref('')
 let status = ref(0)
 
 onMounted(async () => {
-  window.Telegram.WebApp.showScanQrPopup({},(data:any) => {
-    console.log("prueba")
-  })
+ 
   if (window.Telegram.WebApp.initDataUnsafe.user?.first_name) {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
   }
