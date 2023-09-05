@@ -21,6 +21,7 @@ const router = createRouter({
       path: '/selectorisla',
       name: 'selectorisla',
       component: SelectorIsla,
+
       meta: { hideHeader: true } 
     },
     {

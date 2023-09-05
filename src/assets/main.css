@@ -5,6 +5,9 @@
 
   font-weight: normal;
 }
+.space{
+  height: 200px;
+}
 html, body{
   margin: 0;
   padding: 0;

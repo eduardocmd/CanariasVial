@@ -50,7 +50,6 @@ main {
 
 
 .tipoalerta {
-
   width: 100px;
   height: 100px;
   background-repeat: no-repeat;

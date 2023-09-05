@@ -8,8 +8,9 @@
     <section v-if="status === 200">
       <!--Estado funciona el server-->
       <h2>Bienvenido {{ nombre }}</h2>
+      <h2>Isla favorita: {{ isla }}</h2>
       <p>Instancia{{ intancia }}</p>
-      <p>Isla {{ isla }}</p>
+  
       <AlertsSelector :isla="isla"/>
     </section>
     <section v-if="status === 500">

@@ -2,7 +2,7 @@
     <h2>NuevaAlerta</h2>
     <p>{{ ruta }}</p>
 
-    {{ data }}
+
 </template>
 
 <script setup lang="ts">
@@ -13,7 +13,7 @@ import alertasJSON from "@/alertas.json"
 
 // Obtén la información de la ruta actual
 const route = useRoute();
-const data = alertasJSON
+
 const ruta = ref()
 ruta.value = route.params.tipo
 

@@ -1,0 +1,14 @@
+[
+    {
+        "id": "tnf",
+        "isla": "Tenerife",
+        "image": "/src/assets/tiposalertas/retenciones.svg",
+        "select": false
+    },
+    {
+        "id": "lpgc",
+        "isla": "Gran Canaria",
+        "image": "/src/assets/tiposalertas/retenciones.svg",
+        "select": false
+    }
+]
