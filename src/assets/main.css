@@ -9,7 +9,10 @@ html, body{
   margin: 0;
   padding: 0;
 }
-
+@font-face {
+  font-family: Norwester;
+  src: url("norwester.otf") format("opentype");
+}
 body {
   
   color: var(--color-text);
