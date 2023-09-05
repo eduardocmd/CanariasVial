@@ -46,9 +46,11 @@ onMounted(async () => {
   //Comprobar si los servidores funcinan Status retorna un boolean a true.
 
 
-  status.value = await api_request.getStatus()
- 
-
+ let newstatus = await api_request.getStatus()
+ if(newstatus != 200){
+  status.value = newstatus
+  return
+ }
   let dataUser = window.Telegram.WebApp.initDataUnsafe.user
   const userInDb = await api_request.checkUser(dataUser, window.Telegram.WebApp.initData)
   //Si no hay usuario crear
@@ -62,7 +64,8 @@ onMounted(async () => {
         window.Telegram.WebApp.close()
       }
     }))
-
+   
+    status.value = newstatus
 })
 
 
