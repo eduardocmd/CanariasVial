@@ -11,7 +11,10 @@
     </section>
     <section v-if="status === 500">
       <!--No funciona el server-->
-      <p>No cargó</p>
+    <div id="dont-work">
+      <img src="../../assets/banned.svg" alt="">
+      <p>Opss... Los servidores no funcionan correctamente</p>
+    </div>
     </section>
 
     <p id="version">Bot Alertas Canarias Vial - WebApp v{{ versionWebApp }} </p>
@@ -61,9 +64,28 @@ onMounted(async () => {
 
 </script>
 
-<style scoped> #loadder {
-   height: 20%;
-   
+<style scoped> 
+#dont-work{
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+   position: absolute;
+   margin-left: auto;
+   margin-right: auto;
+   left: 0;
+   right: 0;
+   bottom: 30%;
+   text-align: center;
+}
+#dont-work p{
+  width: 100%;
+  text-align: center;
+}
+#dont-work img{
+  height: 200px;
+}
+#loadder {
+  height: 100px;
    position: absolute;
    margin-left: auto;
    margin-right: auto;
