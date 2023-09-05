@@ -1,11 +1,17 @@
 <template>
   <main>
+    <RouterLink   to="/bot/settings">Go to Home
+        <div id="ajustes"></div>
+      </RouterLink>
     <section v-if="status === 0">
       <!--Estado cargando-->
       <span class="loader"></span>
 
     </section>
     <section v-if="status === 200">
+      <header>
+     
+      </header>
       <!--Estado funciona el server-->
       <h2>Bienvenido {{ nombre }}</h2>
       <h2>Isla favorita: {{ isla }}</h2>
@@ -90,7 +96,21 @@ onMounted(async () => {
 
 </script>
 
-<style scoped> #dont-work {
+<style scoped>
+header{
+  display: flex;
+  justify-content: space-between;
+}
+#ajustes{
+  
+  background: var(--color-hint) url('../../assets/chincheta.png')no-repeat center/contain;
+
+  width: 50px;
+  height: 50px;
+}
+
+
+#dont-work {
    display: flex;
    flex-wrap: wrap;
    justify-content: center;
