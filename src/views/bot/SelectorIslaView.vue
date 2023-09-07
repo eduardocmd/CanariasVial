@@ -9,7 +9,7 @@
 </template>
 <script setup lang="ts">
 
-import { getCurrentInstance } from 'vue';
+
 import { onMounted, ref } from 'vue';
 import * as api_request from "@/api_request"
 import listaIslas from "@/islas.json"
@@ -27,21 +27,25 @@ const selectIsle = (selectedIsla: Isla) => {
 const saveIsla = async () => {
 
     let islaSelected = islas.value.find((i) => i.select === true)
-   if(islaSelected && userFromDb.value?._id) await api_request.saveFavoriteIsle(islaSelected.id, window.Telegram.WebApp.initData, userFromDb.value._id)
+    if (islaSelected && userFromDb.value?._id) await api_request.saveFavoriteIsle(islaSelected.id, window.Telegram.WebApp.initData, userFromDb.value._id)
     window.Telegram.WebApp.MainButton.hide()
     router.push({ name: 'bot' });
 }
 
 onMounted(async () => {
 
-    //Reseteo
-    const instance = getCurrentInstance();
-    instance?.proxy?.$forceUpdate()
+   //Reset - Es necesario ya que vue guarda una caché, cuando se va para atrás y se vuelve a entrar se seleccionarían
+   // los 2 el del usuario y el previamente sseleccionado
+   islas.value.forEach((isla:Isla) => {
+    isla.select = false
+   })
 
     let dataUser = window.Telegram.WebApp.initDataUnsafe.user
     let user = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
     userFromDb.value = user.data
-
+    //Autoseleccionar isla si el usuario tenía ya una seleccionada
+   let findedIsle = islas.value.find((isla) => isla.id == userFromDb.value?.favorite_isle)
+   if(findedIsle) findedIsle.select = true
 
     window.Telegram.WebApp.BackButton.show()
     window.Telegram.WebApp.MainButton.show()
