@@ -34,28 +34,37 @@ const saveIsla = async () => {
 
 onMounted(async () => {
 
-   //Reset - Es necesario ya que vue guarda una caché, cuando se va para atrás y se vuelve a entrar se seleccionarían
-   // los 2 el del usuario y el previamente sseleccionado
-   islas.value.forEach((isla:Isla) => {
-    isla.select = false
-   })
+    //Reset - Es necesario ya que vue guarda una caché, cuando se va para atrás y se vuelve a entrar se seleccionarían
+    // los 2 el del usuario y el previamente sseleccionado
+    islas.value.forEach((isla: Isla) => {
+        isla.select = false
+    })
 
     let dataUser = window.Telegram.WebApp.initDataUnsafe.user
     let user = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
     userFromDb.value = user.data
     //Autoseleccionar isla si el usuario tenía ya una seleccionada
-   let findedIsle = islas.value.find((isla) => isla.id == userFromDb.value?.favorite_isle)
-   if(findedIsle) findedIsle.select = true
+    let findedIsle = islas.value.find((isla) => isla.id == userFromDb.value?.favorite_isle)
+    if (findedIsle) findedIsle.select = true
 
     window.Telegram.WebApp.BackButton.show()
     window.Telegram.WebApp.MainButton.show()
     window.Telegram.WebApp.MainButton.setText('Seleccionar Isla')
+    var elemento = document.body;
 
+    // Obtén el valor de la variable CSS personalizada
+    var estilo = window.getComputedStyle(elemento);
+    var valorVariable = estilo.getPropertyValue('--tg-theme-button-color');
     window.Telegram.WebApp.MainButton.setParams({
-        color: "#213fff"
+        color: valorVariable
     })
     window.Telegram.WebApp.MainButton.onClick(async () => {
-        saveIsla()
+        window.Telegram.WebApp.showConfirm(`Se guardará la isla como favorita, para cambiarlo tendrás que ir a los ajustes en el menú del bot`, ((confirm) => {
+            if (confirm) {
+                saveIsla()
+            }
+        }))
+
 
     });
 })

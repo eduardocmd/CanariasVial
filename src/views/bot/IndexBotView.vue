@@ -8,23 +8,23 @@
     </section>
     <section v-if="status === 200">
       <header>
+        <p v-if="isla">Isla: {{ isla }}</p>
         <RouterLink   :to="{ name: 'bot-settings' }">
         <div id="ajustes"></div>
       </RouterLink>
       </header>
       <!--Estado funciona el server-->
-      <h2>Bienvenido {{ nombre }}</h2>
-      <h2>Isla favorita: {{ isla }}</h2>
-      <p>Instancia{{ intancia }}</p>
+   
+    
   
       <AlertsSelector :isla="isla"/>
+      <p>Instancia{{ intancia }}</p>
     </section>
     <section v-if="status === 500">
       <!--No funciona el server-->
       <div id="dont-work">
         <img src="../../assets/banned.svg" alt="">
         <p>Opss... Los servidores no funcionan correctamente</p>
-        <p>Instancia{{ intancia }}</p>
       </div>
     </section>
 
@@ -99,13 +99,18 @@ onMounted(async () => {
 <style scoped>
 header{
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+  padding: 1rem;
+}
+header p{
+  margin: 0;
+  font-size: 1.4rem;
 }
 #ajustes{
   
-  background:  url('../../assets/engranaje.svg')no-repeat center/contain;
+  background:  url('../../assets/engranaje.svg')no-repeat center/cover;
   filter: brightness(0) invert(1) ;
-  margin:1rem;
+
   width: 30px;
   height: 30px;
 }
