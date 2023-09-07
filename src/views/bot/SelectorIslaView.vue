@@ -1,6 +1,5 @@
 <template>
     <main>
-        <p v-if="userFromDb"> Isla Seleccionada: {{ userFromDb.favorite_isle }}</p>
         <section v-for="isla in islas" @click="selectIsle(isla)" :class="{ 'selected': isla.select }" :key="isla.isla">
             <div class="isla" :style="{ 'background-image': 'url(' + isla.image + ')' }"></div>
             <h2>{{ isla.isla }}</h2>
@@ -9,32 +8,26 @@
     </main>
 </template>
 <script setup lang="ts">
-export interface Isla {
-    id: string;
-    isla: string;
-    image: string;
-    select: boolean;
-}
+
+import { getCurrentInstance } from 'vue';
 import { onMounted, ref } from 'vue';
 import * as api_request from "@/api_request"
 import listaIslas from "@/islas.json"
 import router from '@/router';
-import type{UserType} from '@/models/TelegramUser'
+//Models
+import type { UserType } from '@/models/TelegramUser'
+import type { Isla } from '@/models/Isla'
 const islas = ref<Isla[]>(listaIslas);
-let userFromDb = ref<UserType>();
+const userFromDb = ref<UserType>();
 const selectIsle = (selectedIsla: Isla) => {
-
-if(   userFromDb.value)   userFromDb.value.favorite_isle = selectedIsla.id
- 
     islas.value.forEach((isla: Isla) => {
         isla.select = isla === selectedIsla
     });
-    
-
-
 }
 const saveIsla = async () => {
-    if(   userFromDb.value?.favorite_isle &&  userFromDb.value._id)     await api_request.saveFavoriteIsle(userFromDb.value.favorite_isle, window.Telegram.WebApp.initData, userFromDb.value._id)
+
+    let islaSelected = islas.value.find((i) => i.select === true)
+   if(islaSelected && userFromDb.value?._id) await api_request.saveFavoriteIsle(islaSelected.id, window.Telegram.WebApp.initData, userFromDb.value._id)
     window.Telegram.WebApp.MainButton.hide()
     router.push({ name: 'bot' });
 }
@@ -42,7 +35,8 @@ const saveIsla = async () => {
 onMounted(async () => {
 
     //Reseteo
-
+    const instance = getCurrentInstance();
+    instance?.proxy?.$forceUpdate()
 
     let dataUser = window.Telegram.WebApp.initDataUnsafe.user
     let user = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
