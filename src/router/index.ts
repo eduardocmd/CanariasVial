@@ -17,11 +17,13 @@ const router = createRouter({
       name: 'bot',
       component: IndexBotView,
       meta: { hideHeader: true },
-      children: [{
-        path: 'settings',
-        name: 'bot-settings',
-        component: SettingsView,
-      }]
+    
+    },
+    {
+      path: '/settings',
+      name: 'bot-settings',
+      component: SettingsView,
+      meta: { hideHeader: true },
     },
     {
       path: '/selectorisla',

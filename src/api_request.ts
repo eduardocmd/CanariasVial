@@ -150,6 +150,46 @@ const getStatus = async (): Promise<number> => {
   
     return salida;
   };
+  const   saveFavoriteIsle = async (idIsla: string, stringdata :string, idUsuario: string): Promise<ApiResponse> => {
+    let salida: ApiResponse = {
+      status: 500,
+            data: 'Error interno del servidor',
+    };
+    const configuracion = {
+  
+      method: 'POST',
+      url: `${import.meta.env.VITE_APP_Web_IP}/saveFavoriteIsle`,
+      data: {
+        idIsla: idIsla,
+        idUsuario: idUsuario,
+        dataTelegram: stringdata
+      }, // Coloca los datos que deseas enviar aquí
+    headers: {
+      'Content-Type': 'application/json', // Establece el tipo de contenido como JSON
+    },
+    }
+  
+    try {
+      const respuesta = await axios(configuracion)
+      // ...
+      salida = {
+        status: respuesta.status,
+        data: respuesta.data,
+      };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError: AxiosError = error;
+        if (axiosError.response) {
+          salida = {
+            status: axiosError.response.status,
+            data: axiosError.response.data,
+          };
+        } 
+      }
+    }
+  
+    return salida;
+  };
 
 
 
@@ -169,6 +209,7 @@ const getStatus = async (): Promise<number> => {
     getStatus,
     checkUser,
     createUser,
+    saveFavoriteIsle,
     getUserFromIdTelegram,
     sleep
   }

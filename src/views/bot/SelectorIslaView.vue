@@ -1,6 +1,6 @@
 <template>
     <main>
-       Isla Seleccionada:  {{ islaSelect?.isla }}
+        <p v-if="userFromDb"> Isla Seleccionada: {{ userFromDb.favorite_isle }}</p>
         <section v-for="isla in islas" @click="selectIsle(isla)" :class="{ 'selected': isla.select }" :key="isla.isla">
             <div class="isla" :style="{ 'background-image': 'url(' + isla.image + ')' }"></div>
             <h2>{{ isla.isla }}</h2>
@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 export interface Isla {
-    id: String;
+    id: string;
     isla: string;
     image: string;
     select: boolean;
@@ -19,37 +19,36 @@ import { onMounted, ref } from 'vue';
 import * as api_request from "@/api_request"
 import listaIslas from "@/islas.json"
 import router from '@/router';
+import type{UserType} from '@/models/TelegramUser'
 const islas = ref<Isla[]>(listaIslas);
-const islaSelect = ref<Isla>();
+let userFromDb = ref<UserType>();
 const selectIsle = (selectedIsla: Isla) => {
 
-    islaSelect.value = selectedIsla
+if(   userFromDb.value)   userFromDb.value.favorite_isle = selectedIsla.id
+ 
     islas.value.forEach((isla: Isla) => {
         isla.select = isla === selectedIsla
-
-
-
     });
+    
 
 
 }
+const saveIsla = async () => {
+    if(   userFromDb.value?.favorite_isle &&  userFromDb.value._id)     await api_request.saveFavoriteIsle(userFromDb.value.favorite_isle, window.Telegram.WebApp.initData, userFromDb.value._id)
+    window.Telegram.WebApp.MainButton.hide()
+    router.push({ name: 'bot' });
+}
 
 onMounted(async () => {
-    
-   //Reseteo
-   islas.value.forEach((isla: Isla) => {
-        isla.select = false
-    });
-    islaSelect.value = undefined
+
+    //Reseteo
+
+
     let dataUser = window.Telegram.WebApp.initDataUnsafe.user
-    let userFromDb = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
-  
-    let islaPreselect = islas.value.find((isla : Isla) => isla.id == userFromDb.data.favorite_isle )
-   if(islaPreselect){
-    islaPreselect.select = true
-    islaSelect.value =  islaPreselect
-   }
- 
+    let user = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
+    userFromDb.value = user.data
+
+
     window.Telegram.WebApp.BackButton.show()
     window.Telegram.WebApp.MainButton.show()
     window.Telegram.WebApp.MainButton.setText('Seleccionar Isla')
@@ -57,18 +56,9 @@ onMounted(async () => {
     window.Telegram.WebApp.MainButton.setParams({
         color: "#213fff"
     })
-    window.Telegram.WebApp.MainButton.onClick(() => {
-        //Methods
-        if (islaSelect.value) {
-            window.Telegram.WebApp.showConfirm(`Se guardará la isla como favorita, para cambiarlo tendrás que ir a los ajustes en el menú del bot`, ((confirm) => {
-                if (confirm) {
-                    window.Telegram.WebApp.MainButton.hide()
-                    router.push({ name: 'bot'});
-                }
-            }))
-        }else{
-            window.Telegram.WebApp.showAlert("Necesitas selecionar una isla primero")
-        }
+    window.Telegram.WebApp.MainButton.onClick(async () => {
+        saveIsla()
+
     });
 })
 
@@ -89,7 +79,7 @@ main section {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    
+
 
 }
 
@@ -99,7 +89,7 @@ section h2 {
 }
 
 .isla {
-   
+
     width: 100px;
     height: 100px;
     background-repeat: no-repeat;
