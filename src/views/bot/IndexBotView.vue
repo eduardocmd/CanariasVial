@@ -1,6 +1,8 @@
 <template>
   <main>
-    
+    <RouterLink   :to="{ name: 'bot-settings' }">
+        <div id="ajustes"></div>
+      </RouterLink>
     <section v-if="status === 0">
       <!--Estado cargando-->
       <span class="loader"></span>
