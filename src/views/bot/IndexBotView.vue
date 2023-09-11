@@ -1,8 +1,5 @@
 <template>
   <main>
-    <RouterLink   :to="{ name: 'bot-settings' }">
-        <div id="ajustes"></div>
-      </RouterLink>
     <section v-if="status === 0">
       <!--Estado cargando-->
       <span class="loader"></span>
@@ -10,16 +7,16 @@
     </section>
     <section v-if="status === 200">
       <header>
-        <p v-if="isla">Isla: {{ isla }}</p>
-        <RouterLink   :to="{ name: 'bot-settings' }">
-        <div id="ajustes"></div>
-      </RouterLink>
+        <p v-if="IslaFavorite">Isla: {{ IslaFavorite.isla }}</p>
+        <RouterLink :to="{ name: 'bot-settings' }">
+          <div id="ajustes"></div>
+        </RouterLink>
       </header>
       <!--Estado funciona el server-->
-   
-    
-  
-      <AlertsSelector :isla="isla"/>
+
+
+
+      <AlertsSelector :isla="IslaFavorite" />
       <p>Instancia{{ intancia }}</p>
     </section>
     <section v-if="status === 500">
@@ -37,11 +34,13 @@
 
 import * as api_request from "@/api_request"
 import AlertsSelector from "@/components/bot/AlertsSelector.vue"
+import type{ Isla } from "@/models/Isla"
 import { ref, onMounted } from "vue"
+import islas from '@/islas.json'
 const versionWebApp = window.Telegram.WebApp.version
 const nombre = ref('')
 const intancia = ref('')
-const isla = ref()
+const IslaFavorite = ref()
 
 let status = ref(0)
 
@@ -62,8 +61,8 @@ onMounted(async () => {
     status.value = newstatus
     return
   }
- 
-  if(!dataUser) return
+
+  if (!dataUser) return
   const userInDb = await api_request.checkUser(dataUser, window.Telegram.WebApp.initData)
   //Si no hay usuario crear
 
@@ -77,16 +76,23 @@ onMounted(async () => {
       }
     }))
 
-    //Ver para que isla va a ser la alerta.
-   if(window.Telegram.WebApp.initDataUnsafe.chat_instance){
-     //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
-     //api_request.IslefromInstance(window.Telegram.WebApp)
-   }else{
-    
-    let userFromDb = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
-   isla.value = userFromDb.data.favorite_isle 
+  //Ver para que isla va a ser la alerta.
+  if (window.Telegram.WebApp.initDataUnsafe.chat_instance) {
+    //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
+    //api_request.IslefromInstance(window.Telegram.WebApp)
 
-   }
+    //De momento se queda igual:     
+    let userFromDb = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
+    let findedIsle = islas.find((isl : Isla) => isl.id === userFromDb.data.favorite_isle)
+  if(findedIsle)   IslaFavorite.value = findedIsle
+
+  } else {
+
+    let userFromDb = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
+    let findedIsle = islas.find((isl : Isla) => isl.id === userFromDb.data.favorite_isle)
+  if(findedIsle)   IslaFavorite.value = findedIsle
+
+  }
 
 
   status.value = newstatus
@@ -99,19 +105,21 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-header{
+header {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
 }
-header p{
+
+header p {
   margin: 0;
   font-size: 1.4rem;
 }
-#ajustes{
-  
-  background:  url('../../assets/engranaje.svg')no-repeat center/cover;
-  filter: brightness(0) invert(1) ;
+
+#ajustes {
+
+  background: url('../../assets/engranaje.svg')no-repeat center/cover;
+  filter: brightness(0) invert(1);
 
   width: 30px;
   height: 30px;
@@ -119,66 +127,66 @@ header p{
 
 
 #dont-work {
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: center;
-   position: absolute;
-   margin-left: auto;
-   margin-right: auto;
-   left: 0;
-   right: 0;
-   bottom: 50%;
-   text-align: center;
- }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  bottom: 50%;
+  text-align: center;
+}
 
- #dont-work p {
-   width: 100%;
-   text-align: center;
- }
+#dont-work p {
+  width: 100%;
+  text-align: center;
+}
 
- #dont-work img {
-   height: 200px;
- }
+#dont-work img {
+  height: 200px;
+}
 
 
- #version {
-   position: absolute;
-   bottom: 1rem;
-   right: 1rem;
-   font-size: 0.5rem;
-   margin: 0;
- }
+#version {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.5rem;
+  margin: 0;
+}
 
- main {
+main {
 
-   background-color: var(--color-background-soft);
+  background-color: var(--color-background-soft);
 
- }
+}
 
- .loader {
-   width: 48px;
-   height: 48px;
-   border: 5px solid var(--color-text);
-   border-bottom-color: transparent;
-   border-radius: 50%;
-   display: inline-block;
-   box-sizing: border-box;
-   animation: rotation 1s linear infinite;
-   position: absolute;
-   margin-left: auto;
-   margin-right: auto;
-   left: 0;
-   right: 0;
-   bottom: 50%;
-   text-align: center;
- }
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--color-text);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  bottom: 50%;
+  text-align: center;
+}
 
- @keyframes rotation {
-   0% {
-     transform: rotate(0deg);
-   }
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
 
-   100% {
-     transform: rotate(360deg);
-   }
- }</style>
+  100% {
+    transform: rotate(360deg);
+  }
+}</style>
