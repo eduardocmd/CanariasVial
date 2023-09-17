@@ -82,17 +82,21 @@ onMounted(async () => {
     //api_request.IslefromInstance(window.Telegram.WebApp)
 
     //De momento se queda igual:     
-    let userFromDb = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
-    let findedIsle = islas.find((isl : Isla) => isl.id === userFromDb.data.favorite_isle)
-  if(findedIsle)   IslaFavorite.value = findedIsle
 
-  } else {
-
-    let userFromDb = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
-    let findedIsle = islas.find((isl : Isla) => isl.id === userFromDb.data.favorite_isle)
-  if(findedIsle)   IslaFavorite.value = findedIsle
-
+    let findedIsle = islas.find((isl : Isla) => isl.instanciaCanal === window.Telegram.WebApp.initDataUnsafe.chat_instance)
+  if(findedIsle)  {
+    IslaFavorite.value = findedIsle
+    status.value = newstatus
+    return
   }
+
+  } 
+
+    let userFromDb = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
+    let findedIsle = islas.find((isl : Isla) => isl.id === userFromDb.data.favorite_isle)
+  if(findedIsle)   IslaFavorite.value = findedIsle
+
+  
 
 
   status.value = newstatus
