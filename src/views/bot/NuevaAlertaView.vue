@@ -31,7 +31,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
   if (alerta.value) {
     window.Telegram.WebApp.MainButton.disable()
     window.Telegram.WebApp.MainButton.showProgress()
-    await sendAlert(alerta.value, window.Telegram.WebApp.initData)
+    await sendAlert(alerta.value, route.params.tipo,  window.Telegram.WebApp.initData)
     alerta.value = ''
     window.Telegram.WebApp.MainButton.hide()
     window.Telegram.WebApp.MainButton.hideProgress()
