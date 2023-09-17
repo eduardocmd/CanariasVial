@@ -18,6 +18,7 @@ const route = useRoute();
 const ruta = ref()
 ruta.value = route.params.tipo
 const alerta = ref()
+
 window.Telegram.WebApp.BackButton.show()
 window.Telegram.WebApp.MainButton.show()
 window.Telegram.WebApp.MainButton.setText('Enviar Alerta') 
