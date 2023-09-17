@@ -22,7 +22,7 @@
     <section v-if="status === 500">
       <!--No funciona el server-->
       <div id="dont-work">
-        <img src="../../assets/banned.svg" alt="">
+        <h2>Error 500</h2>
         <p>Opss... Los servidores no funcionan correctamente</p>
       </div>
     </section>
@@ -45,7 +45,7 @@ const IslaFavorite = ref()
 let status = ref(0)
 
 onMounted(async () => {
-
+  window.Telegram.WebApp.setHeaderColor("secondary_bg_color")
   let dataUser = window.Telegram.WebApp.initDataUnsafe.user
   if (window.Telegram.WebApp.initDataUnsafe.chat_instance) {
     intancia.value = window.Telegram.WebApp.initDataUnsafe.chat_instance
@@ -197,6 +197,9 @@ main {
   right: 0;
   bottom: 50%;
   text-align: center;
+}
+h1{
+  margin: 0;
 }
 
 @keyframes rotation {

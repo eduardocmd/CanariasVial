@@ -18,7 +18,6 @@ onMounted(async () => {
    return
   }else{
     window.Telegram.WebApp.ready()
-    window.Telegram.WebApp.setHeaderColor("secondary_bg_color")
     window.Telegram.WebApp.BackButton.onClick(() => {
 
 router.back()

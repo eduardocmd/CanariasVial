@@ -1,6 +1,6 @@
 <template>
-    <h2>NuevaAlerta</h2>
-    <p>{{ ruta }}</p>
+    <h2>Alerta - {{ ruta }}</h2>
+   
     <textarea placeholder="Introduce la alerta" id="alerta" :value='alerta'  rows="1" type="text" style="overflow: hidden; overflow-wrap: break-word; "></textarea>
 
 
@@ -18,7 +18,7 @@ const route = useRoute();
 const ruta = ref()
 ruta.value = route.params.tipo
 const alerta = ref()
-
+window.Telegram.WebApp.setHeaderColor("bg_color")
 window.Telegram.WebApp.BackButton.show()
 window.Telegram.WebApp.MainButton.show()
 window.Telegram.WebApp.MainButton.setText('Enviar Alerta') 
@@ -37,7 +37,7 @@ let alertaF =   alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
 
 #alerta{
 
-min-height: 100px;
+min-height: 200px;
 margin-bottom: 2em;
 font-size: 17px;
 color: black;
@@ -49,7 +49,7 @@ box-sizing: border-box;
 display: block;
 outline: none;
 border: none;
-border-radius: 0;
+border-radius: 1rem;
 resize: none;
 color: var(--text-color);
 background: var( --color-background);
