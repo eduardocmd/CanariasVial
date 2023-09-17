@@ -3,14 +3,12 @@
         "id": "tnf",
         "isla": "Tenerife",
         "image": "/src/assets/islas/tenerife.svg",
-        "instanciaCanal": "2573225373016444723",
         "select": false
     },
     {
         "id": "lpgc",
         "isla": "Gran Canaria",
         "image": "/src/assets/islas/lpgc.svg",
-        "instanciaCanal": "-4589420642345554006",
         "select": false
     }
 ]

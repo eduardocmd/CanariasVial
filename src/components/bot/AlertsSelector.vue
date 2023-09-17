@@ -44,7 +44,7 @@ main {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 1rem;
+  margin:  0.2rem 0;
   background-color:  var(--tg-theme-bg-color);
 }
 

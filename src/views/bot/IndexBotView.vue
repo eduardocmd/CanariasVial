@@ -7,17 +7,17 @@
     </section>
     <section v-if="status === 200">
       <header>
-        <p v-if="IslaFavorite">Isla: {{ IslaFavorite.isla }}</p>
-        <RouterLink :to="{ name: 'bot-settings' }">
-          <div id="ajustes"></div>
-        </RouterLink>
+        <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
+      
       </header>
       <!--Estado funciona el server-->
 
 
 
       <AlertsSelector :isla="IslaFavorite" />
-      <p>Instancia{{ intancia }}</p>
+      <RouterLink :to="{ name: 'bot-settings' }">
+      <article id="ajustes"> <div id="ajustesico"></div> <p>Ajustes</p></article>
+    </RouterLink>
     </section>
     <section v-if="status === 500">
       <!--No funciona el server-->
@@ -45,6 +45,7 @@ const IslaFavorite = ref()
 let status = ref(0)
 
 onMounted(async () => {
+
   let dataUser = window.Telegram.WebApp.initDataUnsafe.user
   if (window.Telegram.WebApp.initDataUnsafe.chat_instance) {
     intancia.value = window.Telegram.WebApp.initDataUnsafe.chat_instance
@@ -77,13 +78,13 @@ onMounted(async () => {
     }))
 
   //Ver para que isla va a ser la alerta.
-  if (window.Telegram.WebApp.initDataUnsafe.chat_instance) {
+  if (window.Telegram.WebApp.initDataUnsafe.start_param) {
     //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
     //api_request.IslefromInstance(window.Telegram.WebApp)
 
     //De momento se queda igual:     
 
-    let findedIsle = islas.find((isl : Isla) => isl.instanciaCanal === window.Telegram.WebApp.initDataUnsafe.chat_instance)
+    let findedIsle = islas.find((isl : Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
   if(findedIsle)  {
     IslaFavorite.value = findedIsle
     status.value = newstatus
@@ -119,14 +120,27 @@ header p {
   margin: 0;
   font-size: 1.4rem;
 }
+#ajustes{
+ border-radius: 1rem;
+display: flex;
+align-items: center;
 
-#ajustes {
+  background-color: var(--color-background);
+  margin:  0.2rem 0;
 
-  background: url('../../assets/engranaje.svg')no-repeat center/cover;
-  filter: brightness(0) invert(1);
+  
+}
+#ajustes p{
+ 
+  margin: 1rem;
 
-  width: 30px;
-  height: 30px;
+}
+#ajustesico {
+  margin-left: 1rem;
+  background: var(--color-button) url('../../assets/engranaje-invert.svg')no-repeat center/60%;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
 }
 
 
