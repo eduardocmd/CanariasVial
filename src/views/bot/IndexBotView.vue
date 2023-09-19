@@ -32,7 +32,7 @@
 </template>
 <script setup lang="ts">
 
-import * as api_request from "@/api_request"
+  import * as api_request from "@/api_request"
 import AlertsSelector from "@/components/bot/AlertsSelector.vue"
 import type{ Isla } from "@/models/Isla"
 import { ref, onMounted } from "vue"

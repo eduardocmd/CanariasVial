@@ -1,12 +1,14 @@
-import axios, { AxiosError} from 'axios';
+import axios, { type AxiosResponse, AxiosError } from 'axios';
 import type{   WebAppUser } from "@twa-dev/types";
+import type { UserType } from './models/TelegramUser';
+import type { AlertaType } from './models/Alerts';
 
 interface ApiResponse {
   status: number; // El código de estado HTTP
   data: any;      // Los datos de la respuesta, pueden ser de cualquier tipo
 }
 
-const sendAlert = async (alert:string, alerttipe: string, stringdata:string) => {
+const sendAlert = async (alert:AlertaType, stringdata:string) => {
   let salida: ApiResponse = {
     status: 500,
           data: 'Error interno del servidor',
@@ -16,10 +18,7 @@ const sendAlert = async (alert:string, alerttipe: string, stringdata:string) => 
     method: 'POST',
     url: `${import.meta.env.VITE_APP_Web_IP}/sendAlert`,
     data: {
-      alerta: {
-        desc: alert,
-        tipe: alerttipe
-      },
+      alerta: alert,
       dataTelegram: stringdata
     }, // Coloca los datos que deseas enviar aquí
   headers: {
@@ -173,7 +172,7 @@ const getStatus = async (): Promise<number> => {
     }
   
     try {
-      const respuesta = await axios(configuracion)
+      const respuesta: AxiosResponse<UserType> = await axios(configuracion);
       // ...
       salida = {
         status: respuesta.status,

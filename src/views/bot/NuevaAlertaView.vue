@@ -5,18 +5,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import * as api_request from "@/api_request"
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
 import { sendAlert } from "@/api_request"
+import type{AlertaType} from '@/models/Alerts'
+import type{UserType} from '@/models/TelegramUser'
 
 
 // Obtén la información de la ruta actual
 const route = useRoute();
 const ruta = ref()
+const user = ref<UserType>()
 ruta.value = route.params.tipo
 const alerta = ref('')
-alerta.value = ''
+onMounted(async() => {
+ let response = await api_request.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user, window.Telegram.WebApp.initData)
+ user.value = response.data 
+ console.log(user.value)
+
+})
 window.Telegram.WebApp.setHeaderColor("bg_color")
 window.Telegram.WebApp.BackButton.show()
 window.Telegram.WebApp.MainButton.show()
@@ -31,7 +40,14 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
   if (alerta.value) {
     window.Telegram.WebApp.MainButton.disable()
     window.Telegram.WebApp.MainButton.showProgress()
-    await sendAlert(alerta.value, route.params.tipo,  window.Telegram.WebApp.initData)
+    let tipoAlerta : string =  Array.isArray( route.params.tipo) ?  route.params.tipo[0] :  route.params.tipo
+    if(!user.value?._id) return
+    let nuevalerta : AlertaType = {
+      alerta: alerta.value,
+      id_usuario: user.value?._id,
+      tipo_alerta: tipoAlerta
+    }
+    await sendAlert(nuevalerta,  window.Telegram.WebApp.initData)
     alerta.value = ''
     window.Telegram.WebApp.MainButton.hide()
     window.Telegram.WebApp.MainButton.hideProgress()
