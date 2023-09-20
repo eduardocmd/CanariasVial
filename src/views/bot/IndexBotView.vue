@@ -8,7 +8,9 @@
     <section v-if="status === 200">
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
-      
+        <RouterLink :to="{ name: 'cameras' }">
+          <img id="camera" src="@/assets/camara.svg" >
+        </RouterLink> 
       </header>
       <!--Estado funciona el server-->
 
@@ -110,8 +112,13 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+#camera{
+  width: 50px;
+  height: 50px;
+}
 header {
   display: flex;
+ 
   justify-content: space-between;
   padding: 1rem;
 }

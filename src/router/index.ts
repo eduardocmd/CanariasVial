@@ -4,6 +4,7 @@ import IndexBotView from '../views/bot/IndexBotView.vue'
 import SelectorIsla from '../views/bot/SelectorIslaView.vue'
 import NuevaAlerta from '../views/bot/NuevaAlertaView.vue'
 import SettingsView from '../views/bot/SettingsBotView.vue'
+import CamerasView from '../views/bot/CamerasView.vue'
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -16,6 +17,13 @@ const router = createRouter({
       path: '/bot',
       name: 'bot',
       component: IndexBotView,
+      meta: { hideHeader: true },
+    
+    },
+    {
+      path: '/cameras',
+      name: 'cameras',
+      component: CamerasView,
       meta: { hideHeader: true },
     
     },

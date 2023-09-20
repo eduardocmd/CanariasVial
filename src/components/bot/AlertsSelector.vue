@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import selectores from "@/alertas.json"
 import router from '@/router'
-import { onMounted } from "vue";
+
 
 const props = defineProps<{
   isla?: string | null
