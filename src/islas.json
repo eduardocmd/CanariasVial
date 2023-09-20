@@ -2,13 +2,13 @@
     {
         "id": "tnf",
         "isla": "Tenerife",
-        "image": "/src/assets/islas/tenerife.svg",
+        "image": "islas/tenerife.svg",
         "select": false
     },
     {
         "id": "lpgc",
         "isla": "Gran Canaria",
-        "image": "/src/assets/islas/lpgc.svg",
+        "image": "islas/lpgc.svg",
         "select": false
     }
 ]
