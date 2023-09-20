@@ -3,36 +3,36 @@
         "tipo": "retenciones",
         "icono": "🟣",
         "color": "#8a4fff",
-        "image": "/src/assets/tiposalertas/retenciones.svg"
+        "image": "src/assets/tiposalertas/retenciones.svg"
     },
     {
         "tipo": "accidente",
         "icono": "🔴",
         "color": "#ff4747",
-        "image": "/src/assets/tiposalertas/accidente.svg"
+        "image": "src/assets/tiposalertas/accidente.svg"
     },
     {
         "tipo": "obras",
         "icono": "🟡",
         "color": "#ffeb38",
-        "image": "/src/assets/tiposalertas/obras.svg"
+        "image": "src/assets/tiposalertas/obras.svg"
     },
     {
         "tipo": "viacortada",
         "icono": "🟠",
         "color": "#ff7e33",
-        "image": "/src/assets/tiposalertas/viacortada.svg"
+        "image": "src/assets/tiposalertas/viacortada.svg"
     },
     {
         "tipo": "radar",
         "icono": "🔵",
         "color": "#47A4DE",
-        "image": "/src/assets/tiposalertas/radar.svg"
+        "image": "src/assets/tiposalertas/radar.svg"
     },
     {
         "tipo": "otro",
         "icono": "🟤",
         "color": "#592d00",
-        "image": "/src/assets/tiposalertas/otro.svg"
+        "image": "src/assets/tiposalertas/otro.svg"
     }
 ]
