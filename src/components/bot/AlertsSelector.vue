@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import selectores from "@/alertas.json"
 import router from '@/router'
+import { onMounted } from "vue";
+
 const props = defineProps<{
   isla?: string | null
 }>()
@@ -13,10 +15,12 @@ const irNuevaAlerta = (tipo :string)=> {
  }
 }
 
+
+
 </script>
 <template>
   <main>
-    
+   
     <section id="selector">
   
         <div v-for="selector in selectores" :key="selector.tipo" @click="irNuevaAlerta(selector.tipo)" class="tipoalerta" :style="{ 'background-image': 'url(' + selector.image + ')' }"></div>
