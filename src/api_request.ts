@@ -8,7 +8,7 @@ interface ApiResponse {
   data: any;      // Los datos de la respuesta, pueden ser de cualquier tipo
 }
 
-const sendAlert = async (alert:AlertaType, stringdata:string) => {
+const sendAlert = async (alert:AlertaType, stringdata:string, userTelegram: WebAppUser) => {
   let salida: ApiResponse = {
     status: 500,
           data: 'Error interno del servidor',
@@ -19,7 +19,8 @@ const sendAlert = async (alert:AlertaType, stringdata:string) => {
     url: `${import.meta.env.VITE_APP_Web_IP}/sendAlert`,
     data: {
       alerta: alert,
-      dataTelegram: stringdata
+      dataTelegram: stringdata,
+      userTelegram: userTelegram
     }, // Coloca los datos que deseas enviar aquí
   headers: {
     'Content-Type': 'application/json', // Establece el tipo de contenido como JSON

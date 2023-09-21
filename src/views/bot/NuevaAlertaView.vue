@@ -47,7 +47,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
       id_usuario: user.value?._id,
       tipo_alerta: tipoAlerta
     }
-    await sendAlert(nuevalerta,  window.Telegram.WebApp.initData)
+   if( window.Telegram.WebApp.initDataUnsafe.user) await sendAlert(nuevalerta,  window.Telegram.WebApp.initData, window.Telegram.WebApp.initDataUnsafe.user)
     alerta.value = ''
     window.Telegram.WebApp.MainButton.hide()
     window.Telegram.WebApp.MainButton.hideProgress()
