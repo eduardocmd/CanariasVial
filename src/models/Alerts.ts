@@ -1,6 +1,6 @@
 export interface AlertaType {
 
-    _id?: string // Agregamos el campo _id
+    _id: string // Agregamos el campo _id
     alerta: string
     id_usuario: string
     tipo_alerta: string

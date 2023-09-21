@@ -8,9 +8,13 @@
     <section v-if="status === 200">
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
+        <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'adminmemu' }">
+          <h2>Menú admin</h2>
+        </RouterLink> 
         <RouterLink :to="{ name: 'cameras' }">
           <img id="camera" src="@/assets/camara.svg" >
         </RouterLink> 
+       
       </header>
       <!--Estado funciona el server-->
 
@@ -39,10 +43,12 @@ import AlertsSelector from "@/components/bot/AlertsSelector.vue"
 import type{ Isla } from "@/models/Isla"
 import { ref, onMounted } from "vue"
 import islas from '@/islas.json'
+import type { UserType } from "@/models/TelegramUser"
 const versionWebApp = window.Telegram.WebApp.version
 const nombre = ref('')
 const intancia = ref('')
 const IslaFavorite = ref()
+const userFromDb = ref<UserType>()
 
 let status = ref(0)
 
@@ -95,8 +101,9 @@ onMounted(async () => {
 
   } 
 
-    let userFromDb = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
-    let findedIsle = islas.find((isl : Isla) => isl.id === userFromDb.data.favorite_isle)
+    let getUser = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
+    userFromDb.value = getUser.data
+    let findedIsle = islas.find((isl : Isla) => isl.id === getUser.data.favorite_isle)
   if(findedIsle)   IslaFavorite.value = findedIsle
 
   
