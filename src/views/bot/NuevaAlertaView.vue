@@ -43,6 +43,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
     let tipoAlerta : string =  Array.isArray( route.params.tipo) ?  route.params.tipo[0] :  route.params.tipo
     if(!user.value?._id) return
     let nuevalerta : AlertaType = {
+      _id: '',
       alerta: alerta.value,
       id_usuario: user.value?._id,
       tipo_alerta: tipoAlerta
