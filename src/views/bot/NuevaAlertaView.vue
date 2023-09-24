@@ -1,7 +1,13 @@
 <template>
+ <section v-if="availableAlert" id="datosAlerta">
   <h2>Alerta - {{ ruta }}</h2>
   <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
     style="overflow: hidden; overflow-wrap: break-word; "></textarea>
+ </section>
+ <section v-else id="salidaAlerta">
+<h1 class="msg">{{ msgResponse }}</h1>
+<p>La alerta: {{ alerta }} ha sido publicada con éxito</p>
+ </section>
 </template>
 
 <script setup lang="ts">
@@ -23,7 +29,12 @@ const islaSelect = ref()
 const user = ref<UserType>()
 ruta.value = route.params.tipo
 const alerta = ref('')
+//Si no está disponible
+const availableAlert = ref(true)
+//Mensaje 
+const msgResponse = ref('')
 onMounted(async() => {
+  alerta.value = ''
  let response = await api_request.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user, window.Telegram.WebApp.initData)
  user.value = response.data 
 
@@ -75,11 +86,14 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
       id_usuario: user.value?._id,
       tipo_alerta: tipoAlerta
     }
-   if( window.Telegram.WebApp.initDataUnsafe.user) await sendAlert(nuevalerta,  window.Telegram.WebApp.initData, window.Telegram.WebApp.initDataUnsafe.user)
-    alerta.value = ''
+   if(!window.Telegram.WebApp.initDataUnsafe.user) return
+   let sendedAlert  =  await sendAlert(nuevalerta,  window.Telegram.WebApp.initData, window.Telegram.WebApp.initDataUnsafe.user)
+
     window.Telegram.WebApp.MainButton.hide()
     window.Telegram.WebApp.MainButton.hideProgress()
     window.Telegram.WebApp.MainButton.enable()
+    availableAlert.value = false
+    msgResponse.value = sendedAlert.data
     //if(salida.status === 200) window.Telegram.WebApp.MainButton.hide()
 
   }
@@ -89,6 +103,9 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
 
 </script>
 <style scoped>
+.msg{
+  text-align: center;
+}
 #alerta {
 
   min-height: 200px;

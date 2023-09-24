@@ -1,3 +1,3 @@
 <template>
-    <h2>Headder</h2>
+    <h2></h2>
 </template>

@@ -1,19 +1,26 @@
 <script setup lang="ts">
-import { RouterLink} from 'vue-router'
+
 </script>
 
 <template>
-  <main>
-    <header>
-   
-   <div class="wrapper">
-   
+  <main >
+  <h1>Pagina en desarrollo</h1>
 
-     <nav>
-       <RouterLink to="/">Home</RouterLink>
-       <RouterLink to="/bot">About</RouterLink>
-     </nav>
-   </div>
- </header>
   </main>
 </template>
+<style scoped>
+main{
+  display: flex;
+  justify-content: center;
+
+}
+
+h1{
+  text-align: center;
+  position: absolute;
+  top: 50%;
+
+  margin: auto;
+}
+
+</style>

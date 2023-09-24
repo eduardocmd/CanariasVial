@@ -12,20 +12,23 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {
+        noCache: true // Desactivar la caché de página
+      }
     },
     {
       path: '/bot',
       name: 'bot',
       component: IndexBotView,
-      meta: { hideHeader: true },
+      meta: { hideHeader: true, noCache: true }
     
     },
     {
       path: '/adminmemu',
       name: 'adminmemu',
       component: AdminMenu,
-      meta: { hideHeader: true }
+      meta: { hideHeader: true, noCache: true }
     },
     {
       path: '/cameras',
@@ -44,14 +47,13 @@ const router = createRouter({
       path: '/selectorisla',
       name: 'selectorisla',
       component: SelectorIsla,
-
-      meta: { hideHeader: true }
+      meta: { hideHeader: true, noCache: true }
     },
     {
       path: '/nuevaalerta/:tipo',
       name: 'nuevaalerta:tipo',
       component: NuevaAlerta,
-      meta: { hideHeader: true }
+      meta: { hideHeader: true, noCache: true }
     },
     {
       path: '/about',
