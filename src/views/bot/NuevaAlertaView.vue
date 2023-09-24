@@ -12,18 +12,44 @@ import alertasJSON from "@/alertas.json"
 import { sendAlert } from "@/api_request"
 import type{AlertaType} from '@/models/Alerts'
 import type{UserType} from '@/models/TelegramUser'
+import islas from '@/islas.json'
+import type{ Isla } from "@/models/Isla"
 
 
 // Obtén la información de la ruta actual
 const route = useRoute();
 const ruta = ref()
+const islaSelect = ref()
 const user = ref<UserType>()
 ruta.value = route.params.tipo
 const alerta = ref('')
 onMounted(async() => {
  let response = await api_request.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user, window.Telegram.WebApp.initData)
  user.value = response.data 
- console.log(user.value)
+
+   //Ver para que isla va a ser la alerta.
+   if (window.Telegram.WebApp.initDataUnsafe.start_param) {
+    //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
+    //api_request.IslefromInstance(window.Telegram.WebApp)
+
+    //De momento se queda igual:     
+
+    let findedIsle = islas.find((isl : Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
+  if(findedIsle)  {
+    islaSelect.value = findedIsle
+    return
+  }
+
+  } 
+
+
+   if(user.value ){
+    let idIslaUsuario = user.value.favorite_isle
+ let findedIsle = islas.find((isl : Isla) => isl.id === idIslaUsuario)
+   if(findedIsle)   islaSelect.value = findedIsle
+   }
+
+
 
 })
 window.Telegram.WebApp.setHeaderColor("bg_color")
@@ -44,6 +70,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
     if(!user.value?._id) return
     let nuevalerta : AlertaType = {
       _id: '',
+      isla: islaSelect.value.id,
       alerta: alerta.value,
       id_usuario: user.value?._id,
       tipo_alerta: tipoAlerta
