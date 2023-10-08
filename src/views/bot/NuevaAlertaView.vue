@@ -1,13 +1,13 @@
 <template>
- <section v-if="availableAlert" id="datosAlerta">
-  <h2>Alerta - {{ ruta }}</h2>
-  <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
-    style="overflow: hidden; overflow-wrap: break-word; "></textarea>
- </section>
- <section v-else id="salidaAlerta">
-<h1 class="msg">{{ msgResponse }}</h1>
-<p>La alerta: {{ alerta }} ha sido publicada con éxito</p>
- </section>
+  <section v-if="availableAlert" id="datosAlerta">
+    <h2>Alerta - {{ ruta }}</h2>
+    <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
+      style="overflow: hidden; overflow-wrap: break-word; "></textarea>
+  </section>
+  <section v-else id="salidaAlerta">
+    <h1 class="msg">{{ msgResponse }}</h1>
+    <p>Tu alerta: {{ alerta }}</p>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -16,14 +16,14 @@ import * as api_request from "@/api_request"
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
 import { sendAlert } from "@/api_request"
-import type{AlertaType} from '@/models/Alerts'
-import type{UserType} from '@/models/TelegramUser'
+import type { AlertaType } from '@/models/Alerts'
+import type { UserType } from '@/models/TelegramUser'
 import islas from '@/islas.json'
-import type{ Isla } from "@/models/Isla"
+import type { Isla } from "@/models/Isla"
 
 
 // Obtén la información de la ruta actual
-const route = useRoute();
+const route = useRoute()
 const ruta = ref()
 const islaSelect = ref()
 const user = ref<UserType>()
@@ -33,32 +33,32 @@ const alerta = ref('')
 const availableAlert = ref(true)
 //Mensaje 
 const msgResponse = ref('')
-onMounted(async() => {
+onMounted(async () => {
   alerta.value = ''
- let response = await api_request.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user, window.Telegram.WebApp.initData)
- user.value = response.data 
-
-   //Ver para que isla va a ser la alerta.
-   if (window.Telegram.WebApp.initDataUnsafe.start_param) {
+  let response = await api_request.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user, window.Telegram.WebApp.initData)
+  user.value = response.data
+  //Lo primero comprobar si tiene alertas pendientes de aceptar
+if(user.value){
+  let responseisActive = await api_request.isActiveAlerts(user.value?._id, window.Telegram.WebApp.initData) 
+  if(responseisActive.data && responseisActive.status === 200) availableAlert.value = responseisActive.data 
+}  
+//Ver para que isla va a ser la alerta.
+  if (window.Telegram.WebApp.initDataUnsafe.start_param) {
     //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
     //api_request.IslefromInstance(window.Telegram.WebApp)
-
     //De momento se queda igual:     
+    let findedIsle = islas.find((isl: Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
+    if (findedIsle) {
+      islaSelect.value = findedIsle
+      return
+    }
 
-    let findedIsle = islas.find((isl : Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
-  if(findedIsle)  {
-    islaSelect.value = findedIsle
-    return
   }
-
-  } 
-
-
-   if(user.value ){
+  if (user.value) {
     let idIslaUsuario = user.value.favorite_isle
- let findedIsle = islas.find((isl : Isla) => isl.id === idIslaUsuario)
-   if(findedIsle)   islaSelect.value = findedIsle
-   }
+    let findedIsle = islas.find((isl: Isla) => isl.id === idIslaUsuario)
+    if (findedIsle) islaSelect.value = findedIsle
+  }
 
 
 
@@ -77,17 +77,17 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
   if (alerta.value) {
     window.Telegram.WebApp.MainButton.disable()
     window.Telegram.WebApp.MainButton.showProgress()
-    let tipoAlerta : string =  Array.isArray( route.params.tipo) ?  route.params.tipo[0] :  route.params.tipo
-    if(!user.value?._id) return
-    let nuevalerta : AlertaType = {
+    let tipoAlerta: string = Array.isArray(route.params.tipo) ? route.params.tipo[0] : route.params.tipo
+    if (!user.value?._id) return
+    let nuevalerta: AlertaType = {
       _id: '',
       isla: islaSelect.value.id,
       alerta: alerta.value,
       id_usuario: user.value?._id,
       tipo_alerta: tipoAlerta
     }
-   if(!window.Telegram.WebApp.initDataUnsafe.user) return
-   let sendedAlert  =  await sendAlert(nuevalerta,  window.Telegram.WebApp.initData, window.Telegram.WebApp.initDataUnsafe.user)
+    if (!window.Telegram.WebApp.initDataUnsafe.user) return
+    let sendedAlert = await sendAlert(nuevalerta, window.Telegram.WebApp.initData, window.Telegram.WebApp.initDataUnsafe.user)
 
     window.Telegram.WebApp.MainButton.hide()
     window.Telegram.WebApp.MainButton.hideProgress()
@@ -103,9 +103,10 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
 
 </script>
 <style scoped>
-.msg{
+.msg {
   text-align: center;
 }
+
 #alerta {
 
   min-height: 200px;

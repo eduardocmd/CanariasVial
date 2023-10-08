@@ -8,7 +8,48 @@ interface ApiResponse {
   data: any;      // Los datos de la respuesta, pueden ser de cualquier tipo
 }
 
+export const isActiveAlerts = async  (id: string, stringdata: string) => {
 
+  let salida: ApiResponse = {
+    status: 500,
+    data: 'Error interno del servidor',
+  };
+  const configuracion = {
+
+    method: 'POST',
+    url: `${import.meta.env.VITE_APP_Web_IP}/getAlerts`,
+    data: {
+      id_usuario: id,
+      dataTelegram: stringdata,
+    }, // Coloca los datos que deseas enviar aquí
+    headers: {
+      'Content-Type': 'application/json', // Establece el tipo de contenido como JSON
+    },
+  }
+
+  try {
+    const respuesta = await axios(configuracion)
+    // ...
+    salida = {
+      status: respuesta.status,
+      data: respuesta.data,
+    };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const axiosError: AxiosError = error;
+      if (axiosError.response) {
+        salida = {
+          status: axiosError.response.status,
+          data: axiosError.response.data,
+        };
+      }
+    }
+  }
+
+  return salida;
+  
+
+}
 const acceptAlert = async (id: string, stringdata: string) => {
 
   let salida: ApiResponse = {
