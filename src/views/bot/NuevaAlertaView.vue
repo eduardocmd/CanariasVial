@@ -1,12 +1,11 @@
 <template>
-  <section v-if="availableAlert" id="datosAlerta">
+  <section v-if="!availableAlert" id="datosAlerta">
     <h2>Alerta - {{ ruta }}</h2>
     <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
       style="overflow: hidden; overflow-wrap: break-word; "></textarea>
   </section>
   <section v-else id="salidaAlerta">
     <h1 class="msg">{{ msgResponse }}</h1>
-    <p>Tu alerta: {{ alerta }}</p>
   </section>
 </template>
 
@@ -38,11 +37,26 @@ onMounted(async () => {
   let response = await api_request.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user, window.Telegram.WebApp.initData)
   user.value = response.data
   //Lo primero comprobar si tiene alertas pendientes de aceptar
-if(user.value){
-  let responseisActive = await api_request.isActiveAlerts(user.value?._id, window.Telegram.WebApp.initData) 
-  if(responseisActive.data && responseisActive.status === 200) availableAlert.value = responseisActive.data 
-}  
-//Ver para que isla va a ser la alerta.
+  if (user.value) {
+    let responseisActive = await api_request.isActiveAlerts(user.value?._id, window.Telegram.WebApp.initData)
+    if (responseisActive.status === 200) availableAlert.value = responseisActive.data
+    //Si hay una alerta activa   
+    if (availableAlert.value) msgResponse.value = "Parece que ya tienes una alerta pendiente"
+
+    if (!availableAlert.value) {
+      window.Telegram.WebApp.setHeaderColor("bg_color")
+      window.Telegram.WebApp.BackButton.show()
+      window.Telegram.WebApp.MainButton.show()
+      window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
+      let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
+      window.Telegram.WebApp.MainButton.setParams({
+        color: alertaF[0].color
+      })
+    }
+
+
+  }
+  //Ver para que isla va a ser la alerta.
   if (window.Telegram.WebApp.initDataUnsafe.start_param) {
     //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
     //api_request.IslefromInstance(window.Telegram.WebApp)
@@ -63,15 +77,10 @@ if(user.value){
 
 
 })
-window.Telegram.WebApp.setHeaderColor("bg_color")
-window.Telegram.WebApp.BackButton.show()
-window.Telegram.WebApp.MainButton.show()
-window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
-let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
 
-window.Telegram.WebApp.MainButton.setParams({
-  color: alertaF[0].color
-})
+
+
+
 window.Telegram.WebApp.MainButton.onClick(async () => {
   //Methods
   if (alerta.value) {

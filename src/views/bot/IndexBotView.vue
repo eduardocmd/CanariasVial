@@ -53,6 +53,7 @@ const userFromDb = ref<UserType>()
 let status = ref(0)
 
 onMounted(async () => {
+  window.Telegram.WebApp.MainButton.hide()
   window.Telegram.WebApp.setHeaderColor("secondary_bg_color")
   let dataUser = window.Telegram.WebApp.initDataUnsafe.user
   if (window.Telegram.WebApp.initDataUnsafe.chat_instance) {

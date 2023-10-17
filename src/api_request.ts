@@ -17,7 +17,7 @@ export const isActiveAlerts = async  (id: string, stringdata: string) => {
   const configuracion = {
 
     method: 'POST',
-    url: `${import.meta.env.VITE_APP_Web_IP}/getAlerts`,
+    url: `${import.meta.env.VITE_APP_Web_IP}/isActiveAlerts`,
     data: {
       id_usuario: id,
       dataTelegram: stringdata,
