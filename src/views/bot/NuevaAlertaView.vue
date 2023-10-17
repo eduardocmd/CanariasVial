@@ -102,6 +102,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
     window.Telegram.WebApp.MainButton.hideProgress()
     window.Telegram.WebApp.MainButton.enable()
     availableAlert.value = false
+    alerta.value = ''
     msgResponse.value = sendedAlert.data
     //if(salida.status === 200) window.Telegram.WebApp.MainButton.hide()
 
