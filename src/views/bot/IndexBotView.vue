@@ -9,7 +9,7 @@
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
         <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'adminmemu' }">
-          <h2>Menú admin</h2>
+          <h2>Admin</h2>
         </RouterLink> 
         <RouterLink :to="{ name: 'cameras' }">
           <img id="camera" src="@/assets/camara.svg" >
