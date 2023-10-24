@@ -23,12 +23,7 @@
         "color": "#ff7e33",
         "image": "/tiposalertas/viacortada.svg"
     },
-    {
-        "tipo": "radar",
-        "icono": "🔵",
-        "color": "#47A4DE",
-        "image": "/tiposalertas/radar.svg"
-    },
+    
     {
         "tipo": "otro",
         "icono": "🟤",
