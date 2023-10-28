@@ -41,7 +41,7 @@ onMounted(async () => {
     let responseisActive = await api_request.isActiveAlerts(user.value?._id, window.Telegram.WebApp.initData)
     if (responseisActive.status === 200) availableAlert.value = responseisActive.data
     //Si hay una alerta activa   
-    if (availableAlert.value) msgResponse.value = "Ya haz publicado una alerta hace menos de 5m"
+    if (availableAlert.value) msgResponse.value = "Ya has publicado una alerta hace menos de 5m"
 
     if (!availableAlert.value) {
       window.Telegram.WebApp.setHeaderColor("bg_color")
