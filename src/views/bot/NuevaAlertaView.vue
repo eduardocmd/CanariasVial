@@ -119,7 +119,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
 
 #alerta {
 
-  min-height: 200px;
+  min-height: 100px;
   margin-bottom: 2em;
   font-size: 17px;
   color: black;
@@ -131,7 +131,8 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
   display: block;
   outline: none;
   border: none;
-  border-radius: 1rem;
+  form-sizing: content;
+  border-radius: var(--border-radius);
   resize: none;
   color: var(--text-color);
   background: var(--color-background);

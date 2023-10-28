@@ -44,7 +44,7 @@ main {
 }
 
 #selector {
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

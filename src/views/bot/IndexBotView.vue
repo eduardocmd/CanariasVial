@@ -136,7 +136,7 @@ header p {
   font-size: 1.4rem;
 }
 #ajustes{
- border-radius: 1rem;
+ border-radius: var(--border-radius);
 display: flex;
 align-items: center;
 
