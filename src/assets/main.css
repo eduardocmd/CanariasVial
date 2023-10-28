@@ -28,6 +28,15 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+ 
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select:none; 
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 a{
   text-decoration: none;

@@ -17,6 +17,9 @@ const router = createRouter({
         noCache: true // Desactivar la caché de página
       }
     },
+
+
+    //Mini App / BOT Telegram
     {
       path: '/bot',
       name: 'bot',
@@ -25,43 +28,35 @@ const router = createRouter({
     
     },
     {
-      path: '/adminmemu',
-      name: 'adminmemu',
+      path: '/bot/adminmemu',
+      name: 'bot-adminmemu',
       component: AdminMenu,
       meta: { hideHeader: true, noCache: true }
     },
     {
-      path: '/cameras',
-      name: 'cameras',
+      path: '/bot/cameras',
+      name: 'bot-cameras',
       component: CamerasView,
       meta: { hideHeader: true },
     
     },
     {
-      path: '/settings',
+      path: '/bot/settingsbot',
       name: 'bot-settings',
       component: SettingsView,
-      meta: { hideHeader: true },
+      meta: { hideHeader: true,noCache: true },
     },
     {
-      path: '/selectorisla',
-      name: 'selectorisla',
+      path: '/bot/selectorisla',
+      name: 'bot-selectorisla',
       component: SelectorIsla,
       meta: { hideHeader: true, noCache: true }
     },
     {
-      path: '/nuevaalerta/:tipo',
-      name: 'nuevaalerta:tipo',
+      path: '/bot/nuevaalerta/:tipo',
+      name: 'bot-nuevaalerta:tipo',
       component: NuevaAlerta,
       meta: { hideHeader: true, noCache: true }
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
     }
   ]
 })

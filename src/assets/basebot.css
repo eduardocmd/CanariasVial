@@ -6,7 +6,7 @@
     --color-hint: var(--tg-theme-hint-color);
     --color-border: var(--vt-c-divider-light-2);
     --color-border-hover: var(--vt-c-divider-light-1);
-  
+    --border-radius: 1rem;
     --color-heading: var(--vt-c-text-light-1);
     --color-text: var(--tg-theme-text-color);
   

@@ -8,10 +8,10 @@
     <section v-if="status === 200">
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
-        <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'adminmemu' }">
+        <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'bot-adminmemu' }">
           <h2>Admin</h2>
         </RouterLink> 
-        <RouterLink :to="{ name: 'cameras' }">
+        <RouterLink :to="{ name: 'bot-cameras' }">
           <img id="camera" src="@/assets/camara.svg" >
         </RouterLink> 
        

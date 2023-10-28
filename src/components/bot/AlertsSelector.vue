@@ -9,9 +9,9 @@ const props = defineProps<{
 const irNuevaAlerta = (tipo :string)=> {
 
  if(props.isla){
-  router.push({ name: 'nuevaalerta:tipo', params: { tipo } });
+  router.push({ name: 'bot-nuevaalerta:tipo', params: { tipo } });
  }else{
-  router.push({ name: 'selectorisla'});
+  router.push({ name: 'bot-selectorisla'});
  }
 }
 
