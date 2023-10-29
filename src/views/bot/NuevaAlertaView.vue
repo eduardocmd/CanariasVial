@@ -6,6 +6,7 @@
   </section>
   <section v-else id="salidaAlerta">
     <h1 class="msg">{{ msgResponse }}</h1>
+    <div class="clock"></div>
   </section>
 </template>
 
@@ -29,7 +30,7 @@ const user = ref<UserType>()
 ruta.value = route.params.tipo
 const alerta = ref('')
 //Si no está disponible
-const availableAlert = ref(true)
+const availableAlert = ref(false)
 //Mensaje 
 const msgResponse = ref('')
 onMounted(async () => {
@@ -140,5 +141,67 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
   user-select: auto;
   cursor: auto;
   width: 100%;
+}
+.clock{
+	border-radius: 70px;
+	border: 6px solid #fff;
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+  display: block;
+  width: 120px;
+  height: 120px;
+}
+
+.clock:after{
+	content: "";
+	position: absolute;
+	background-color: #fff;
+	top: 13px;
+	left: 48%;
+	height: 50px;
+	width: 6px;
+	border-radius: 5px;
+	-webkit-transform-origin: 50% 97%;
+			transform-origin: 50% 97%;
+	-webkit-animation: grdAiguille 2s linear infinite;
+			animation: grdAiguille 2s linear infinite;
+}
+
+@-webkit-keyframes grdAiguille{
+    0%{-webkit-transform:rotate(0deg);}
+    100%{-webkit-transform:rotate(360deg);}
+}
+
+@keyframes grdAiguille{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+.clock:before{
+	content: "";
+	position: absolute;
+	background-color: #fff;
+	top: 24px;
+	left: 48%;
+	height: 40px;
+	width: 6px;
+	border-radius: 5px;
+	-webkit-transform-origin: 50% 94%;
+			transform-origin: 50% 94%;
+	-webkit-animation: ptAiguille 12s linear infinite;
+			animation: ptAiguille 12s linear infinite;
+}
+
+@-webkit-keyframes ptAiguille{
+    0%{-webkit-transform:rotate(0deg);}
+    100%{-webkit-transform:rotate(360deg);}
+}
+
+@keyframes ptAiguille{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
 }
 </style>
