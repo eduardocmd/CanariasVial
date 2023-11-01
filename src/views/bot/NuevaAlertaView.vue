@@ -54,7 +54,7 @@ onMounted(async () => {
         color: alertaF[0].color
       })
     }
-
+ 
 
   }
   //Ver para que isla va a ser la alerta.
