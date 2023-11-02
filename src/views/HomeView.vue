@@ -3,24 +3,112 @@
 </script>
 
 <template>
-  <main >
-  <h1>Pagina en desarrollo</h1>
 
-  </main>
+  <h1>Pagina en desarrollo</h1>
+  <h2>djkdfsjklñdfs</h2>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+<p>dasdasdasdasdsa</p>
+
 </template>
 <style scoped>
-main{
-  display: flex;
-  justify-content: center;
 
-}
-
-h1{
-  text-align: center;
-  position: absolute;
-  top: 50%;
-
-  margin: auto;
-}
 
 </style>

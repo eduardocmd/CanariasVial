@@ -51,15 +51,27 @@
   }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
+
+#app {
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column; 
+  overflow: hidden;
+
 }
+@media screen and (min-width: 768px) {
+
+  #app {
+    flex-direction: row; /* Cambia a disposición de fila en pantallas más grandes */
+    flex-wrap: wrap
+    
+  }
 
 
+
+
+}
 
 
 
