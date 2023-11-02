@@ -36,45 +36,70 @@ onMounted(async () => {
 
 <template>
   <!--Vista para la web-->
-  <HeadderApp v-if="!hideHeader" />
+
   <main>
-    <RouterView v-if="!hideHeader" />
+    <HeadderApp class="header" v-if="!hideHeader" />
+    <section class="vista">
+      <RouterView v-if="!hideHeader" />
+    </section>
   </main>
   <aside v-if="!hideHeader">
     <h2>Menú lateral</h2>
   </aside>
-  
+
   <!--Vista para el bot-->
-  <RouterView v-if="hideHeader"/>
+  <RouterView v-if="hideHeader" />
 </template>
 
 <style scoped>
+main {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+
+}
+
+.header {
+  height: 100px;
+  overflow: hidden;
+  background-color: rgb(38, 63, 55);
+  width: 100%;
+}
+
 aside {
   height: 100px;
+  
   width: 100%;
   background-color: aliceblue;
 }
-main{
 
-height: 100%;
-overflow: auto;
+.vista {
+ width: 100%;
+ height: 100%;
+  background-color: rgb(126, 12, 126);
+
+  overflow: auto;
+
 
 }
 
 
 @media screen and (min-width: 768px) {
-  main{
-flex: 1; /* Ocupa el espacio restante */
+  main {
+    order: 2;
+  
+  }
 
-background-color: #ffffff; /* Fondo del contenido principal */
 
-order: 2;
-}
+
+
   aside {
 
     height: auto;
-    width: 100px;
-    background-color: red;
+    width: 150px;
+    background-color: rgb(29, 28, 128);
     order: 1;
     /* Orden por defecto en dispositivos de pantalla grande */
   }

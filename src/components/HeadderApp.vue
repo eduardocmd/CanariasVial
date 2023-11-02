@@ -3,10 +3,6 @@
 </template>
 <style scoped>
 
-header{
-    height: 100px;
-    background-color: rgb(38, 63, 55);
-    width: 100%;
-}
+
 
 </style>
