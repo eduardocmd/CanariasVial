@@ -37,71 +37,57 @@ onMounted(async () => {
 <template>
   <!--Vista para la web-->
 
-  <main>
-    <HeadderApp class="header" v-if="!hideHeader" />
-    <section class="vista">
-      <RouterView v-if="!hideHeader" />
-    </section>
-  </main>
-  <aside v-if="!hideHeader">
+  
+    <HeadderApp  v-if="!hideHeader" />
+    <aside v-if="!hideHeader">
     <h2>Menú lateral</h2>
   </aside>
-
+      <RouterView v-if="!hideHeader" />
+  
   <!--Vista para el bot-->
   <RouterView v-if="hideHeader" />
 </template>
 
 <style scoped>
-main {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
 
-}
-
-.header {
-  height: 100px;
-  overflow: hidden;
-  background-color: rgb(38, 63, 55);
-  width: 100%;
-}
 
 aside {
-  height: 100px;
-  
-  width: 100%;
-  background-color: aliceblue;
+  height: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: fixed;
+  bottom: 1rem;
+  width: 80%;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  background-color: rgba(31, 101, 163, 0.479);
 }
 
-.vista {
- width: 100%;
- height: 100%;
-  background-color: rgb(126, 12, 126);
 
-  overflow: auto;
-
-
-}
+ 
+    /* Orden por defecto en dispositivos de pantalla grande */
 
 
 @media screen and (min-width: 768px) {
-  main {
-    order: 2;
-  
-  }
 
 
 
 
   aside {
+   
+    display: flex;
 
-    height: auto;
+    top: 0;
+    left: 0;
+    transform: translateX(0);
+    height: calc(100vh - 10px);
     width: 150px;
     background-color: rgb(29, 28, 128);
-    order: 1;
-    /* Orden por defecto en dispositivos de pantalla grande */
+  
   }
 
 
