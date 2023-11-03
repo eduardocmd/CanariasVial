@@ -54,11 +54,15 @@
 
 @media screen and (min-width: 768px) {
 
+  body{
+    overflow: hidden;
+  }
   #app {
-    padding: 16rem;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row; /* Cambia a disposición de fila en pantallas más grandes */
+   --menu-size: 6rem;
+    min-height: 100vh;
+    background-color: #181818;
+  
+
   }
 
 

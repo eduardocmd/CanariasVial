@@ -35,38 +35,42 @@ onMounted(async () => {
 </script>
 
 <template>
-  <!--Vista para la web-->
 
-  
+
+ 
     <HeadderApp  v-if="!hideHeader" />
+    
     <aside v-if="!hideHeader">
     <h2>Menú lateral</h2>
   </aside>
+ 
+  <main class="layout-wrapper">
+    <div class="layout-content">
       <RouterView v-if="!hideHeader" />
+    </div>
+  
+  </main>
+     
   
   <!--Vista para el bot-->
   <RouterView v-if="hideHeader" />
 </template>
 
 <style scoped>
-
-
-aside {
-  height: 50px;
-  left: 50%;
-  transform: translateX(-50%);
-  position: fixed;
-  bottom: 1rem;
-  width: 80%;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 20px;
-  cursor: pointer;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  background-color: rgba(31, 101, 163, 0.479);
+.layout-content{
+  border-radius: 2rem;
+  background-color: rgb(156, 156, 156);
 }
 
+aside{
+  position: fixed;
+  width: 80%;
+  height: var(--menu-size);
+  bottom: 0;
+ background-color: rebeccapurple;
+  left: 50%; /* Coloca el borde izquierdo del div a la mitad del contenedor */
+  transform: translate(-50%, -50%); /* Centra el contenido */
+}
 
  
     /* Orden por defecto en dispositivos de pantalla grande */
@@ -74,19 +78,35 @@ aside {
 
 @media screen and (min-width: 768px) {
 
+.layout-content{
 
+  border-top: 1px solid var(--surface-border);
+  overflow: auto;
+  height: calc(100vh -  var(--menu-size));
+  padding: 2rem;
+  background-color: rebeccapurple;
+  border-top-left-radius: 20px;
+  box-shadow: inset 0 3px 4px #0000001a;
+}
+.layout-wrapper{
 
+  padding-left:  var(--menu-size);
+  padding-top:  var(--menu-size);
+  background-color: rgb(95, 65, 65);
+  
+}
 
   aside {
-   
+   position: fixed;
     display: flex;
-
+    align-items: end;
+    background-color: transparent;
     top: 0;
     left: 0;
     transform: translateX(0);
-    height: calc(100vh - 10px);
-    width: 150px;
-    background-color: rgb(29, 28, 128);
+    height: calc(100vh);
+    width:  var(--menu-size);
+  
   
   }
 

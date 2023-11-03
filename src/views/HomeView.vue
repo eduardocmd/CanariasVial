@@ -5,41 +5,38 @@
 <template>
 
 <main>
-  <h1>SCROOLLL</h1>
-  <p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
+  <h1>CONTENIDO DE LA WEBS / PANTALLAS </h1>
+  <p>Contenido de la web</p>
+<p>Contenido de la web</p>
 
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p><p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p><p>Contenido de la web</p>
 
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p><p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p><p>Contenido de la web</p>
 
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
-<p>dasdasdasdasdsa</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
+<p>Contenido de la web</p>
 </main>
 
 </template>
+
 <style scoped>
+
 
 
 </style>
