@@ -69,7 +69,7 @@ aside{
   bottom: 0;
   background-color: rebeccapurple;
   left: 50%; /* Coloca el borde izquierdo del div a la mitad del contenedor */
-  transform: translate(-50%, -50%); /* Centra el contenido */
+  transform: translate(-50%, -50%); /* Centra el contenido */ 
 }
 
  
