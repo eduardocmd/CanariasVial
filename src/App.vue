@@ -73,7 +73,7 @@ aside{
 }
 
  
-    /* Orden por defecto en dispositivos de pantalla grande */
+    
 
 
 @media screen and (min-width: 768px) {
