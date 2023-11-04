@@ -36,8 +36,6 @@ onMounted(async () => {
 
 <template>
 
-
- 
     <HeadderApp  v-if="!hideHeader" />
     
     <aside v-if="!hideHeader">
