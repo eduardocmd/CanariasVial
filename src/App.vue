@@ -72,10 +72,6 @@ aside{
   transform: translate(-50%, -50%); /* Centra el contenido */ 
 }
   
- 
-    
-  
-
 @media screen and (min-width: 768px) {
 
 .layout-content{
