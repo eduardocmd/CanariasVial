@@ -1,6 +1,6 @@
 <template>
     <header>
-        <div id="logo" :style="{ 'background-image': 'url(./canariasvial.svg)' }"></div>
+        <div id="logo" :style="{ 'background-image': 'url(./logo.png)' }"></div>
 
         <h1>Canarias Vial</h1>
     </header>
@@ -21,8 +21,8 @@ header {
 #logo {
     height: 60px;
     width: 60px;
-    background-size: 110%;
-    background-position: center center;
+    background-size: 100%;
+    background-position: bottom center;
     background-color: var(--color-background);
     border-radius: 50%;
 
