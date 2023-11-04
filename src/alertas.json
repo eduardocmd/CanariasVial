@@ -17,6 +17,13 @@
         "color": "#ffeb38",
         "image": "/tiposalertas/obras.svg"
     },
+    
+    {
+        "tipo": "obstaculos",
+        "icono": "🔵",
+        "color": "#ffeb38",
+        "image": "/tiposalertas/obstaculo.svg"
+    },
     {
         "tipo": "viacortada",
         "icono": "🟠",
