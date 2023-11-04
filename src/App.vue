@@ -16,9 +16,6 @@ onMounted(async () => {
   if (!window.Telegram.WebApp.initDataUnsafe.user) {
     import('./assets/base.css');
 
-
-
-
   } else {
     window.Telegram.WebApp.ready()
     window.Telegram.WebApp.BackButton.onClick(() => {
