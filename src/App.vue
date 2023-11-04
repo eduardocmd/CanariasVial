@@ -25,8 +25,6 @@ onMounted(async () => {
       window.Telegram.WebApp.MainButton.hide()
     })
   }
-
-
 })
 
 </script>
