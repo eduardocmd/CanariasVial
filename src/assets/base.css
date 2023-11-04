@@ -1,7 +1,7 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
-  --vt-c-white: #d40808;
-  --vt-c-white-soft: #cf2323;
+  --vt-c-white: #fafafa;
+  --vt-c-white-soft: #ebebeb;
   --vt-c-white-mute: #f2f2f2;
 
   --vt-c-black: #181818;
@@ -50,7 +50,11 @@
     --color-text: var(--vt-c-text-dark-2);
   }
 }
+#app {
+overflow: hidden;
+ 
 
+ }
 @media screen and (min-width: 768px) {
 
   body{
