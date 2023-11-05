@@ -13,7 +13,7 @@ const isInBot = computed(() => {
 });
 onMounted(async () => {
   //Si no hay bot, carga la base de la web.
-  if (!isInBot.value) {
+  if (!isInBot.value || !window.Telegram.WebApp.initData) {
     import('./assets/base.css');
 
   } else {
