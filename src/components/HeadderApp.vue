@@ -1,8 +1,11 @@
 <template>
     <header>
         <div id="logo" :style="{ 'background-image': 'url(./logo.png)' }"></div>
+        <div id="header-text">
+            <h1>Canarias Vial</h1>
+            <h2>Tenerife</h2>
+        </div>
 
-        <h1>Canarias Vial</h1>
     </header>
 </template>
 <style scoped>
@@ -10,12 +13,31 @@ header {
     background-color: var(--color-background-soft);
     overflow: hidden;
     display: flex;
-    text-align: center;
+
     align-items: center;
     padding: 0.5rem;
-    width: 100%;
-  
+    max-width: 100%;
+
+    #header-text {
+      
+
+        h2 {
+            color: var(--color-primary);
+        }
+
+        margin: auto;
+        text-align: center;
+        h2,
+        h1 {
+            
+            margin: 0;
+        }
+
+    }
 }
+
+
+
 
 
 #logo {
@@ -25,8 +47,8 @@ header {
     background-position: bottom center;
     background-color: var(--color-background);
     border-radius: 50%;
-
     background-repeat: no-repeat;
+    flex-shrink: 0;
 
 }
 
@@ -39,12 +61,20 @@ header {
     header {
         position: fixed;
         background-color: transparent;
-
         top: 0;
         max-height: var(--menu-size);
         width: 100%;
         left: 0;
         z-index: 1;
+        h1{
+            font-size: 3rem;
+        }
+        h2{
+            font-size: 1.5rem;
+        }
+
+
+
     }
 
 }

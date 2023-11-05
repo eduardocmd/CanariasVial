@@ -2,7 +2,8 @@
 import { computed } from 'vue';
 import { useRoute } from "vue-router";
 import HeadderApp from "@/components/HeadderApp.vue"
-
+import FooterWeb from "@/components/FooterWeb.vue"
+import AsideMenu from './components/AsideMenu.vue';
 
 
 // Obtén la información de la ruta actual
@@ -16,15 +17,14 @@ const isInBot = computed(() => {
 
 <template>
   <HeadderApp v-if="!isInBot" />
+  <AsideMenu v-if="!isInBot"/>
 
-  <aside v-if="!isInBot">
-    <h2>Menú lateral</h2>
-  </aside>
 
   <main class="layout-wrapper" v-if="!isInBot">
     <div class="layout-content" v-if="!isInBot">
-      
+
       <RouterView v-if="!isInBot" />
+
     </div>
 
   </main>
@@ -40,18 +40,7 @@ const isInBot = computed(() => {
   background-color: rgb(156, 156, 156);
 }
 
-aside {
-  position: fixed;
-  width: 80%;
 
-  height: var(--menu-size);
-  bottom: 0;
-  background-color: var(--color-background-soft);
-  left: 50%;
-  /* Coloca el borde izquierdo del div a la mitad del contenedor */
-  transform: translate(-50%, -50%);
-  /* Centra el contenido */
-}
 
 .layout-content {
 
@@ -85,20 +74,7 @@ aside {
 
   }
 
-  aside {
-    position: fixed;
-    display: flex;
-    align-items: end;
-    background-color: transparent;
 
-    top: 0;
-    left: 0;
-    transform: translateX(0);
-    height: calc(100vh);
-    width: var(--menu-size);
-
-
-  }
 
 
 
