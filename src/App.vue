@@ -16,7 +16,7 @@ const isInBot = computed(() => {
 
 <template>
   
-  <HeadderApp v-if="!isInBot" />
+  <!--<HeadderApp v-if="!isInBot" />
 
   <aside v-if="!isInBot">
     <h2>Menú lateral</h2>
@@ -29,7 +29,8 @@ const isInBot = computed(() => {
     </div>
 
   </main>
-
+-->
+<RouterView v-if="!isInBot" />
 
   <!--Vista para el bot-->
   <RouterView v-if="isInBot" />
