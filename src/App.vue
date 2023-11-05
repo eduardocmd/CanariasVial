@@ -15,7 +15,6 @@ const isInBot = computed(() => {
 </script>
 
 <template>
-  
   <HeadderApp v-if="!isInBot" />
 
   <aside v-if="!isInBot">
