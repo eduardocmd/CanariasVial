@@ -10,11 +10,11 @@
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
         <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'bot-adminmemu' }">
           <h2>Admin</h2>
-        </RouterLink> 
+        </RouterLink>
         <RouterLink :to="{ name: 'bot-cameras' }">
-          <img id="camera" src="@/assets/camara.svg" >
-        </RouterLink> 
-       
+          <img id="camera" src="@/assets/camara.svg">
+        </RouterLink>
+
       </header>
       <!--Estado funciona el server-->
 
@@ -22,8 +22,11 @@
 
       <AlertsSelector :isla="IslaFavorite" />
       <RouterLink :to="{ name: 'bot-settings' }">
-      <article id="ajustes"> <div id="ajustesico"></div> <p>Ajustes</p></article>
-    </RouterLink>
+        <article id="ajustes">
+          <div id="ajustesico"></div>
+          <p>Ajustes</p>
+        </article>
+      </RouterLink>
     </section>
     <section v-if="status === 500">
       <!--No funciona el server-->
@@ -37,12 +40,13 @@
   </main>
 </template>
 <script setup lang="ts">
-
-  import * as api_request from "@/api_request"
+import('../../assets/basebot.css');
+import * as api_request from "@/api_request"
 import AlertsSelector from "@/components/bot/AlertsSelector.vue"
-import type{ Isla } from "@/models/Isla"
+import type { Isla } from "@/models/Isla"
 import { ref, onMounted } from "vue"
 import islas from '@/islas.json'
+import router from '@/router'
 import type { UserType } from "@/models/TelegramUser"
 const versionWebApp = window.Telegram.WebApp.version
 const nombre = ref('')
@@ -53,6 +57,18 @@ const userFromDb = ref<UserType>()
 let status = ref(0)
 
 onMounted(async () => {
+
+
+
+
+  window.Telegram.WebApp.ready()
+  window.Telegram.WebApp.BackButton.onClick(() => {
+
+    router.back()
+    window.Telegram.WebApp.BackButton.hide()
+    window.Telegram.WebApp.MainButton.hide()
+  })
+
   window.Telegram.WebApp.MainButton.hide()
   window.Telegram.WebApp.setHeaderColor("secondary_bg_color")
   let dataUser = window.Telegram.WebApp.initDataUnsafe.user
@@ -93,21 +109,21 @@ onMounted(async () => {
 
     //De momento se queda igual:     
 
-    let findedIsle = islas.find((isl : Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
-  if(findedIsle)  {
-    IslaFavorite.value = findedIsle
-    status.value = newstatus
-    return
+    let findedIsle = islas.find((isl: Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
+    if (findedIsle) {
+      IslaFavorite.value = findedIsle
+      status.value = newstatus
+      return
+    }
+
   }
 
-  } 
+  let getUser = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
+  userFromDb.value = getUser.data
+  let findedIsle = islas.find((isl: Isla) => isl.id === getUser.data.favorite_isle)
+  if (findedIsle) IslaFavorite.value = findedIsle
 
-    let getUser = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
-    userFromDb.value = getUser.data
-    let findedIsle = islas.find((isl : Isla) => isl.id === getUser.data.favorite_isle)
-  if(findedIsle)   IslaFavorite.value = findedIsle
 
-  
 
 
   status.value = newstatus
@@ -120,13 +136,14 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-#camera{
+#camera {
   width: 50px;
   height: 50px;
 }
+
 header {
   display: flex;
- 
+
   justify-content: space-between;
   padding: 1rem;
 }
@@ -135,21 +152,24 @@ header p {
   margin: 0;
   font-size: 1.4rem;
 }
-#ajustes{
- border-radius: var(--border-radius);
-display: flex;
-align-items: center;
+
+#ajustes {
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
 
   background-color: var(--color-background);
-  margin:  0.2rem 0;
+  margin: 0.2rem 0;
 
-  
+
 }
-#ajustes p{
- 
+
+#ajustes p {
+
   margin: 1rem;
 
 }
+
 #ajustesico {
   margin-left: 1rem;
   background: var(--color-button) url('../../assets/engranaje-invert.svg')no-repeat center/60%;
@@ -213,7 +233,8 @@ main {
   bottom: 50%;
   text-align: center;
 }
-h1{
+
+h1 {
   margin: 0;
 }
 
@@ -225,4 +246,5 @@ h1{
   100% {
     transform: rotate(360deg);
   }
-}</style>
+}
+</style>

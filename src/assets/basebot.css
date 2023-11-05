@@ -1,47 +1,55 @@
 :root {
+  --color-background: var(--tg-theme-bg-color);
+  --color-background-soft: var(--tg-theme-secondary-bg-color);
+  --color-background-mute: var(--tg-theme-secondary-bg-color);
+  --color-button: var(--tg-theme-button-color);
+  --color-hint: var(--tg-theme-hint-color);
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+  --border-radius: 0.5rem;
+  --color-heading: var(--vt-c-text-light-1);
+  --color-text: var(--tg-theme-text-color);
+
+  --section-gap: 160px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
     --color-background: var(--tg-theme-bg-color);
     --color-background-soft: var(--tg-theme-secondary-bg-color);
-    --color-background-mute: var(--tg-theme-secondary-bg-color);
+    --color-background-mute: var(--vt-c-white-mute);
     --color-button: var(--tg-theme-button-color);
     --color-hint: var(--tg-theme-hint-color);
     --color-border: var(--vt-c-divider-light-2);
     --color-border-hover: var(--vt-c-divider-light-1);
-    --border-radius: 0.5rem;
+
     --color-heading: var(--vt-c-text-light-1);
     --color-text: var(--tg-theme-text-color);
-  
-    --section-gap: 160px;
-  } 
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-background: var(--tg-theme-bg-color);
-      --color-background-soft: var(--tg-theme-secondary-bg-color);
-      --color-background-mute: var(--vt-c-white-mute);
-      --color-button: var(--tg-theme-button-color);
-      --color-hint: var(--tg-theme-hint-color);
-      --color-border: var(--vt-c-divider-light-2);
-      --color-border-hover: var(--vt-c-divider-light-1);
-    
-      --color-heading: var(--vt-c-text-light-1);
-      --color-text: var(--tg-theme-text-color);
-    
-      --section-gap: 160px;
-    } 
+    --section-gap: 160px;
   }
- 
-  body{
-    font-size: 15px;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-   
-    -moz-user-select: none; 
-    -webkit-user-select: none; 
-    -ms-user-select:none; 
-    user-select:none;
-    -webkit-tap-highlight-color: transparent;
-  
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+}
+
+body {
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*Cancelar lo del base */
+
+#app {
+  overflow: auto;
+
+
+}

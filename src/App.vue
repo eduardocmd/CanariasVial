@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useRoute } from "vue-router";
 import HeadderApp from "@/components/HeadderApp.vue"
-import router from '@/router'
+
 
 
 // Obtén la información de la ruta actual
@@ -11,26 +11,11 @@ const route = useRoute();
 const isInBot = computed(() => {
   return route.meta.hideHeader === true;
 });
-onMounted(async () => {
-  //Si no hay bot, carga la base de la web.
-  if ( !window.Telegram.WebApp.initData) {
-    import('./assets/base.css');
-
-  } else {
-    import('./assets/basebot.css');
-    window.Telegram.WebApp.ready()
-    window.Telegram.WebApp.BackButton.onClick(() => {
-
-      router.back()
-      window.Telegram.WebApp.BackButton.hide()
-      window.Telegram.WebApp.MainButton.hide()
-    })
-  }
-})
 
 </script>
 
 <template>
+  
   <HeadderApp v-if="!isInBot" />
 
   <aside v-if="!isInBot">
@@ -39,6 +24,7 @@ onMounted(async () => {
 
   <main class="layout-wrapper" v-if="!isInBot">
     <div class="layout-content" v-if="!isInBot">
+      
       <RouterView v-if="!isInBot" />
     </div>
 
@@ -118,4 +104,5 @@ aside {
 
 
 
-}</style>
+}
+</style>
