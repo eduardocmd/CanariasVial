@@ -1,0 +1,12 @@
+[
+    {
+        "route": "/",
+        "name": "home",
+        "icon": "src/assets/icons/home.svg"
+    },
+    {
+        "route": "/alertas",
+        "name" : "alertas",
+        "icon": "<svg version=\"1.1\" id=\"svg105\" width=\"682.66669\" height=\"682.66669\" viewBox=\"0 0 682.66669 682.66669\" xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\" xmlns:sodipodi=\"http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\">...</svg>"
+    }
+]
