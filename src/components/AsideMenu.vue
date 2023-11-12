@@ -2,10 +2,10 @@
     <aside>
 
         <ul>
-            <RouterLink v-for="(site) in sitemap " :key="site.name" :to="{ name: site.name }">
-                <li :class="{ 'selected': site.name === currentRouteName }" >
-                    img
-              
+            <RouterLink class="links" v-for="(site) in sitemap " :key="site.name" :to="{ name: site.name }">
+                <li :class="{ 'selected': site.name === currentRouteName }">
+                    <div class="fill"></div>
+                    <component :is="Icono(site.name)" />
                 </li>
             </RouterLink>
         </ul>
@@ -26,42 +26,72 @@ aside {
     padding: 1rem;
 
 
-    ul {
-        position: relative;
+}
 
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        padding: 0;
-        align-items: center;
-        margin: 0;
-        list-style: none;
+ul {
+    position: relative;
+
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 0;
+    align-items: center;
+    margin: 0;
+    list-style: none;
 
 
-        li {
-            padding: 0.5rem 2rem;
-            border-radius: 5rem;
-            display: flex;
 
-            align-items: center;
-
-            svg {
-                width: 20px;
-                height: 20px;
-                fill: var(--color-text);
-
-            }
-
-        }
-
-    }
-
-    li.selected {
-        background-color: var(--color-primary);
-
-    }
 
 }
+
+li {
+    display: flex;
+    align-items: center;
+
+}
+
+svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: var(--color-text);
+    z-index: 1;
+
+}
+
+li {
+    position: relative;
+    padding: 0.5rem 2rem;
+    box-sizing: border-box;
+
+}
+
+.fill {
+    border-radius: 5rem;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    left: 50%;
+    /* Posicionado en el centro */
+    transform: translateX(-50%);
+    /* Centrado horizontalmente */
+    height: 100%;
+    width: 40%;
+    background-color: var(--color-hint);
+    z-index: 0;
+    transition: all 0.3s ease;
+  
+    /* Transición solo en el ancho */
+}
+
+
+li.selected .fill {
+    
+    width: 100%;
+    opacity: 1;
+}
+
+
+
 
 
 @media screen and (min-width: 768px) {
@@ -78,40 +108,59 @@ aside {
 
         width: var(--menu-size);
 
-        ul {
 
-            height: 70%;
-            align-items: center;
-
-            flex-direction: column;
-
-            li {
-           
-
-            svg {
-                width: 40px;
-                height: 40px;
-             
-
-            }
-
-        }
-        }
     }
+
+    ul {
+
+        height: 70%;
+        align-items: center;
+
+        flex-direction: column;
+    }
+
+
+
+
+
+    svg {
+        width: 3rem;
+        height: 3rem;
+
+
+
+    }
+
+
 
 
 
 }
 </style>
 <script setup lang="ts">
-import { computed } from 'vue';
 
+import { computed } from 'vue';
+import Home from '@/components/icons/HomeIcon.vue'
+import Alerta from '@/components/icons/AlertaIcon.vue'
 import { useRoute } from 'vue-router';
 import sitemap from '@/router/sitemap.json'
 const currentRoute = useRoute();
 const currentRouteName = computed(() => {
     return currentRoute.name || '/';
 });
+
+const Icono: any = (url: string) => {
+
+    switch (url) {
+        case 'home':
+            return Home
+        case 'alertas':
+            return Alerta
+        default:
+            return Home
+    }
+
+}
 
 
 

@@ -24,7 +24,7 @@ const isInBot = computed(() => {
     <div class="layout-content" v-if="!isInBot">
 
       <RouterView v-if="!isInBot" />
-<FooterWeb/>
+<FooterWeb v-if="!isInBot"/>
     </div>
 
   </main>

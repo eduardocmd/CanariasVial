@@ -18,22 +18,25 @@ header {
     padding: 0.5rem;
     max-width: 100%;
 
-    #header-text {
-      
 
-        h2 {
-            color: var(--color-primary);
-        }
+}
 
-        margin: auto;
-        text-align: center;
-        h2,
-        h1 {
-            
-            margin: 0;
-        }
+#header-text {
+    margin: auto;
+    text-align: center;
+}
 
-    }
+
+#header-text h2 {
+    color: var(--color-primary);
+}
+
+
+
+#header-text h2,
+h1 {
+
+    margin: 0;
 }
 
 
@@ -66,15 +69,19 @@ header {
         width: 100%;
         left: 0;
         z-index: 1;
-        h1{
-            font-size: 3rem;
-        }
-        h2{
-            font-size: 1.5rem;
-        }
 
 
 
+
+
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
     }
 
 }
