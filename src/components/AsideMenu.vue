@@ -3,7 +3,7 @@
 
         <ul>
             <RouterLink class="links" v-for="(site) in sitemap " :key="site.name" :to="{ name: site.name }">
-                <li :class="{ 'selected': site.name === currentRouteName }">
+                <li :title="site.name" :class="{ 'selected': site.name === currentRouteName }">
                     <div class="fill"></div>
                     <component :is="Icono(site.name)" />
                 </li>
@@ -22,7 +22,7 @@ aside {
     background-color: var(--color-background-soft);
     left: 50%;
     transform: translateX(-50%);
-
+    z-index: 99999;
     padding: 1rem;
 
 
@@ -79,13 +79,13 @@ li {
     background-color: var(--color-hint);
     z-index: 0;
     transition: all 0.3s ease;
-  
+
     /* Transición solo en el ancho */
 }
 
 
 li.selected .fill {
-    
+
     width: 100%;
     opacity: 1;
 }
@@ -124,8 +124,8 @@ li.selected .fill {
 
 
     svg {
-        width: 3rem;
-        height: 3rem;
+        width: 2.5rem;
+        height: 2.5rem;
 
 
 
@@ -141,6 +141,7 @@ li.selected .fill {
 
 import { computed } from 'vue';
 import Home from '@/components/icons/HomeIcon.vue'
+import About from '@/components/icons/AboutIcon.vue'
 import Alerta from '@/components/icons/AlertaIcon.vue'
 import { useRoute } from 'vue-router';
 import sitemap from '@/router/sitemap.json'
@@ -156,6 +157,8 @@ const Icono: any = (url: string) => {
             return Home
         case 'alertas':
             return Alerta
+        case 'about':
+            return About
         default:
             return Home
     }

@@ -7,6 +7,8 @@ import SettingsView from '../views/bot/SettingsBotView.vue'
 import CamerasView from '../views/bot/CamerasView.vue'
 import AdminMenu from '../views/bot/AdminView.vue';
 import Alertas from '../views/AlertasView.vue';
+import About from '@/views/AboutView.vue'
+import RoadMap from '@/views/RoadMapView.vue';
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -20,6 +22,18 @@ const router = createRouter({
       path: '/alertas',
       name: 'alertas',
       component: Alertas,
+
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
+
+    },
+    {
+      path: '/roadmap',
+      name: 'roadmap',
+      component: RoadMap,
 
     },
 

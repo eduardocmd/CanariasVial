@@ -13,7 +13,8 @@ header {
     background-color: var(--color-background-soft);
     overflow: hidden;
     display: flex;
-
+    position: relative;
+    
     align-items: center;
     padding: 0.5rem;
     max-width: 100%;
@@ -52,6 +53,7 @@ h1 {
     border-radius: 50%;
     background-repeat: no-repeat;
     flex-shrink: 0;
+    position: absolute;
 
 }
 
@@ -59,6 +61,7 @@ h1 {
     #logo {
         width: 100px;
         height: 100px;
+   
     }
 
     header {
