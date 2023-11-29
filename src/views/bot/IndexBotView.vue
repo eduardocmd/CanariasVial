@@ -1,11 +1,7 @@
 <template>
   <main>
-    <section v-if="status === 0">
-      <!--Estado cargando-->
-      <span class="loader"></span>
-
-    </section>
-    <section v-if="status === 200">
+   
+    <section >
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
         <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'bot-adminmemu' }">
@@ -18,8 +14,6 @@
       </header>
       <!--Estado funciona el server-->
 
-
-
       <AlertsSelector :isla="IslaFavorite" />
       <RouterLink :to="{ name: 'bot-settings' }">
         <article id="ajustes">
@@ -28,20 +22,14 @@
         </article>
       </RouterLink>
     </section>
-    <section v-if="status === 500">
-      <!--No funciona el server-->
-      <div id="dont-work">
-        <h2>Error 500</h2>
-        <p>Opss... Los servidores no funcionan correctamente</p>
-      </div>
-    </section>
+   
 
     <p id="version">Bot Alertas Canarias Vial - WebApp v{{ versionWebApp }} </p>
   </main>
 </template>
 <script setup lang="ts">
 import('../../assets/basebot.css');
-import * as api_request from "@/api_request"
+import * as userService from '@/services/user'
 import AlertsSelector from "@/components/bot/AlertsSelector.vue"
 import type { Isla } from "@/models/Isla"
 import { ref, onMounted } from "vue"
@@ -54,10 +42,9 @@ const intancia = ref('')
 const IslaFavorite = ref()
 const userFromDb = ref<UserType>()
 
-let status = ref(0)
+
 
 onMounted(async () => {
-
 
 
 
@@ -79,24 +66,17 @@ onMounted(async () => {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
 
   }
-  //Comprobar si los servidores funcinan Status retorna un boolean a true.
 
+if(!dataUser) return
+  const userInDb = await userService.telegramUserInDB(dataUser.id)
 
-  let newstatus = await api_request.getStatus()
-  if (newstatus != 200) {
-    status.value = newstatus
-    return
-  }
-
-  if (!dataUser) return
-  const userInDb = await api_request.checkUser(dataUser, window.Telegram.WebApp.initData)
   //Si no hay usuario crear
 
   if (userInDb.status === 404)
-
+  
     window.Telegram.WebApp.showConfirm(`Vamos a registrar tus datos básicos:\nIdTelegram: ${dataUser?.id}\nNombre: ${dataUser?.first_name}\nApellido: ${dataUser?.last_name}\n`, ((confirm) => {
       if (confirm) {
-        api_request.createUser(dataUser, window.Telegram.WebApp.initData)
+        userService.createUser(dataUser)
       } else {
         window.Telegram.WebApp.close()
       }
@@ -112,21 +92,22 @@ onMounted(async () => {
     let findedIsle = islas.find((isl: Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
     if (findedIsle) {
       IslaFavorite.value = findedIsle
-      status.value = newstatus
+      
       return
     }
 
   }
 
-  let getUser = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
+  let getUser = await userService.getUserFromIdTelegram(dataUser.id)
   userFromDb.value = getUser.data
+  console.log(userFromDb)
   let findedIsle = islas.find((isl: Isla) => isl.id === getUser.data.favorite_isle)
   if (findedIsle) IslaFavorite.value = findedIsle
 
 
 
 
-  status.value = newstatus
+
 })
 
 
