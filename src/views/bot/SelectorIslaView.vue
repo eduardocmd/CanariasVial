@@ -11,7 +11,9 @@
 
 
 import { onMounted, ref } from 'vue';
-import * as api_request from "@/api_request"
+
+import * as userService from '@/services/user'
+import * as islaService from '@/services/isla'
 import listaIslas from "@/islas.json"
 import router from '@/router';
 //Models
@@ -27,7 +29,7 @@ const selectIsle = (selectedIsla: Isla) => {
 const saveIsla = async () => {
 
     let islaSelected = islas.value.find((i) => i.select === true)
-    if (islaSelected && userFromDb.value?._id) await api_request.saveFavoriteIsle(islaSelected.id, window.Telegram.WebApp.initData, userFromDb.value._id)
+    if (islaSelected && userFromDb.value?._id) await islaService.saveFavoriteIsle(islaSelected.id, userFromDb.value._id)
     window.Telegram.WebApp.MainButton.hide()
     router.push({ name: 'bot' });
 }
@@ -41,7 +43,8 @@ onMounted(async () => {
     })
 
     let dataUser = window.Telegram.WebApp.initDataUnsafe.user
-    let user = await api_request.getUserFromIdTelegram(dataUser, window.Telegram.WebApp.initData)
+    if(!dataUser) return
+    let user = await userService.getUserFromIdTelegram(dataUser.id )
     userFromDb.value = user.data
     //Autoseleccionar isla si el usuario tenía ya una seleccionada
     let findedIsle = islas.value.find((isla) => isla.id == userFromDb.value?.favorite_isle)

@@ -48,7 +48,7 @@ export const getAlertas = async () : Promise<ApiResponse> => {
     };
     const configuracion = {
   
-      method: 'POST',
+      method: 'POST••••••••',
       url: `${import.meta.env.VITE_APP_Web_IP}/alertas/pendingbyuser`,
       data: {
         id_usuario: idUser,

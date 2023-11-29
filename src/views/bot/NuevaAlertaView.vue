@@ -35,7 +35,6 @@ const availableAlert = ref(false)
 const msgResponse = ref('')
 onMounted(async () => {
   window.Telegram.WebApp.BackButton.onClick(() => {
-
 router.back()
 window.Telegram.WebApp.BackButton.hide()
 window.Telegram.WebApp.MainButton.hide()
