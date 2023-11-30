@@ -1,46 +1,14 @@
 # AlertasCanariasVial
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+¿Qué es Canarias Vial?
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Canarias Vial es un proyecto personal enfocado en alertas de tráfico.
+¿Por qué alertas de tráfico?
+Como desarrollador, me apasiona la tecnología y su capacidad para mejorar nuestras vidas diarias. Inicié CanariasVial (previamente AlertasTráficoTnf) con la idea de compartir información sobre alertas de tráfico, contribuyendo al mundo de la programación y ofreciendo un servicio valioso a quienes comparten mi interés en el tráfico y la movilidad.
+¿Quién está detrás de Canarias Vial?
 
-## Type Support for `.vue` Imports in TS
+Soy Eduardo, Desarrollador web.Completé mi ciclo superior en DAW y, desde entonces, he continuado mi aprendizaje de manera autodidacta.Este proyecto es mi manera de contribuir al mundo de la programación y, al mismo tiempo, ofrecer un servicio valioso a quienes comparten mi interés en el tráfico y la movilidad.
+Únete a la Comunidad Canarias Vial
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Canarias Vial es un lugar donde la información fluye libremente. Únete a nuestra comunidad para compartir y recibir alertas de tráfico en tiempo real. ¡Hagamos juntos nuestras carreteras más seguras! ¡Gracias por ser parte de esta emocionante travesía!
