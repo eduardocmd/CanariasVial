@@ -28,9 +28,8 @@ const isInBot = computed(() => {
     </div>
 
   </main>
--->
-<RouterView v-if="!isInBot" />
 
+ 
   <!--Vista para el bot-->
   <RouterView v-if="isInBot" />
 </template>
