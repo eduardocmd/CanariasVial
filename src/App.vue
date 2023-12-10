@@ -47,7 +47,7 @@ const isInBot = computed(() => {
   border-top: 1px solid var(--surface-border);
   overflow: auto;
 
-  padding: 2rem;
+  padding: 1.5rem;
   background-color: var(--color-background);
   border-top-left-radius: 20px;
   box-shadow: inset 0 3px 4px #0000001a;
@@ -60,7 +60,7 @@ const isInBot = computed(() => {
     border-top: 1px solid var(--surface-border);
     overflow: auto;
     height: calc(100vh - var(--menu-size));
-    padding: 2rem;
+    padding: 1rem;
     background-color: var(--color-background);
     border-top-left-radius: 20px;
     box-shadow: inset 0 3px 4px #0000001a;

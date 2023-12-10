@@ -14,7 +14,7 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
-import { sendAlert } from "@/api_request"
+
 import type { AlertaType } from '@/models/Alerts'
 import type { UserType } from '@/models/TelegramUser'
 import islas from '@/islas.json'
@@ -88,9 +88,6 @@ window.Telegram.WebApp.MainButton.hide()
 
 })
 
-
-
-
 window.Telegram.WebApp.MainButton.onClick(async () => {
   //Methods
   if (alerta.value) {
@@ -106,8 +103,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
       tipo_alerta: tipoAlerta
     }
     if (!window.Telegram.WebApp.initDataUnsafe.user) return
-    let sendedAlert = await sendAlert(nuevalerta, window.Telegram.WebApp.initData, window.Telegram.WebApp.initDataUnsafe.user)
-
+    let sendedAlert = await alertService.sendAlert(nuevalerta, window.Telegram.WebApp.initDataUnsafe.user)
     window.Telegram.WebApp.MainButton.hide()
     window.Telegram.WebApp.MainButton.hideProgress()
     window.Telegram.WebApp.MainButton.enable()

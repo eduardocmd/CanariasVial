@@ -17,12 +17,16 @@
     </main>
 </template>
 <script lang="ts" setup>
-import * as api_request from "@/api_request"
+
+import * as alertasService from "@/services/alertas"
 import type { AlertaType } from "@/models/Alerts";
 import { onMounted, ref } from "vue";
 const alertas = ref<Array<AlertaType>>()
     const aceptarAlerta = async (id: string) => {
-       let response =  await api_request.acceptAlert(id, window.Telegram.WebApp.initData)
+       
+       let response =  await alertasService.acceptAlert(id)
+     
+      
        if(response.status === 200) obtenerAlertas()
     }
 onMounted(() => {
@@ -32,7 +36,7 @@ onMounted(() => {
 })
 
 const obtenerAlertas = async() => {
-    let respuesta = await api_request.getAlerts('pending', window.Telegram.WebApp.initData, window.Telegram.WebApp.initDataUnsafe)
+    let respuesta = await alertasService.getAlertsByType('pending', window.Telegram.WebApp.initDataUnsafe)
     alertas.value = respuesta.data
 } 
 

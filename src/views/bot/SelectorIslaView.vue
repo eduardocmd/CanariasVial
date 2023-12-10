@@ -8,10 +8,7 @@
     </main>
 </template>
 <script setup lang="ts">
-
-
 import { onMounted, ref } from 'vue';
-
 import * as userService from '@/services/user'
 import * as islaService from '@/services/isla'
 import listaIslas from "@/islas.json"
@@ -27,13 +24,11 @@ const selectIsle = (selectedIsla: Isla) => {
     });
 }
 const saveIsla = async () => {
-
     let islaSelected = islas.value.find((i) => i.select === true)
     if (islaSelected && userFromDb.value?._id) await islaService.saveFavoriteIsle(islaSelected.id, userFromDb.value._id)
     window.Telegram.WebApp.MainButton.hide()
     router.push({ name: 'bot' });
 }
-
 onMounted(async () => {
 
     //Reset - Es necesario ya que vue guarda una caché, cuando se va para atrás y se vuelve a entrar se seleccionarían

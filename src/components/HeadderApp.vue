@@ -10,6 +10,7 @@
 </template>
 <style scoped>
 header {
+    font-family: Norwester;
     background-color: var(--color-background-soft);
     overflow: hidden;
     display: flex;

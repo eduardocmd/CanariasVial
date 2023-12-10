@@ -9,6 +9,7 @@ import AdminMenu from '../views/bot/AdminView.vue';
 import Alertas from '../views/AlertasView.vue';
 import About from '@/views/AboutView.vue'
 import RoadMap from '@/views/RoadMapView.vue';
+import CookiesView from '@/views/CookiesView.vue'
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -34,6 +35,12 @@ const router = createRouter({
       path: '/roadmap',
       name: 'roadmap',
       component: RoadMap,
+
+    },
+    {
+      path: '/cookies',
+      name: 'cookies',
+      component: CookiesView,
 
     },
 

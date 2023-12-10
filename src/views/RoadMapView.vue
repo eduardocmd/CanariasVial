@@ -56,13 +56,16 @@ p {
 
 .things {
     display: flex;
+   
     flex-wrap: wrap;
 
 }
 
 .thing {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     text-align: center;
+    justify-content: center;
     border-radius: 2rem;
     background-color: var(--color-hint);
     padding: 0.5rem 2rem;
@@ -71,7 +74,11 @@ p {
     font-weight: bold;
     border-radius: 2rem;
     background-color: var(--color-hint);
-    padding: 0.5rem 2rem;
+    padding: 0.5rem 1.5rem;
+    min-height: 40px;
+    min-width: 200px;
+    
+   
 }
 
 #line {
@@ -89,16 +96,7 @@ main#roadmap {
     position: relative;
 
 }
-.circle-down{
-    background-color: var(--color-primary);
-    height: 20px;
-    width: 20px;
-    position: absolute;
-    bottom: 0;
-    border-radius: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-}
+
 
 </style>
 
@@ -115,7 +113,7 @@ const roadmap = [
                 quarter: "Q2",
                 things: [
                     {
-                        thing: "Area de noticias",
+                        thing: "Ubicación en las alertas",
                         icon: ''
                     }
                 ]
