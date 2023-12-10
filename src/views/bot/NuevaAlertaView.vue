@@ -12,16 +12,16 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import * as api_request from "@/api_request"
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
-import { sendAlert } from "@/api_request"
+
 import type { AlertaType } from '@/models/Alerts'
 import type { UserType } from '@/models/TelegramUser'
 import islas from '@/islas.json'
 import type { Isla } from "@/models/Isla"
-
-
+import * as userService from "@/services/user";
+import * as alertService from "@/services/alertas"
+import router from '@/router'
 // Obtén la información de la ruta actual
 const route = useRoute()
 const ruta = ref()
@@ -34,15 +34,24 @@ const availableAlert = ref(false)
 //Mensaje 
 const msgResponse = ref('')
 onMounted(async () => {
+  window.Telegram.WebApp.BackButton.onClick(() => {
+router.back()
+window.Telegram.WebApp.BackButton.hide()
+window.Telegram.WebApp.MainButton.hide()
+})
   alerta.value = ''
-  let response = await api_request.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user, window.Telegram.WebApp.initData)
+  if(!window.Telegram.WebApp.initDataUnsafe.user) return
+  let response = await userService.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user.id)
   user.value = response.data
   //Lo primero comprobar si tiene alertas pendientes de aceptar
   if (user.value) {
-    let responseisActive = await api_request.isActiveAlerts(user.value?._id, window.Telegram.WebApp.initData)
+  
+    let responseisActive = await alertService.pendingByUser(user.value?._id)
     if (responseisActive.status === 200) availableAlert.value = responseisActive.data
     //Si hay una alerta activa   
-    if (availableAlert.value) msgResponse.value = "Ya has publicado una alerta hace menos de 5m"
+    
+    let resto = new Date(responseisActive.data).getTime() - new Date().getTime() + 5 * 60 * 1000;
+    if (availableAlert.value) msgResponse.value = `No puedes enviar alertas en menos de 5m.Tiempo restante: ${Math.floor(resto / (1000 * 60))}m y ${Math.floor(resto / 1000)  % 60}s`
 
     if (!availableAlert.value) {
       window.Telegram.WebApp.setHeaderColor("bg_color")
@@ -79,9 +88,6 @@ onMounted(async () => {
 
 })
 
-
-
-
 window.Telegram.WebApp.MainButton.onClick(async () => {
   //Methods
   if (alerta.value) {
@@ -97,8 +103,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
       tipo_alerta: tipoAlerta
     }
     if (!window.Telegram.WebApp.initDataUnsafe.user) return
-    let sendedAlert = await sendAlert(nuevalerta, window.Telegram.WebApp.initData, window.Telegram.WebApp.initDataUnsafe.user)
-
+    let sendedAlert = await alertService.sendAlert(nuevalerta, window.Telegram.WebApp.initDataUnsafe.user)
     window.Telegram.WebApp.MainButton.hide()
     window.Telegram.WebApp.MainButton.hideProgress()
     window.Telegram.WebApp.MainButton.enable()
@@ -132,7 +137,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
   display: block;
   outline: none;
   border: none;
-  form-sizing: content;
+
   border-radius: var(--border-radius);
   resize: none;
   color: var(--text-color);

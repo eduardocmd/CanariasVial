@@ -5,9 +5,16 @@
 <template>
 
 <main>
-  <h1>Web en construccion 🔨</h1>
-  <img src="../../public/logo.png" alt="">
+<h2>Bienvenido a la web de <span class="title">Canarias Vial</span></h2>
 
+<div class="d-flex ">
+            <a href="https://t.me/+6cbnkbEqc4ZjMWNk" target="_blank">     <p class="enlaces">Chat oficial <img class="logo"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/240px-Telegram_logo.svg.png"
+                    alt=""></p></a>
+           <a href="https://t.me/+e9VvKdtdrPRiMjJk" target="_blank"> <p class="enlaces">Alertas canal <img class="logo"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/240px-Telegram_logo.svg.png"
+                    alt=""></p></a>
+        </div>
 </main>
 
 </template>
@@ -20,13 +27,13 @@ h1{
   transform: translate(-50%, -50%);
 }
 
-img{
-  position: fixed;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80px;
-  height: 80px;
+.logo {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
 }
+
+
+
 
 </style>
