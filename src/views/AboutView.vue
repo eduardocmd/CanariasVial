@@ -75,17 +75,7 @@ header {
 
 }
 
-.enlaces {
-    max-width: 130px;
-    text-align: center;
-    margin: 1rem 0.5rem;
-    
-    font-weight: bold;
-    font-size: 0.8rem;
-    border-radius: 2rem;
-    background-color: var(--color-hint);
-    padding: 0.5rem 2rem;
-}
+
 </style>
 <script setup lang="ts">
 import xLogo from '@/components/icons/xLogo.vue';

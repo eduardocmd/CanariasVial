@@ -2,9 +2,11 @@
   <main class="alertas">
 
     <section class="alerta" v-for="alerta in alertas" :key="alerta._id">
-
-      <img class="alerta-image" :src="getImagen(alerta.tipo_alerta)" alt="Imagen de la alerta" />
+      <div class="data">
+        <img class="alerta-image" :src="getImagen(alerta.tipo_alerta)" alt="Imagen de la alerta" />
       <h3> {{ alerta.alerta }} </h3>
+      </div>
+
       <p>{{ fecha(alerta) }}</p>
 
 
@@ -13,7 +15,21 @@
   </main>
 </template>
 <style scoped>
+.data{
+  width: 100%;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+word-wrap: break-word; /* Permite dividir palabras largas */
+
+
+}
+.data h3 {
+  width: 100%;
+  font-size: 1.1rem;
+}
 .alerta-image {
+
   width: 80px;
   height: 80px;
   margin-right: 2rem;
@@ -21,7 +37,9 @@
 
 .alerta {
   display: flex;
-  flex-wrap: wrap;
+flex-wrap: wrap;
+overflow: hidden;
+  justify-content: space-between;
   align-items: center;
   margin: 1rem auto;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -33,6 +51,19 @@
   p{
     margin: 0 2rem;
   }
+}
+@media screen and (min-width: 600px) {
+.data{
+  flex-wrap: nowrap;
+  width: auto;
+}
+  .data h3 {
+   
+  width: auto;
+
+}
+
+
 }
 </style>
 <script lang="ts" setup>
@@ -70,7 +101,7 @@ const fecha = (alerta: AlertaType) => {
   const formatoMinutos = minutos < 10 ? `0${minutos}` : minutos;
 
   // Construir la cadena de fecha formateada
-  const fechaFormateada = `${formatoDia}/${formatoMes}/${año} ${formatoHoras}:${formatoMinutos}`;
+  const fechaFormateada = ` ${formatoHoras}:${formatoMinutos}  ${formatoDia}/${formatoMes}/${año}`;
 
   return fechaFormateada;
 }

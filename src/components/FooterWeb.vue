@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <p>Canarias Vial</p>
+        <p class="title">Canarias Vial</p>
     </footer>
 </template>
 <style scoped>
@@ -10,5 +10,8 @@ footer{
     height: 200px;
     display: flex;
     justify-content: end;
+}
+.title{
+       font-family: Norwester;
 }
 </style>
