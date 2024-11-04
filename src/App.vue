@@ -1,20 +1,3 @@
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from "vue-router";
-import HeadderApp from "@/components/HeadderApp.vue"
-import FooterWeb from "@/components/FooterWeb.vue"
-import AsideMenu from './components/AsideMenu.vue';
-
-
-// Obtén la información de la ruta actual
-const route = useRoute();
-
-const isInBot = computed(() => {
-  return route.meta.hideHeader === true;
-});
-
-</script>
-
 <template>
   <HeadderApp v-if="!isInBot" />
   <AsideMenu v-if="!isInBot"/>
@@ -33,6 +16,22 @@ const isInBot = computed(() => {
   <!--Vista para el bot-->
   <RouterView v-if="isInBot" />
 </template>
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useRoute } from "vue-router";
+import HeadderApp from "@/components/HeadderApp.vue"
+import FooterWeb from "@/components/FooterWeb.vue"
+import AsideMenu from './components/AsideMenu.vue';
+
+
+// Obtén la información de la ruta actual
+const route = useRoute();
+
+const isInBot = computed(() => {
+  return route.meta.hideHeader === true;
+});
+
+</script>
 
 <style scoped>
 .layout-content {
