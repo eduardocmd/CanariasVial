@@ -10,7 +10,7 @@
     </main>
 </template>
 <script setup lang="ts">
-
+import('@/assets/basebot.css');
 import { onMounted } from 'vue';
 
 onMounted(async () => {

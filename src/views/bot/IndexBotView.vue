@@ -28,7 +28,7 @@
   </main>
 </template>
 <script setup lang="ts">
-import('../../assets/basebot.css');
+import('@/assets/basebot.css');
 import * as userService from '@/services/user'
 import AlertsSelector from "@/components/bot/AlertsSelector.vue"
 import type { Isla } from "@/models/Isla"

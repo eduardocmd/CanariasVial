@@ -30,14 +30,20 @@ body {
   font-family: Norwester;
   src: url("norwester.otf") format("opentype");
 }
+@font-face {
+  font-family: SF-Pro-Rounded-Regular;
+  src: url("SF-Pro-Rounded-Regular.otf") format("opentype");
+}
+
+
 
 body {
   color: var(--color-text);
   background: var(--color-background-soft);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
-  font-family:  'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: SF-Pro-Rounded-Regular;
+
 
 
 }

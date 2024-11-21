@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import ObjetCamaraVue from '@/components/bot/ObjetCamara.vue';
 import camaras from '@/camaras.json'
-
+import('../../assets/basebot.css');
 
 
 </script>

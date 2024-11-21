@@ -14,7 +14,7 @@
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
-
+import('@/assets/basebot.css');
 import type { AlertaType } from '@/models/Alerts'
 import type { UserType } from '@/models/TelegramUser'
 import islas from '@/islas.json'
@@ -119,6 +119,7 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
 
 </script>
 <style scoped>
+
 .msg {
   text-align: center;
 }
