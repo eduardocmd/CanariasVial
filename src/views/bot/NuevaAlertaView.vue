@@ -1,17 +1,43 @@
 <template>
+<main>
   <section v-if="!availableAlert" id="datosAlerta">
-    <h2>Alerta - {{ ruta }}</h2>
+    <h2>Publicar <span v-if="alertSelect"> {{ alertSelect.tipo }}</span> </h2>
+   
+
+    <AlertsSelector @alertaSeleccionada="handleAlertChange"  :isla="islaSelect" ></AlertsSelector>
     <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
       style="overflow: hidden; overflow-wrap: break-word; "></textarea>
+       <!-- Botón de micrófono -->
+       <button
+        @click="toggleRecognition"
+        :disabled="recognitionActive"
+        style="
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background-color: #0088cc; /* Color de Telegram */
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 18px;
+          cursor: pointer;
+        "
+      >
+        🎤
+      </button>
+      <p v-if="recognitionActive" style="margin-top: 10px; color: green;">🎙️ Reconociendo...</p>
   </section>
   <section v-else id="salidaAlerta">
     <h1 class="msg">{{ msgResponse }}</h1>
     <div class="clock"></div>
   </section>
+</main>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, type Ref } from "vue";
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
 import('@/assets/basebot.css');
@@ -22,6 +48,7 @@ import type { Isla } from "@/models/Isla"
 import * as userService from "@/services/user";
 import * as alertService from "@/services/alertas"
 import router from '@/router'
+import AlertsSelector from "@/components/bot/AlertsSelector.vue";
 // Obtén la información de la ruta actual
 const route = useRoute()
 const ruta = ref()
@@ -29,10 +56,56 @@ const islaSelect = ref()
 const user = ref<UserType>()
 ruta.value = route.params.tipo
 const alerta = ref('')
+const alertSelect = ref<any>(null);  // Almacenará el tipo de alerta seleccionada
+  const handleAlertChange = (alertaSeleccionada: Ref) => {
+    alertSelect.value = alertaSeleccionada.value;
+    window.Telegram.WebApp.MainButton.setParams({
+        color: alertSelect.value.color,
+       
+      })
+};
 //Si no está disponible
 const availableAlert = ref(false)
 //Mensaje 
 const msgResponse = ref('')
+const recognitionActive = ref(false); // Indica si el micrófono está activo
+let recognition: any; // Objeto de reconocimiento de voz
+const transcript = ref(""); // Contenido transcrito
+// Configuración del reconocimiento de voz
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+
+  recognition.lang = "es-ES"; // Idioma español
+  recognition.continuous = false; // Continuar sin detenerse
+  recognition.interimResults = false; // Solo resultados finales
+
+  // Manejo de los resultados
+  recognition.onresult = (event: any) => {
+    const result = event.results[event.results.length - 1][0].transcript;
+    alerta.value += result + " ";
+  };
+
+  recognition.onerror = (event: any) => {
+    console.error("Error en el reconocimiento:", event.error);
+    recognitionActive.value = false;
+  };
+
+  recognition.onend = () => {
+    recognitionActive.value = false; // Detener reconocimiento
+  };
+}
+
+// Función para iniciar/detener el reconocimiento
+const toggleRecognition = () => {
+  if (recognitionActive.value) {
+    recognition.stop();
+  } else {
+    recognition.start();
+    recognitionActive.value = true;
+  }
+};
+
 onMounted(async () => {
   window.Telegram.WebApp.BackButton.onClick(() => {
 router.back()
@@ -54,13 +127,13 @@ window.Telegram.WebApp.MainButton.hide()
     if (availableAlert.value) msgResponse.value = `No puedes enviar alertas en menos de 5m.Tiempo restante: ${Math.floor(resto / (1000 * 60))}m y ${Math.floor(resto / 1000)  % 60}s`
 
     if (!availableAlert.value) {
-      window.Telegram.WebApp.setHeaderColor("bg_color")
+    //  window.Telegram.WebApp.setHeaderColor("bg_color")
       window.Telegram.WebApp.BackButton.show()
       window.Telegram.WebApp.MainButton.show()
       window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
       let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
       window.Telegram.WebApp.MainButton.setParams({
-        color: alertaF[0].color
+        color: 'rgb(78, 78, 78)',
       })
     }
  
@@ -119,7 +192,10 @@ window.Telegram.WebApp.MainButton.onClick(async () => {
 
 </script>
 <style scoped>
+main{
+  padding: 1rem;
 
+}
 .msg {
   text-align: center;
 }

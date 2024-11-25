@@ -1,6 +1,5 @@
 <template>
   <main>
-   
     <section >
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
@@ -10,11 +9,11 @@
         <RouterLink :to="{ name: 'bot-cameras' }">
           <img id="camera" src="@/assets/camara.svg">
         </RouterLink>
-
       </header>
-      <!--Estado funciona el server-->
-
-      <AlertsSelector :isla="IslaFavorite" />
+      <section>
+        <mainButtton @click="irNuevaAlerta()" valueText="Nueva Alerta" />
+        <mainButtton valueText="Cámaras de tráfico" />
+      </section>
       <RouterLink :to="{ name: 'bot-settings' }">
         <article id="ajustes">
           <div id="ajustesico"></div>
@@ -22,15 +21,13 @@
         </article>
       </RouterLink>
     </section>
-   
-
     <p id="version">Bot Alertas Canarias Vial - WebApp v{{ versionWebApp }} </p>
   </main>
 </template>
 <script setup lang="ts">
 import('@/assets/basebot.css');
 import * as userService from '@/services/user'
-import AlertsSelector from "@/components/bot/AlertsSelector.vue"
+import mainButtton from '@/components/assets/mainButtton.vue';
 import type { Isla } from "@/models/Isla"
 import { ref, onMounted } from "vue"
 import islas from '@/islas.json'
@@ -42,12 +39,7 @@ const intancia = ref('')
 const IslaFavorite = ref()
 const userFromDb = ref<UserType>()
 
-
-
 onMounted(async () => {
-
-
-
   window.Telegram.WebApp.ready()
   window.Telegram.WebApp.BackButton.onClick(() => {
 
@@ -111,7 +103,14 @@ if(!dataUser) return
 })
 
 
+const irNuevaAlerta = ()=> {
 
+if(IslaFavorite.value){
+ router.push({ name: 'bot-nuevaalerta'});
+}else{
+ router.push({ name: 'bot-selectorisla'});
+}
+}
 
 
 </script>

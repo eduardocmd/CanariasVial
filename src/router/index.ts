@@ -79,8 +79,8 @@ const router = createRouter({
       meta: { hideHeader: true, noCache: true }
     },
     {
-      path: '/bot/nuevaalerta/:tipo',
-      name: 'bot-nuevaalerta:tipo',
+      path: '/bot/nuevaalerta/',
+      name: 'bot-nuevaalerta',
       component: NuevaAlerta,
       meta: { hideHeader: true, noCache: true }
     }
