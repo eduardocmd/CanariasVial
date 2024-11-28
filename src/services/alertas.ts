@@ -42,7 +42,7 @@ export const getAlertas = async () : Promise<ApiResponse> => {
   
   }
 
-  export const pendingByUser = async (idUser: string) : Promise<ApiResponse> => {
+  export const refreshTime = async (idUser: string) : Promise<ApiResponse> => {
 
     let salida: ApiResponse = {
       status: 500,
@@ -51,7 +51,7 @@ export const getAlertas = async () : Promise<ApiResponse> => {
     const configuracion = {
   
       method: 'POST',
-      url: `${import.meta.env.VITE_APP_Web_IP}/alertas/pendingbyuser`,
+      url: `${import.meta.env.VITE_APP_Web_IP}/alertas/refreshTime`,
       data: {
         id_usuario: idUser,
       }, 

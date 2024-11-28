@@ -1,17 +1,13 @@
 <template>
-<main>
-  <section v-if="!availableAlert" id="datosAlerta">
-    <h2>Publicar <span v-if="alertSelect"> {{ alertSelect.tipo }}</span> </h2>
-   
+  <main>
+    <section v-if="!pendingAlert" id="datosAlerta">
+      <h2>Publicar <span v-if="alertSelect"> {{ alertSelect.tipo }}</span> </h2>
 
-    <AlertsSelector @alertaSeleccionada="handleAlertChange"  :isla="islaSelect" ></AlertsSelector>
-    <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
-      style="overflow: hidden; overflow-wrap: break-word; "></textarea>
-       <!-- Botón de micrófono -->
-       <button
-        @click="toggleRecognition"
-        :disabled="recognitionActive"
-        style="
+      <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
+      <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
+        style="overflow: hidden; overflow-wrap: break-word; "></textarea>
+      <!-- Botón de micrófono -->
+      <button @click="toggleRecognition" :disabled="recognitionActive" style="
           width: 50px;
           height: 50px;
           border-radius: 50%;
@@ -23,20 +19,20 @@
           color: white;
           font-size: 18px;
           cursor: pointer;
-        "
-      >
+        ">
         🎤
       </button>
       <p v-if="recognitionActive" style="margin-top: 10px; color: green;">🎙️ Reconociendo...</p>
-  </section>
-  <section v-else id="salidaAlerta">
-    <h1 class="msg">{{ msgResponse }}</h1>
-    <div class="clock"></div>
-  </section>
-</main>
+    </section>
+    <section v-else id="salidaAlerta">
+      <h1 class="msg">{{ msgResponse }}</h1>
+      <div class="clock"></div>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
+
 import { onMounted, ref, type Ref } from "vue";
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
@@ -55,22 +51,28 @@ const ruta = ref()
 const islaSelect = ref()
 const user = ref<UserType>()
 ruta.value = route.params.tipo
-const alerta = ref('')
+const alerta = ref()
 const alertSelect = ref<any>(null);  // Almacenará el tipo de alerta seleccionada
-  const handleAlertChange = (alertaSeleccionada: Ref) => {
-    alertSelect.value = alertaSeleccionada.value;
-    window.Telegram.WebApp.MainButton.setParams({
-        color: alertSelect.value.color,
-       
-      })
-};
 //Si no está disponible
-const availableAlert = ref(false)
+const pendingAlert = ref(false)
 //Mensaje 
 const msgResponse = ref('')
 const recognitionActive = ref(false); // Indica si el micrófono está activo
 let recognition: any; // Objeto de reconocimiento de voz
 const transcript = ref(""); // Contenido transcrito
+// Funciones 
+const handleAlertChange = (alertaSeleccionada: Ref) => {
+  alertSelect.value = alertaSeleccionada.value;
+  window.Telegram.WebApp.MainButton.setParams({
+    color: alertSelect.value.color,
+
+  })
+};
+
+
+
+
+
 // Configuración del reconocimiento de voz
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -105,49 +107,28 @@ const toggleRecognition = () => {
     recognitionActive.value = true;
   }
 };
+const settingTelegram = async () => {
 
-onMounted(async () => {
+
   window.Telegram.WebApp.BackButton.onClick(() => {
-router.back()
-window.Telegram.WebApp.BackButton.hide()
-window.Telegram.WebApp.MainButton.hide()
-})
-  alerta.value = ''
-  if(!window.Telegram.WebApp.initDataUnsafe.user) return
-  let response = await userService.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user.id)
-  user.value = response.data
-  //Lo primero comprobar si tiene alertas pendientes de aceptar
-  if (user.value) {
-  
-    let responseisActive = await alertService.pendingByUser(user.value?._id)
-    if (responseisActive.status === 200) availableAlert.value = responseisActive.data
-    //Si hay una alerta activa   
-    
-    let resto = new Date(responseisActive.data).getTime() - new Date().getTime() + 5 * 60 * 1000;
-    if (availableAlert.value) msgResponse.value = `No puedes enviar alertas en menos de 5m.Tiempo restante: ${Math.floor(resto / (1000 * 60))}m y ${Math.floor(resto / 1000)  % 60}s`
+    router.back()
+    window.Telegram.WebApp.BackButton.hide()
+    window.Telegram.WebApp.MainButton.hide()
+  })
 
-    if (!availableAlert.value) {
-    //  window.Telegram.WebApp.setHeaderColor("bg_color")
-      window.Telegram.WebApp.BackButton.show()
-      window.Telegram.WebApp.MainButton.show()
-      window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
-      let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
-      window.Telegram.WebApp.MainButton.setParams({
-        color: 'rgb(78, 78, 78)',
-      })
-    }
- 
 
-  }
+  const params = new URLSearchParams(window.location.search);
+  const isle = params.get('isle') || '';
+
   //Ver para que isla va a ser la alerta.
-  if (window.Telegram.WebApp.initDataUnsafe.start_param) {
+  if (isle) {
     //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
     //api_request.IslefromInstance(window.Telegram.WebApp)
     //De momento se queda igual:     
-    let findedIsle = islas.find((isl: Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
+    let findedIsle = islas.find((isl: Isla) => isl.id === isle)
     if (findedIsle) {
       islaSelect.value = findedIsle
-      return
+
     }
 
   }
@@ -158,44 +139,75 @@ window.Telegram.WebApp.MainButton.hide()
   }
 
 
+  window.Telegram.WebApp.MainButton.onClick(async () => {
+  
+    //Methods
+    if (alerta.value) {
+      window.Telegram.WebApp.MainButton.disable()
+      window.Telegram.WebApp.MainButton.showProgress()
+      let tipoAlerta: string = Array.isArray(route.params.tipo) ? route.params.tipo[0] : route.params.tipo
+      if (!user.value?._id) return
+      let nuevalerta: AlertaType = {
+        _id: '',
+        isla: islaSelect.value.id,
+        alerta: alerta.value,
+        id_usuario: user.value?._id,
+        tipo_alerta: tipoAlerta
+      }
+      if (!window.Telegram.WebApp.initDataUnsafe.user) return
+      let sendedAlert = await alertService.sendAlert(nuevalerta, window.Telegram.WebApp.initDataUnsafe.user)
+      window.Telegram.WebApp.MainButton.hide()
+      window.Telegram.WebApp.MainButton.hideProgress()
+      window.Telegram.WebApp.MainButton.enable()
+      pendingAlert.value = false
 
-})
+      msgResponse.value = sendedAlert.data
+      //if(salida.status === 200) window.Telegram.WebApp.MainButton.hide()
 
-window.Telegram.WebApp.MainButton.onClick(async () => {
-  //Methods
-  if (alerta.value) {
-    window.Telegram.WebApp.MainButton.disable()
-    window.Telegram.WebApp.MainButton.showProgress()
-    let tipoAlerta: string = Array.isArray(route.params.tipo) ? route.params.tipo[0] : route.params.tipo
-    if (!user.value?._id) return
-    let nuevalerta: AlertaType = {
-      _id: '',
-      isla: islaSelect.value.id,
-      alerta: alerta.value,
-      id_usuario: user.value?._id,
-      tipo_alerta: tipoAlerta
     }
-    if (!window.Telegram.WebApp.initDataUnsafe.user) return
-    let sendedAlert = await alertService.sendAlert(nuevalerta, window.Telegram.WebApp.initDataUnsafe.user)
-    window.Telegram.WebApp.MainButton.hide()
-    window.Telegram.WebApp.MainButton.hideProgress()
-    window.Telegram.WebApp.MainButton.enable()
-    availableAlert.value = false
-    alerta.value = ''
-    msgResponse.value = sendedAlert.data
-    //if(salida.status === 200) window.Telegram.WebApp.MainButton.hide()
+  })
+}
+onMounted(async () => {
+
+  settingTelegram()
+
+
+  if (!window.Telegram.WebApp.initDataUnsafe.user) return
+  let response = await userService.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user.id)
+  user.value = response.data
+  //Lo primero comprobar si tiene alertas pendientes de aceptar
+  if (user.value) {
+
+    let responseisActive = await alertService.refreshTime(user.value?._id)
+    if (responseisActive.status === 200) pendingAlert.value = responseisActive.data
+    //Si hay una alerta activa   
+
+    let resto = new Date(responseisActive.data).getTime() - new Date().getTime() + 5 * 60 * 1000;
+    if (pendingAlert.value) msgResponse.value = `No puedes enviar alertas en menos de 5m.Tiempo restante: ${Math.floor(resto / (1000 * 60))}m y ${Math.floor(resto / 1000) % 60}s`
+
+    if (!pendingAlert.value) {
+      //  window.Telegram.WebApp.setHeaderColor("bg_color")
+      window.Telegram.WebApp.BackButton.show()
+      window.Telegram.WebApp.MainButton.show()
+      window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
+      let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
+      window.Telegram.WebApp.MainButton.setParams({
+        color: 'rgb(78, 78, 78)',
+      })
+    }
+
 
   }
-
 });
 
 
 </script>
 <style scoped>
-main{
+main {
   padding: 1rem;
 
 }
+
 .msg {
   text-align: center;
 }
@@ -224,10 +236,11 @@ main{
   cursor: auto;
   width: 100%;
 }
-.clock{
-	border-radius: 70px;
-	border: 6px solid #fff;
-	position: absolute;
+
+.clock {
+  border-radius: 70px;
+  border: 6px solid #fff;
+  position: absolute;
   top: 50%;
   left: 50%;
   margin-left: -50px;
@@ -237,53 +250,73 @@ main{
   height: 120px;
 }
 
-.clock:after{
-	content: "";
-	position: absolute;
-	background-color: #fff;
-	top: 13px;
-	left: 48%;
-	height: 50px;
-	width: 6px;
-	border-radius: 5px;
-	-webkit-transform-origin: 50% 97%;
-			transform-origin: 50% 97%;
-	-webkit-animation: grdAiguille 2s linear infinite;
-			animation: grdAiguille 2s linear infinite;
+.clock:after {
+  content: "";
+  position: absolute;
+  background-color: #fff;
+  top: 13px;
+  left: 48%;
+  height: 50px;
+  width: 6px;
+  border-radius: 5px;
+  -webkit-transform-origin: 50% 97%;
+  transform-origin: 50% 97%;
+  -webkit-animation: grdAiguille 2s linear infinite;
+  animation: grdAiguille 2s linear infinite;
 }
 
-@-webkit-keyframes grdAiguille{
-    0%{-webkit-transform:rotate(0deg);}
-    100%{-webkit-transform:rotate(360deg);}
+@-webkit-keyframes grdAiguille {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
-@keyframes grdAiguille{
-    0%{transform:rotate(0deg);}
-    100%{transform:rotate(360deg);}
+@keyframes grdAiguille {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-.clock:before{
-	content: "";
-	position: absolute;
-	background-color: #fff;
-	top: 24px;
-	left: 48%;
-	height: 40px;
-	width: 6px;
-	border-radius: 5px;
-	-webkit-transform-origin: 50% 94%;
-			transform-origin: 50% 94%;
-	-webkit-animation: ptAiguille 12s linear infinite;
-			animation: ptAiguille 12s linear infinite;
+.clock:before {
+  content: "";
+  position: absolute;
+  background-color: #fff;
+  top: 24px;
+  left: 48%;
+  height: 40px;
+  width: 6px;
+  border-radius: 5px;
+  -webkit-transform-origin: 50% 94%;
+  transform-origin: 50% 94%;
+  -webkit-animation: ptAiguille 12s linear infinite;
+  animation: ptAiguille 12s linear infinite;
 }
 
-@-webkit-keyframes ptAiguille{
-    0%{-webkit-transform:rotate(0deg);}
-    100%{-webkit-transform:rotate(360deg);}
+@-webkit-keyframes ptAiguille {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
-@keyframes ptAiguille{
-    0%{transform:rotate(0deg);}
-    100%{transform:rotate(360deg);}
+@keyframes ptAiguille {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
