@@ -1,38 +1,29 @@
 <template>
-  <main>
+  <main v-if="!loading">
     <section v-if="!pendingAlert" id="datosAlerta">
       <h2>Publicar <span v-if="alertSelect"> {{ alertSelect.tipo }}</span> </h2>
 
       <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
       <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
         style="overflow: hidden; overflow-wrap: break-word; "></textarea>
-      <!-- Botón de micrófono -->
-      <button @click="toggleRecognition" :disabled="recognitionActive" style="
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background-color: #0088cc; /* Color de Telegram */
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 18px;
-          cursor: pointer;
-        ">
-        🎤
-      </button>
-      <p v-if="recognitionActive" style="margin-top: 10px; color: green;">🎙️ Reconociendo...</p>
+     <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
     </section>
     <section v-else id="salidaAlerta">
-      <h1 class="msg">{{ msgResponse }}</h1>
-      <div class="clock"></div>
+
+      <RefreshTime @refreshTime="refreshTime" :userId="user?._id"></RefreshTime>
     </section>
+  </main>
+  <main v-if="loading">
+    <div class="loadder">
+      <AnimatedSticker stickerPath="/stickers/_DUCK4_THINK_OUT.json" :size="250" :loop="true" :autoplay="true" />
+    </div>
+
   </main>
 </template>
 
 <script setup lang="ts">
-
+import VoiceRecognition from "@/components/VoiceRecognition.vue"
+import AnimatedSticker from "@/components/assets/StickerAnimated.vue";
 import { onMounted, ref, type Ref } from "vue";
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
@@ -45,21 +36,34 @@ import * as userService from "@/services/user";
 import * as alertService from "@/services/alertas"
 import router from '@/router'
 import AlertsSelector from "@/components/bot/AlertsSelector.vue";
+import RefreshTime from "@/components/bot/RefreshTime.vue";
 // Obtén la información de la ruta actual
 const route = useRoute()
 const ruta = ref()
+const loading = ref(false);
 const islaSelect = ref()
 const user = ref<UserType>()
 ruta.value = route.params.tipo
 const alerta = ref()
 const alertSelect = ref<any>(null);  // Almacenará el tipo de alerta seleccionada
 //Si no está disponible
-const pendingAlert = ref(false)
+const pendingAlert = ref(true)
 //Mensaje 
 const msgResponse = ref('')
-const recognitionActive = ref(false); // Indica si el micrófono está activo
-let recognition: any; // Objeto de reconocimiento de voz
-const transcript = ref(""); // Contenido transcrito
+
+
+onMounted(async () => {
+  loading.value = true
+  settingTelegram()
+
+
+  if (!window.Telegram.WebApp.initDataUnsafe.user) return
+  let response = await userService.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user.id)
+  user.value = response.data
+
+  loading.value = false
+
+});
 // Funciones 
 const handleAlertChange = (alertaSeleccionada: Ref) => {
   alertSelect.value = alertaSeleccionada.value;
@@ -69,44 +73,28 @@ const handleAlertChange = (alertaSeleccionada: Ref) => {
   })
 };
 
+const refreshTime = async (data: boolean) => {
+ 
+ pendingAlert.value = data
 
+ if (!data) {
 
+   if (user.value) {
 
+     let responseisActive = await alertService.alertSessionById(window.Telegram.WebApp.initDataUnsafe.start_param || '')
+     alerta.value = responseisActive.data.alerta
+     window.Telegram.WebApp.BackButton.show()
+     window.Telegram.WebApp.MainButton.show()
+     window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
+     let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
+     window.Telegram.WebApp.MainButton.setParams({
+       color: 'rgb(78, 78, 78)',
+     })
 
-// Configuración del reconocimiento de voz
-if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
+   }
+ }
 
-  recognition.lang = "es-ES"; // Idioma español
-  recognition.continuous = false; // Continuar sin detenerse
-  recognition.interimResults = false; // Solo resultados finales
-
-  // Manejo de los resultados
-  recognition.onresult = (event: any) => {
-    const result = event.results[event.results.length - 1][0].transcript;
-    alerta.value += result + " ";
-  };
-
-  recognition.onerror = (event: any) => {
-    console.error("Error en el reconocimiento:", event.error);
-    recognitionActive.value = false;
-  };
-
-  recognition.onend = () => {
-    recognitionActive.value = false; // Detener reconocimiento
-  };
 }
-
-// Función para iniciar/detener el reconocimiento
-const toggleRecognition = () => {
-  if (recognitionActive.value) {
-    recognition.stop();
-  } else {
-    recognition.start();
-    recognitionActive.value = true;
-  }
-};
 const settingTelegram = async () => {
 
 
@@ -140,7 +128,7 @@ const settingTelegram = async () => {
 
 
   window.Telegram.WebApp.MainButton.onClick(async () => {
-  
+
     //Methods
     if (alerta.value) {
       window.Telegram.WebApp.MainButton.disable()
@@ -159,50 +147,25 @@ const settingTelegram = async () => {
       window.Telegram.WebApp.MainButton.hide()
       window.Telegram.WebApp.MainButton.hideProgress()
       window.Telegram.WebApp.MainButton.enable()
-      pendingAlert.value = false
-
+      pendingAlert.value = true
       msgResponse.value = sendedAlert.data
       //if(salida.status === 200) window.Telegram.WebApp.MainButton.hide()
 
     }
   })
 }
-onMounted(async () => {
 
-  settingTelegram()
-
-
-  if (!window.Telegram.WebApp.initDataUnsafe.user) return
-  let response = await userService.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user.id)
-  user.value = response.data
-  //Lo primero comprobar si tiene alertas pendientes de aceptar
-  if (user.value) {
-
-    let responseisActive = await alertService.refreshTime(user.value?._id)
-    if (responseisActive.status === 200) pendingAlert.value = responseisActive.data
-    //Si hay una alerta activa   
-
-    let resto = new Date(responseisActive.data).getTime() - new Date().getTime() + 5 * 60 * 1000;
-    if (pendingAlert.value) msgResponse.value = `No puedes enviar alertas en menos de 5m.Tiempo restante: ${Math.floor(resto / (1000 * 60))}m y ${Math.floor(resto / 1000) % 60}s`
-
-    if (!pendingAlert.value) {
-      //  window.Telegram.WebApp.setHeaderColor("bg_color")
-      window.Telegram.WebApp.BackButton.show()
-      window.Telegram.WebApp.MainButton.show()
-      window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
-      let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
-      window.Telegram.WebApp.MainButton.setParams({
-        color: 'rgb(78, 78, 78)',
-      })
-    }
-
-
-  }
-});
 
 
 </script>
 <style scoped>
+.loadder {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
 main {
   padding: 1rem;
 
@@ -235,88 +198,5 @@ main {
   user-select: auto;
   cursor: auto;
   width: 100%;
-}
-
-.clock {
-  border-radius: 70px;
-  border: 6px solid #fff;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -50px;
-  margin-top: -50px;
-  display: block;
-  width: 120px;
-  height: 120px;
-}
-
-.clock:after {
-  content: "";
-  position: absolute;
-  background-color: #fff;
-  top: 13px;
-  left: 48%;
-  height: 50px;
-  width: 6px;
-  border-radius: 5px;
-  -webkit-transform-origin: 50% 97%;
-  transform-origin: 50% 97%;
-  -webkit-animation: grdAiguille 2s linear infinite;
-  animation: grdAiguille 2s linear infinite;
-}
-
-@-webkit-keyframes grdAiguille {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@keyframes grdAiguille {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.clock:before {
-  content: "";
-  position: absolute;
-  background-color: #fff;
-  top: 24px;
-  left: 48%;
-  height: 40px;
-  width: 6px;
-  border-radius: 5px;
-  -webkit-transform-origin: 50% 94%;
-  transform-origin: 50% 94%;
-  -webkit-animation: ptAiguille 12s linear infinite;
-  animation: ptAiguille 12s linear infinite;
-}
-
-@-webkit-keyframes ptAiguille {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@keyframes ptAiguille {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>

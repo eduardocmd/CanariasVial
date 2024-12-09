@@ -1,12 +1,26 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts","telegram.d.ts", "src/**/*", "src/**/*.vue","src/**/*.ts","src/**/*.json", "src/router/*.json"],
-  "exclude": ["src/**/__tests__/*"],
+  "extends": "@vue/tsconfig/tsconfig.json",  // Cambiar a esta configuración
+  "include": [
+    "env.d.ts",
+    "telegram.d.ts",
+    "src/**/*",
+    "src/**/*.vue",  // Esto es correcto para incluir archivos Vue
+    "src/**/*.ts",
+    "src/**/*.json",
+    "src/router/*.json"
+  ],
+  "exclude": [
+    "src/**/__tests__/*"
+  ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "esModuleInterop": true,  // Asegúrate de que este flag esté habilitado
+    "allowJs": true,          // Permitir archivos JS, en caso de que haya JS en tu proyecto
+    "skipLibCheck": true,     // Esto puede evitar algunos problemas de tipos con las bibliotecas
+    "strict": true            // Opcional: activar todas las comprobaciones estrictas de tipos
   }
 }

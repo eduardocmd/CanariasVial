@@ -1,19 +1,19 @@
 <template>
   <main>
-    <section >
+    <section>
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
         <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'bot-adminmemu' }">
           <h2>Admin</h2>
         </RouterLink>
-        <RouterLink :to="{ name: 'bot-cameras' }">
-          <img id="camera" src="@/assets/camara.svg">
-        </RouterLink>
+        <aside>
+          <mainButtton @click="irNuevaAlerta()" valueText="Nueva Alerta" />
+          <RouterLink :to="{ name: 'bot-cameras' }">
+            <mainButtton valueText="Cámaras de tráfico" />
+          </RouterLink>
+        </aside>
+        <AnimatedSticker stickerPath="/stickers/koala_traffic_sticker.json" :size="250" :loop="true" :autoplay="true" />
       </header>
-      <section>
-        <mainButtton @click="irNuevaAlerta()" valueText="Nueva Alerta" />
-        <mainButtton valueText="Cámaras de tráfico" />
-      </section>
       <RouterLink :to="{ name: 'bot-settings' }">
         <article id="ajustes">
           <div id="ajustesico"></div>
@@ -21,11 +21,12 @@
         </article>
       </RouterLink>
     </section>
-    <p id="version">Bot Alertas Canarias Vial - WebApp v{{ versionWebApp }} </p>
+    <p id="version">{{ versionWebApp }} </p>
   </main>
 </template>
 <script setup lang="ts">
 import('@/assets/basebot.css');
+import AnimatedSticker from "../../components/assets/StickerAnimated.vue"
 import * as userService from '@/services/user'
 import mainButtton from '@/components/assets/mainButtton.vue';
 import type { Isla } from "@/models/Isla"
@@ -59,13 +60,13 @@ onMounted(async () => {
 
   }
 
-if(!dataUser) return
+  if (!dataUser) return
   const userInDb = await userService.telegramUserInDB(dataUser.id)
 
   //Si no hay usuario crear
 
   if (userInDb.status === 404)
-  
+
     window.Telegram.WebApp.showConfirm(`Vamos a registrar tus datos básicos:\nIdTelegram: ${dataUser?.id}\nNombre: ${dataUser?.first_name}\nApellido: ${dataUser?.last_name}\n`, ((confirm) => {
       if (confirm) {
         userService.createUser(dataUser)
@@ -84,7 +85,7 @@ if(!dataUser) return
     let findedIsle = islas.find((isl: Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
     if (findedIsle) {
       IslaFavorite.value = findedIsle
-      
+
       return
     }
 
@@ -103,13 +104,13 @@ if(!dataUser) return
 })
 
 
-const irNuevaAlerta = ()=> {
+const irNuevaAlerta = () => {
 
-if(IslaFavorite.value){
- router.push({ name: 'bot-nuevaalerta'});
-}else{
- router.push({ name: 'bot-selectorisla'});
-}
+  if (IslaFavorite.value) {
+    router.push({ name: 'bot-nuevaalerta' });
+  } else {
+    router.push({ name: 'bot-selectorisla' });
+  }
 }
 
 
@@ -121,10 +122,18 @@ if(IslaFavorite.value){
   height: 50px;
 }
 
-header {
+aside {
+  width: 100%;
+  margin: 1rem;
   display: flex;
+  justify-content: space-around;
+}
 
-  justify-content: space-between;
+header {
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 1rem;
 }
 
