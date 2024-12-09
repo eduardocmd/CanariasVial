@@ -14,16 +14,13 @@
     </section>
   </main>
   <main v-if="loading">
-    <div class="loadder">
-      <AnimatedSticker stickerPath="/stickers/_DUCK4_THINK_OUT.json" :size="250" :loop="true" :autoplay="true" />
-    </div>
+   <MainLoader></MainLoader>
 
   </main>
 </template>
 
 <script setup lang="ts">
 import VoiceRecognition from "@/components/VoiceRecognition.vue"
-import AnimatedSticker from "@/components/assets/StickerAnimated.vue";
 import { onMounted, ref, type Ref } from "vue";
 import { useRoute } from "vue-router";
 import alertasJSON from "@/alertas.json"
@@ -37,6 +34,7 @@ import * as alertService from "@/services/alertas"
 import router from '@/router'
 import AlertsSelector from "@/components/bot/AlertsSelector.vue";
 import RefreshTime from "@/components/bot/RefreshTime.vue";
+import MainLoader from "@/components/MainLoader.vue"
 // Obtén la información de la ruta actual
 const route = useRoute()
 const ruta = ref()
@@ -50,10 +48,11 @@ const alertSelect = ref<any>(null);  // Almacenará el tipo de alerta selecciona
 const pendingAlert = ref(true)
 //Mensaje 
 const msgResponse = ref('')
-
+const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time));
 
 onMounted(async () => {
   loading.value = true
+  await wait(2000)
   settingTelegram()
 
 
@@ -99,7 +98,8 @@ const settingTelegram = async () => {
 
 
   window.Telegram.WebApp.BackButton.onClick(() => {
-    router.back()
+    //router.back()
+    router.push({ name: 'bot' });
     window.Telegram.WebApp.BackButton.hide()
     window.Telegram.WebApp.MainButton.hide()
   })
@@ -159,12 +159,9 @@ const settingTelegram = async () => {
 
 </script>
 <style scoped>
-.loadder {
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  justify-content: center;
-}
+
+
+
 
 main {
   padding: 1rem;

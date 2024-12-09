@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-if="!loading">
     <section>
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
@@ -23,6 +23,9 @@
     </section>
     <p id="version">{{ versionWebApp }} </p>
   </main>
+  <main v-else>
+    <MainLoader></MainLoader>
+  </main>
 </template>
 <script setup lang="ts">
 import('@/assets/basebot.css');
@@ -34,13 +37,15 @@ import { ref, onMounted } from "vue"
 import islas from '@/islas.json'
 import router from '@/router'
 import type { UserType } from "@/models/TelegramUser"
+import MainLoader from "@/components/MainLoader.vue";
 const versionWebApp = window.Telegram.WebApp.version
 const nombre = ref('')
 const intancia = ref('')
 const IslaFavorite = ref()
 const userFromDb = ref<UserType>()
+const loading = ref(false)
 
-onMounted(async () => {
+const settingTelegram = () => {
   window.Telegram.WebApp.ready()
   window.Telegram.WebApp.BackButton.onClick(() => {
 
@@ -59,7 +64,12 @@ onMounted(async () => {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
 
   }
+}
+onMounted(async () => {
+  loading.value = true
+settingTelegram()
 
+let dataUser = window.Telegram.WebApp.initDataUnsafe.user
   if (!dataUser) return
   const userInDb = await userService.telegramUserInDB(dataUser.id)
 
@@ -75,21 +85,7 @@ onMounted(async () => {
       }
     }))
 
-  //Ver para que isla va a ser la alerta.
-  if (window.Telegram.WebApp.initDataUnsafe.start_param) {
-    //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
-    //api_request.IslefromInstance(window.Telegram.WebApp)
-
-    //De momento se queda igual:     
-
-    let findedIsle = islas.find((isl: Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
-    if (findedIsle) {
-      IslaFavorite.value = findedIsle
-
-      return
-    }
-
-  }
+  
 
   let getUser = await userService.getUserFromIdTelegram(dataUser.id)
   userFromDb.value = getUser.data
@@ -98,7 +94,7 @@ onMounted(async () => {
   if (findedIsle) IslaFavorite.value = findedIsle
 
 
-
+loading.value = false
 
 
 })

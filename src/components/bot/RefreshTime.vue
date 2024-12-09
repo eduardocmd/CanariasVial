@@ -1,13 +1,17 @@
 <template>
+<section v-if="!loading">
     <h1 class="msg"> No puedes enviar alertas en menos de 5m.Tiempo restante:  {{ remainingTime }}</h1>
-
     <div class="clock"></div>
+</section>
+<section v-else>
+    
+</section>
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import * as alertService from '@/services/alertas'
 
-
+const loading = ref(false)
 const props = defineProps(['userId'])
 const emit = defineEmits<{
     (event: "refreshTime", tipo: boolean): void;
@@ -17,8 +21,9 @@ const Alert = ref()
 
 
 onMounted(async () => {
-
+    loading.value = true
     let responseisActive = await alertService.refreshTime(props.userId)
+    loading.value = false
     if (responseisActive.status === 200) Alert.value = responseisActive.data
     if (Alert.value == '') emit("refreshTime", false);
     setInterval(() => {
