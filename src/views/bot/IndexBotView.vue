@@ -67,9 +67,9 @@ const settingTelegram = () => {
 }
 onMounted(async () => {
   loading.value = true
-settingTelegram()
-
-let dataUser = window.Telegram.WebApp.initDataUnsafe.user
+  settingTelegram()
+ 
+  let dataUser = window.Telegram.WebApp.initDataUnsafe.user
   if (!dataUser) return
   const userInDb = await userService.telegramUserInDB(dataUser.id)
 
@@ -85,16 +85,16 @@ let dataUser = window.Telegram.WebApp.initDataUnsafe.user
       }
     }))
 
-  
+
 
   let getUser = await userService.getUserFromIdTelegram(dataUser.id)
   userFromDb.value = getUser.data
-  console.log(userFromDb)
+
   let findedIsle = islas.find((isl: Isla) => isl.id === getUser.data.favorite_isle)
   if (findedIsle) IslaFavorite.value = findedIsle
 
 
-loading.value = false
+  loading.value = false
 
 
 })

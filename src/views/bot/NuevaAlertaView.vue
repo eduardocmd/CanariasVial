@@ -6,7 +6,7 @@
       <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
       <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
         style="overflow: hidden; overflow-wrap: break-word; "></textarea>
-     <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
+      <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
     </section>
     <section v-else id="salidaAlerta">
 
@@ -14,7 +14,7 @@
     </section>
   </main>
   <main v-if="loading">
-   <MainLoader></MainLoader>
+    <MainLoader></MainLoader>
 
   </main>
 </template>
@@ -53,13 +53,13 @@ const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time))
 onMounted(async () => {
   loading.value = true
   await wait(2000)
-  settingTelegram()
+
 
 
   if (!window.Telegram.WebApp.initDataUnsafe.user) return
   let response = await userService.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user.id)
   user.value = response.data
-
+  settingTelegram()
   loading.value = false
 
 });
@@ -73,25 +73,25 @@ const handleAlertChange = (alertaSeleccionada: Ref) => {
 };
 
 const refreshTime = async (data: boolean) => {
- 
- pendingAlert.value = data
 
- if (!data) {
+  pendingAlert.value = data
 
-   if (user.value) {
+  if (!data) {
 
-     let responseisActive = await alertService.alertSessionById(window.Telegram.WebApp.initDataUnsafe.start_param || '')
-     alerta.value = responseisActive.data.alerta
-     window.Telegram.WebApp.BackButton.show()
-     window.Telegram.WebApp.MainButton.show()
-     window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
-     let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
-     window.Telegram.WebApp.MainButton.setParams({
-       color: 'rgb(78, 78, 78)',
-     })
+    if (user.value) {
 
-   }
- }
+      let responseisActive = await alertService.alertSessionById(window.Telegram.WebApp.initDataUnsafe.start_param || '')
+      alerta.value = responseisActive.data.alerta
+      window.Telegram.WebApp.BackButton.show()
+      window.Telegram.WebApp.MainButton.show()
+      window.Telegram.WebApp.MainButton.setText('Enviar Alerta')
+      let alertaF = alertasJSON.filter((alerta) => alerta.tipo === ruta.value)
+      window.Telegram.WebApp.MainButton.setParams({
+        color: 'rgb(78, 78, 78)',
+      })
+
+    }
+  }
 
 }
 const settingTelegram = async () => {
@@ -121,11 +121,13 @@ const settingTelegram = async () => {
 
   }
   if (user.value) {
+    console.log("aquí")
     let idIslaUsuario = user.value.favorite_isle
     let findedIsle = islas.find((isl: Isla) => isl.id === idIslaUsuario)
     if (findedIsle) islaSelect.value = findedIsle
   }
 
+  console.log(islaSelect.value)
 
   window.Telegram.WebApp.MainButton.onClick(async () => {
 
@@ -159,10 +161,6 @@ const settingTelegram = async () => {
 
 </script>
 <style scoped>
-
-
-
-
 main {
   padding: 1rem;
 
