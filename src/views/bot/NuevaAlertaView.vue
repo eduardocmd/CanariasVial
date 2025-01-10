@@ -127,7 +127,6 @@ const settingTelegram = async () => {
     if (findedIsle) islaSelect.value = findedIsle
   }
 
-  console.log(islaSelect.value)
 
   window.Telegram.WebApp.MainButton.onClick(async () => {
 
@@ -136,13 +135,14 @@ const settingTelegram = async () => {
       window.Telegram.WebApp.MainButton.disable()
       window.Telegram.WebApp.MainButton.showProgress()
       let tipoAlerta: string = Array.isArray(route.params.tipo) ? route.params.tipo[0] : route.params.tipo
+      console.log(tipoAlerta)
       if (!user.value?._id) return
       let nuevalerta: AlertaType = {
         _id: '',
         isla: islaSelect.value.id,
         alerta: alerta.value,
         id_usuario: user.value?._id,
-        tipo_alerta: tipoAlerta
+        tipo_alerta: alertSelect.value.tipo
       }
       if (!window.Telegram.WebApp.initDataUnsafe.user) return
       let sendedAlert = await alertService.sendAlert(nuevalerta, window.Telegram.WebApp.initDataUnsafe.user)
