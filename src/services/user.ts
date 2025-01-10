@@ -19,7 +19,7 @@ export const telegramUserInDB = async (id : number ) : Promise<ApiResponse> => {
           webappinitdata: window.Telegram.WebApp.initData
         },
       }
-    
+  
       try {
         const respuesta = await axios(configuracion)
         // ...

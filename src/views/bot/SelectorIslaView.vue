@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import * as userService from '@/services/user'
+import('../../assets/basebot.css');
 import * as islaService from '@/services/isla'
 import listaIslas from "@/islas.json"
 import router from '@/router';

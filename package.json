@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
@@ -17,6 +19,7 @@
   "dependencies": {
     "@twa-dev/types": "^6.7.0",
     "axios": "^1.5.0",
+    "lottie-web": "^5.12.2",
     "vue": "^3.3.4",
     "vue-plugin-load-script": "^2.1.1",
     "vue-router": "^4.2.4"
@@ -25,17 +28,26 @@
     "@rushstack/eslint-patch": "^1.3.2",
     "@tsconfig/node18": "^18.2.0",
     "@types/node": "^18.17.5",
-    "@vitejs/plugin-vue": "^4.3.1",
+    "@vitejs/plugin-vue": "^4.6.2",
     "@vue/eslint-config-prettier": "^8.0.0",
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/tsconfig": "^0.4.0",
     "eslint": "^8.46.0",
     "eslint-plugin-vue": "^9.16.1",
+<<<<<<< HEAD
     "gh-pages": "^6.1.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.0",
     "typescript": "^5.6.2",
     "vite": "^4.4.9",
     "vue-tsc": "^2.1.6"
+=======
+    "gh-pages": "^6.2.0",
+    "npm-run-all": "^2.1.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^4.4.9",
+    "vue-tsc": "^2.1.10"
+>>>>>>> origin/dev
   }
 }

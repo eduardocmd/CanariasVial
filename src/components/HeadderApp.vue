@@ -1,5 +1,6 @@
 <template>
     <header>
+     
         <div id="logo" :style="{ 'background-image': 'url(./logo.png)' }"></div>
         <div id="header-text">
             <h1>Canarias Vial</h1>
@@ -8,6 +9,10 @@
 
     </header>
 </template>
+<script setup lang="ts">
+
+
+</script>
 <style scoped>
 header {
     font-family: Norwester;

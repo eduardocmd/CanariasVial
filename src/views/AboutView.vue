@@ -78,6 +78,7 @@ header {
 
 </style>
 <script setup lang="ts">
+
 import xLogo from '@/components/icons/xLogo.vue';
 import githubLogo from '@/components/icons/githubLogo.vue';
 

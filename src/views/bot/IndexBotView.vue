@@ -1,20 +1,19 @@
 <template>
-  <main>
-   
-    <section >
+  <main v-if="!loading">
+    <section>
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
         <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'bot-adminmemu' }">
           <h2>Admin</h2>
         </RouterLink>
-        <RouterLink :to="{ name: 'bot-cameras' }">
-          <img id="camera" src="@/assets/camara.svg">
-        </RouterLink>
-
+        <aside>
+          <mainButtton @click="irNuevaAlerta()" valueText="Nueva Alerta" />
+          <RouterLink :to="{ name: 'bot-cameras' }">
+            <mainButtton valueText="Cámaras de tráfico" />
+          </RouterLink>
+        </aside>
+        <AnimatedSticker stickerPath="/stickers/koala_traffic_sticker.json" :size="250" :loop="true" :autoplay="true" />
       </header>
-      <!--Estado funciona el server-->
-
-      <AlertsSelector :isla="IslaFavorite" />
       <RouterLink :to="{ name: 'bot-settings' }">
         <article id="ajustes">
           <div id="ajustesico"></div>
@@ -22,32 +21,31 @@
         </article>
       </RouterLink>
     </section>
-   
-
-    <p id="version">Bot Alertas Canarias Vial - WebApp v{{ versionWebApp }} </p>
+    <p id="version">{{ versionWebApp }} </p>
+  </main>
+  <main v-else>
+    <MainLoader></MainLoader>
   </main>
 </template>
 <script setup lang="ts">
-import('../../assets/basebot.css');
+import('@/assets/basebot.css');
+import AnimatedSticker from "../../components/assets/StickerAnimated.vue"
 import * as userService from '@/services/user'
-import AlertsSelector from "@/components/bot/AlertsSelector.vue"
+import mainButtton from '@/components/assets/mainButtton.vue';
 import type { Isla } from "@/models/Isla"
 import { ref, onMounted } from "vue"
 import islas from '@/islas.json'
 import router from '@/router'
 import type { UserType } from "@/models/TelegramUser"
+import MainLoader from "@/components/MainLoader.vue";
 const versionWebApp = window.Telegram.WebApp.version
 const nombre = ref('')
 const intancia = ref('')
 const IslaFavorite = ref()
 const userFromDb = ref<UserType>()
+const loading = ref(false)
 
-
-
-onMounted(async () => {
-
-
-
+const settingTelegram = () => {
   window.Telegram.WebApp.ready()
   window.Telegram.WebApp.BackButton.onClick(() => {
 
@@ -66,14 +64,19 @@ onMounted(async () => {
     nombre.value = window.Telegram.WebApp.initDataUnsafe.user?.first_name
 
   }
-
-if(!dataUser) return
+}
+onMounted(async () => {
+  loading.value = true
+  settingTelegram()
+ 
+  let dataUser = window.Telegram.WebApp.initDataUnsafe.user
+  if (!dataUser) return
   const userInDb = await userService.telegramUserInDB(dataUser.id)
 
   //Si no hay usuario crear
 
   if (userInDb.status === 404)
-  
+
     window.Telegram.WebApp.showConfirm(`Vamos a registrar tus datos básicos:\nIdTelegram: ${dataUser?.id}\nNombre: ${dataUser?.first_name}\nApellido: ${dataUser?.last_name}\n`, ((confirm) => {
       if (confirm) {
         userService.createUser(dataUser)
@@ -82,36 +85,29 @@ if(!dataUser) return
       }
     }))
 
-  //Ver para que isla va a ser la alerta.
-  if (window.Telegram.WebApp.initDataUnsafe.start_param) {
-    //Sacará la isla si la webapp se inició desde algún canal (Cada isla tiene un canal y grupo de difusión)
-    //api_request.IslefromInstance(window.Telegram.WebApp)
 
-    //De momento se queda igual:     
-
-    let findedIsle = islas.find((isl: Isla) => isl.id === window.Telegram.WebApp.initDataUnsafe.start_param)
-    if (findedIsle) {
-      IslaFavorite.value = findedIsle
-      
-      return
-    }
-
-  }
 
   let getUser = await userService.getUserFromIdTelegram(dataUser.id)
   userFromDb.value = getUser.data
-  console.log(userFromDb)
+
   let findedIsle = islas.find((isl: Isla) => isl.id === getUser.data.favorite_isle)
   if (findedIsle) IslaFavorite.value = findedIsle
 
 
-
+  loading.value = false
 
 
 })
 
 
+const irNuevaAlerta = () => {
 
+  if (IslaFavorite.value) {
+    router.push({ name: 'bot-nuevaalerta' });
+  } else {
+    router.push({ name: 'bot-selectorisla' });
+  }
+}
 
 
 </script>
@@ -122,10 +118,18 @@ if(!dataUser) return
   height: 50px;
 }
 
-header {
+aside {
+  width: 100%;
+  margin: 1rem;
   display: flex;
+  justify-content: space-around;
+}
 
-  justify-content: space-between;
+header {
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 1rem;
 }
 
