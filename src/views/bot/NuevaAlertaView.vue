@@ -37,6 +37,7 @@ import RefreshTime from "@/components/bot/RefreshTime.vue";
 import MainLoader from "@/components/MainLoader.vue"
 // Obtén la información de la ruta actual
 const route = useRoute()
+const userFromDb = ref<UserType>()
 const ruta = ref()
 const loading = ref(false);
 const islaSelect = ref()
@@ -52,13 +53,30 @@ const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time))
 
 onMounted(async () => {
   loading.value = true
-  await wait(2000)
+  await wait(500)
+
+
+  let dataUser = window.Telegram.WebApp.initDataUnsafe.user
+
+  if (!dataUser) return
+  const userInDb = await userService.telegramUserInDB(dataUser.id)
+
+  //Si no hay usuario crear
+
+  if (userInDb.status === 404)
+
+    window.Telegram.WebApp.showConfirm(`Vamos a registrar tus datos básicos:\nIdTelegram: ${dataUser?.id}\nNombre: ${dataUser?.first_name}\nApellido: ${dataUser?.last_name}\n`, ((confirm) => {
+      if (confirm) {
+        userService.createUser(dataUser)
+      } else {
+        window.Telegram.WebApp.close()
+      }
+    }))
 
 
 
-  if (!window.Telegram.WebApp.initDataUnsafe.user) return
-  let response = await userService.getUserFromIdTelegram(window.Telegram.WebApp.initDataUnsafe.user.id)
-  user.value = response.data
+  let getUser = await userService.getUserFromIdTelegram(dataUser.id)
+  userFromDb.value = getUser.data
   settingTelegram()
   loading.value = false
 
