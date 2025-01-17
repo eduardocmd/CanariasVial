@@ -12,7 +12,6 @@
             <mainButtton valueText="Cámaras de tráfico" />
           </RouterLink>
         </aside>
-        <AnimatedSticker stickerPath="/stickers/koala_traffic_sticker.json" :size="250" :loop="true" :autoplay="true" />
       </header>
       <RouterLink :to="{ name: 'bot-settings' }">
         <article id="ajustes">
@@ -29,7 +28,6 @@
 </template>
 <script setup lang="ts">
 import('@/assets/basebot.css');
-import AnimatedSticker from "../../components/assets/StickerAnimated.vue"
 import * as userService from '@/services/user'
 import mainButtton from '@/components/assets/mainButtton.vue';
 import type { Isla } from "@/models/Isla"
