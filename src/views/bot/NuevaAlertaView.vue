@@ -37,7 +37,6 @@ import RefreshTime from "@/components/bot/RefreshTime.vue";
 import MainLoader from "@/components/MainLoader.vue"
 // Obtén la información de la ruta actual
 const route = useRoute()
-const userFromDb = ref<UserType>()
 const ruta = ref()
 const loading = ref(false);
 const islaSelect = ref()
@@ -76,7 +75,7 @@ onMounted(async () => {
 
 
   let getUser = await userService.getUserFromIdTelegram(dataUser.id)
-  userFromDb.value = getUser.data
+  user.value = getUser.data
   settingTelegram()
   loading.value = false
 
@@ -139,7 +138,7 @@ const settingTelegram = async () => {
 
   }
   if (user.value) {
-    console.log("aquí")
+   
     let idIslaUsuario = user.value.favorite_isle
     let findedIsle = islas.find((isl: Isla) => isl.id === idIslaUsuario)
     if (findedIsle) islaSelect.value = findedIsle
