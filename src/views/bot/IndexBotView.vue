@@ -3,14 +3,15 @@
     <section>
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
+        <RouterLink :to="{ name: 'bot-cameras' }">
+            <button id="camera" ></button>
+          </RouterLink>
         <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'bot-adminmemu' }">
           <h2>Admin</h2>
         </RouterLink>
         <aside>
           <mainButtton @click="irNuevaAlerta()" valueText="Nueva Alerta" />
-          <RouterLink :to="{ name: 'bot-cameras' }">
-            <mainButtton valueText="Cámaras de tráfico" />
-          </RouterLink>
+         
         </aside>
       </header>
       <RouterLink :to="{ name: 'bot-settings' }">
@@ -111,9 +112,14 @@ const irNuevaAlerta = () => {
 </script>
 
 <style scoped>
+
 #camera {
   width: 50px;
   height: 50px;
+  padding: 1rem;
+  background: var(--color-background) url('../../assets/camera.svg')no-repeat center/50%;
+
+
 }
 
 aside {
@@ -127,7 +133,7 @@ header {
 
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   padding: 1rem;
 }
 
@@ -137,14 +143,9 @@ header p {
 }
 
 #ajustes {
-  border-radius: var(--border-radius);
   display: flex;
   align-items: center;
-
   background-color: var(--color-background);
-  margin: 0.2rem 0;
-
-
 }
 
 #ajustes p {

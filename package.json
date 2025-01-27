@@ -17,7 +17,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@twa-dev/types": "^6.7.0",
+    "@twa-dev/types": "^8.0.2",
     "axios": "^1.5.0",
     "lottie-web": "^5.12.2",
     "vue": "^3.3.4",
