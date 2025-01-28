@@ -117,7 +117,7 @@ const irNuevaAlerta = () => {
   width: 50px;
   height: 50px;
   padding: 1rem;
-  background: var(--color-background) url('../../assets/camera.svg')no-repeat center/50%;
+  background: var(--color-button) url('../../assets/camera.svg')no-repeat center/50%;
 
 
 }

@@ -1,25 +1,12 @@
 <template>
     <!-- Botón de micrófono -->
-    <button @click="toggleRecognition" :disabled="recognitionActive" style="
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background-color: #0088cc; /* Color de Telegram */
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 18px;
-          cursor: pointer;
-        ">
-        🎤
-    </button>
+    <MainButtton valueText="🎤" style="width: 100%;" @click="toggleRecognition" :disabled="recognitionActive" />
 
     <p v-if="recognitionActive" style="margin-top: 10px; color: green;">🎙️ Reconociendo...</p>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import MainButtton from './assets/mainButtton.vue';
 defineProps(['text'])
 
 const recognitionActive = ref(false); // Indica si el micrófono está activo
