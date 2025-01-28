@@ -41,6 +41,8 @@ export const getAlertas = async () : Promise<ApiResponse> => {
     return salida;
   
   }
+  
+ 
   export const alertSessionById = async (session_id : string) : Promise<ApiResponse> => {
 
     let salida: ApiResponse = {

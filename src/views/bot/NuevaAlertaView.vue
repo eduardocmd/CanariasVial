@@ -2,14 +2,12 @@
   <main v-if="!loading">
     <section v-if="!pendingAlert" id="datosAlerta">
       <h2>Publicar <span v-if="alertSelect"> {{ alertSelect.tipo }}</span> </h2>
-
-      <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
       <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
         style="overflow: hidden; overflow-wrap: break-word; "></textarea>
       <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
+      <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
     </section>
     <section v-else id="salidaAlerta">
-
       <RefreshTime @refreshTime="refreshTime" :userId="user?._id"></RefreshTime>
     </section>
   </main>
@@ -52,7 +50,7 @@ const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time))
 
 onMounted(async () => {
   loading.value = true
-  await wait(500)
+  await wait(200)
 
 
   let dataUser = window.Telegram.WebApp.initDataUnsafe.user
@@ -76,6 +74,9 @@ onMounted(async () => {
 
   let getUser = await userService.getUserFromIdTelegram(dataUser.id)
   user.value = getUser.data
+
+
+
   settingTelegram()
   loading.value = false
 
@@ -138,11 +139,32 @@ const settingTelegram = async () => {
 
   }
   if (user.value) {
-   
+
     let idIslaUsuario = user.value.favorite_isle
     let findedIsle = islas.find((isl: Isla) => isl.id === idIslaUsuario)
     if (findedIsle) islaSelect.value = findedIsle
   }
+
+
+  //Comprobar si el usuario está en el canal unido
+
+  let userInChannel = await userService.userInChannel(user.value?.id_telegram, islaSelect.value?.id)
+  if (!userInChannel.data) {
+  window.Telegram.WebApp.showConfirm(
+    `Para poder enviar alertas necesitas unirte al canal de ${islaSelect.value?.nombre}.\n¿Quieres unirte?`,
+    async (confirm) => {
+      if (confirm) {
+        // Abre el canal de Telegram en una nueva ventana o pestaña
+        const canalUrl = `https://t.me/${islaSelect.value?.canal}`;
+        window.open(canalUrl, "_blank");
+      } else {
+        // Cierra la WebApp si el usuario cancela
+        window.Telegram.WebApp.close();
+      }
+    }
+  );
+}
+
 
 
   window.Telegram.WebApp.MainButton.onClick(async () => {
@@ -152,7 +174,6 @@ const settingTelegram = async () => {
       window.Telegram.WebApp.MainButton.disable()
       window.Telegram.WebApp.MainButton.showProgress()
       let tipoAlerta: string = Array.isArray(route.params.tipo) ? route.params.tipo[0] : route.params.tipo
-      console.log(tipoAlerta)
       if (!user.value?._id) return
       let nuevalerta: AlertaType = {
         _id: '',
@@ -189,7 +210,7 @@ main {
 
 #alerta {
 
-  min-height: 100px;
+  min-height: 130px;
   margin-bottom: 2em;
   font-size: 17px;
   color: black;
