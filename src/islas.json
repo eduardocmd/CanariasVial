@@ -3,12 +3,14 @@
         "id": "tnf",
         "isla": "Tenerife",
         "image": "islas/tenerife.svg",
+        "url": "https://t.me/alertastraficotnf",
         "select": false
     },
     {
         "id": "lpgc",
         "isla": "Gran Canaria",
         "image": "islas/lpgc.svg",
+        "url": "https://t.me/alertastraficolpgc",
         "select": false
     }
 ]
