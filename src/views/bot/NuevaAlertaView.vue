@@ -158,6 +158,8 @@ const settingTelegram = async () => {
         // Abre el canal de Telegram en una nueva ventana o pestaña
         const canalUrl = islaSelect.value?.url;
         window.open(canalUrl, "_blank");
+        window.Telegram.WebApp.close();
+
       } else {
         // Cierra la WebApp si el usuario cancela
         window.Telegram.WebApp.close();
