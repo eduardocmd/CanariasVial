@@ -152,7 +152,7 @@ const settingTelegram = async () => {
   let userInChannel = await userService.userInChannel(user.value?.id_telegram, islaSelect.value?.id)
   if (!userInChannel.data) {
   window.Telegram.WebApp.showConfirm(
-    `Para poder enviar alertas necesitas unirte al canal de ${islaSelect.value?.url}.\n¿Quieres unirte?`,
+    `Para poder enviar alertas necesitas unirte al canal de ${islaSelect.value?.isla}.\n¿Quieres unirte?`,
     async (confirm) => {
       if (confirm) {
         // Abre el canal de Telegram en una nueva ventana o pestaña
