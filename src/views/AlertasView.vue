@@ -22,25 +22,29 @@
 }
 
 /* Estilo base de las alertas */
+
 .alerta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
   border-radius: 1.5rem;
+
+  display: flex;
+  flex-direction: column; /* Asegura que el contenido fluya de arriba hacia abajo */
+  word-wrap: break-word; /* Rompe las palabras largas */
+  overflow-wrap: break-word; /* Asegura que el texto se ajuste bien */
+  box-sizing: border-box;
   width: 90%;
   max-width: 600px;
   padding: 1.5rem;
-  margin: auto;
   color: #fff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    /*Wrap de un parrafo para si no cabe que salte */   
-  word-wrap: break-word;
-
-  box-sizing: border-box; /* Asegura que el padding se incluya dentro del ancho total */
-  text-overflow: clip;
-  white-space: wrap;
+  background-color: #592d00;
 }
+
+.data h3 {
+  word-break: break-word; /* Rompe palabras muy largas si es necesario */
+  overflow: hidden; /* Evita que el texto desborde el contenedor */
+  text-overflow: ellipsis; /* Opcional: añade puntos suspensivos si el texto es muy largo */
+}
+
 
 /* Colores dinámicos según el tipo de alerta */
 .alerta{
@@ -71,10 +75,7 @@
   width: 100%;
 }
 
-.data h3 {
-  font-size: 1.3rem;
-  margin: 0;
-}
+
 
 .alerta-image {
   width: 60px;
@@ -95,9 +96,7 @@
     overflow-y: auto;
     background-color: var(--color-background-soft);
   }
-  .alerta {
-    min-height: 100px;
-  }
+  
 }
 </style>
 
