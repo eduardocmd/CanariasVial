@@ -17,6 +17,9 @@
   gap: 1rem;
   align-items: center;
   padding: 1rem;
+  background-color: var(--color-background-soft);
+  border-radius: 1.5rem;
+
 }
 
 /* Estilo base de las alertas */
@@ -29,19 +32,35 @@
   width: 90%;
   max-width: 600px;
   padding: 1.5rem;
+  margin: auto;
   color: #fff;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    /*Wrap de un parrafo para si no cabe que salte */   
+  word-wrap: break-word;
+  box-sizing: content-box; /* Asegura que el padding se incluya dentro del ancho total */
+  text-overflow: clip;
+  white-space: wrap;
 }
 
 /* Colores dinámicos según el tipo de alerta */
+.alerta{
+  background-color: #592d00;
+}
+
 .alerta.accidente {
   background-color: #e63946; /* Rojo para accidentes */
 }
 .alerta.obras {
   background-color: #ffba08; /* Amarillo para obras */
 }
-.alerta.fluidez {
-  background-color: #2a9d8f; /* Verde para tráfico fluido */
+.alerta.retenciones {
+  background-color: #8a4fff; /* Verde para tráfico fluido */
+}
+.alerta.obstaculos {
+  background-color: #184b7a; /* Naranja para obstáculos */
+}
+.alerta.viacortada{
+  background-color: #ff7e33;
 }
 
 /* Estilo de los datos */
@@ -70,9 +89,14 @@
 
 @media screen and (min-width: 768px) {
   .alertas {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+    width: 600px;
+    margin: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+    background-color: var(--color-background-soft);
+  }
+  .alerta {
+    min-height: 100px;
   }
 }
 </style>
