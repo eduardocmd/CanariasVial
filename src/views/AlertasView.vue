@@ -2,10 +2,9 @@
   <main class="alertas">
     <section class="alerta" v-for="alerta in alertas" :key="alerta._id" :class="alerta.tipo_alerta">
       <div class="data">
-        <img class="alerta-image" :src="getImagen(alerta.tipo_alerta)" alt="Imagen de la alerta" />
         <h3>{{ alerta.alerta }}</h3>
       </div>
-      <p class="fecha">{{ fecha(alerta) }}</p>
+      <p class="fecha">{{ fecha(alerta) }} {{ alerta.tipo_alerta }}</p>
     </section>
   </main>
 </template>
@@ -37,7 +36,8 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     /*Wrap de un parrafo para si no cabe que salte */   
   word-wrap: break-word;
-  box-sizing: content-box; /* Asegura que el padding se incluya dentro del ancho total */
+
+  box-sizing: border-box; /* Asegura que el padding se incluya dentro del ancho total */
   text-overflow: clip;
   white-space: wrap;
 }
