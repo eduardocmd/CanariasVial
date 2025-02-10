@@ -12,9 +12,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@twa-dev/types": "^8.0.2",
@@ -34,20 +32,11 @@
     "@vue/tsconfig": "^0.4.0",
     "eslint": "^8.46.0",
     "eslint-plugin-vue": "^9.16.1",
-<<<<<<< HEAD
-    "gh-pages": "^6.1.1",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^3.0.0",
-    "typescript": "^5.6.2",
-    "vite": "^4.4.9",
-    "vue-tsc": "^2.1.6"
-=======
     "gh-pages": "^6.2.0",
     "npm-run-all": "^2.1.0",
     "prettier": "^3.0.0",
     "typescript": "^5.6.3",
     "vite": "^4.4.9",
     "vue-tsc": "^2.1.10"
->>>>>>> origin/dev
   }
 }
