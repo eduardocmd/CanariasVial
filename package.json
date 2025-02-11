@@ -16,7 +16,10 @@
   },
   "dependencies": {
     "@twa-dev/types": "^8.0.2",
+    "@types/leaflet": "^1.9.16",
+    "@vue-leaflet/vue-leaflet": "^0.10.1",
     "axios": "^1.5.0",
+    "leaflet": "^1.9.4",
     "lottie-web": "^5.12.2",
     "vue": "^3.3.4",
     "vue-plugin-load-script": "^2.1.1",

@@ -53,8 +53,8 @@ main {
 }
 
 #selector {
-  width: 300px; /* Define un ancho fijo o ajustable */
-  height: 180px; /* Define la altura del contenedor para el desplazamiento */
+  width: 220px; /* Define un ancho fijo o ajustable */
+  height: 120px; /* Define la altura del contenedor para el desplazamiento */
   overflow: auto; 
   display: flex;
   flex-direction: column; /* Asegura que los elementos se alineen verticalmente */

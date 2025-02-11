@@ -1,8 +1,8 @@
 <template>
     <!-- Botón de micrófono -->
-    <MainButtton valueText="🎤" style="width: 100%;" @click="toggleRecognition" :disabled="recognitionActive" />
+    <MainButtton id="micro" valueText="🎤"  @click="toggleRecognition" :disabled="recognitionActive" />
 
-    <p v-if="recognitionActive" style="margin-top: 10px; color: green;">🎙️ Reconociendo...</p>
+    <p v-if="recognitionActive" style="margin: 0 ; color: green;">🎙️ Reconociendo...</p>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
@@ -54,3 +54,12 @@ const toggleRecognition = () => {
     }
 };
 </script>
+<style scoped>
+#micro{
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    z-index: 100;
+}
+
+</style>

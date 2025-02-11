@@ -1,11 +1,13 @@
 <template>
   <main v-if="!loading">
     <section v-if="!pendingAlert" id="datosAlerta">
-      <h2>Publicar <span v-if="alertSelect"> {{ alertSelect.tipo }}</span> </h2>
+      <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
+
       <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
         style="overflow: hidden; overflow-wrap: break-word; "></textarea>
-      <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
+      <MapaSelector @coordenadas-seleccionadas="manejarCoordenadas" />
       <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
+
     </section>
     <section v-else id="salidaAlerta">
       <RefreshTime @refreshTime="refreshTime" :userId="user?._id"></RefreshTime>
@@ -33,11 +35,13 @@ import router from '@/router'
 import AlertsSelector from "@/components/bot/AlertsSelector.vue";
 import RefreshTime from "@/components/bot/RefreshTime.vue";
 import MainLoader from "@/components/MainLoader.vue"
+import MapaSelector from "@/components/MapaSelector.vue";
 // Obtén la información de la ruta actual
 const route = useRoute()
 const ruta = ref()
 const loading = ref(false);
 const islaSelect = ref()
+const alertCords = ref()
 const user = ref<UserType>()
 ruta.value = route.params.tipo
 const alerta = ref()
@@ -47,6 +51,10 @@ const pendingAlert = ref(true)
 //Mensaje 
 const msgResponse = ref('')
 const wait = (time: number) => new Promise(resolve => setTimeout(resolve, time));
+const manejarCoordenadas = (coordenadas: { lat: number; lng: number }) => {
+  alertCords.value = coordenadas;
+};
+
 
 onMounted(async () => {
   loading.value = true
@@ -141,7 +149,7 @@ const settingTelegram = async () => {
   if (user.value) {
 
     let idIslaUsuario = user.value.favorite_isle
-    if(!idIslaUsuario) return
+    if (!idIslaUsuario) return
     let findedIsle = islas.find((isl: Isla) => isl.id === idIslaUsuario)
     if (findedIsle) islaSelect.value = findedIsle
   }
@@ -151,22 +159,22 @@ const settingTelegram = async () => {
 
   let userInChannel = await userService.userInChannel(user.value?.id_telegram, islaSelect.value?.id)
   if (!userInChannel.data) {
-  window.Telegram.WebApp.showConfirm(
-    `Para poder enviar alertas necesitas unirte al canal de ${islaSelect.value?.isla}.\n¿Quieres unirte?`,
-    async (confirm) => {
-      if (confirm) {
-        // Abre el canal de Telegram en una nueva ventana o pestaña
-        const canalUrl = islaSelect.value?.url;
-        window.open(canalUrl, "_blank");
-        window.Telegram.WebApp.close();
+    window.Telegram.WebApp.showConfirm(
+      `Para poder enviar alertas necesitas unirte al canal de ${islaSelect.value?.isla}.\n¿Quieres unirte?`,
+      async (confirm) => {
+        if (confirm) {
+          // Abre el canal de Telegram en una nueva ventana o pestaña
+          const canalUrl = islaSelect.value?.url;
+          window.open(canalUrl, "_blank");
+          window.Telegram.WebApp.close();
 
-      } else {
-        // Cierra la WebApp si el usuario cancela
-        window.Telegram.WebApp.close();
+        } else {
+          // Cierra la WebApp si el usuario cancela
+          window.Telegram.WebApp.close();
+        }
       }
-    }
-  );
-}
+    );
+  }
 
 
 
@@ -182,6 +190,8 @@ const settingTelegram = async () => {
         _id: '',
         isla: islaSelect.value.id,
         alerta: alerta.value,
+        latitud: alertCords.value?.lat,
+        longitud: alertCords.value?.lng,
         id_usuario: user.value?._id,
         tipo_alerta: alertSelect.value.tipo
       }
@@ -225,7 +235,6 @@ main {
   display: block;
   outline: none;
   border: none;
-
   border-radius: var(--border-radius);
   resize: none;
   color: var(--text-color);

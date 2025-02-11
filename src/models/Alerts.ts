@@ -6,8 +6,8 @@ export interface AlertaType {
     id_usuario: string
     tipo_alerta: string
     estado_alerta?: 'pending' | 'activa' | 'denegada' | 'eliminada'
-    latitud?: string
-    longitud?: string
+    latitud?: number
+    longitud?: number
     date_creation?: Date
 
 }

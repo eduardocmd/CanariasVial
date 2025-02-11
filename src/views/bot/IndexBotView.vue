@@ -14,6 +14,8 @@
          
         </aside>
       </header>
+      <MapaAlertas></MapaAlertas>
+
       <RouterLink :to="{ name: 'bot-settings' }">
         <article id="ajustes">
           <div id="ajustesico"></div>
@@ -37,6 +39,7 @@ import islas from '@/islas.json'
 import router from '@/router'
 import type { UserType } from "@/models/TelegramUser"
 import MainLoader from "@/components/MainLoader.vue";
+import MapaAlertas from '@/components/MapaAlertas.vue';
 const versionWebApp = window.Telegram.WebApp.version
 const nombre = ref('')
 const intancia = ref('')
