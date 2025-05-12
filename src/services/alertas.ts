@@ -254,7 +254,7 @@ export const getAlertas = async () : Promise<ApiResponse> => {
         }
       }
     }
-    console.log("entro")
+   
     return salida;
   
   }

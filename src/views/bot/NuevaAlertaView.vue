@@ -2,7 +2,7 @@
   <main v-if="!loading">
     <section v-if="!pendingAlert" id="datosAlerta">
       <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
-
+      {{ alerta }}
       <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
         style="overflow: hidden; overflow-wrap: break-word; "></textarea>
       <MapaSelector @coordenadas-seleccionadas="manejarCoordenadas" />
@@ -122,6 +122,34 @@ const refreshTime = async (data: boolean) => {
 }
 const settingTelegram = async () => {
 
+  window.Telegram.WebApp.MainButton.onClick(async () => {
+    console.log("oooooooola")
+    //Methods
+    if (alerta.value) {
+      window.Telegram.WebApp.MainButton.disable()
+      window.Telegram.WebApp.MainButton.showProgress()
+      let tipoAlerta: string = Array.isArray(route.params.tipo) ? route.params.tipo[0] : route.params.tipo
+      if (!user.value?._id) return
+      let nuevalerta: AlertaType = {
+        _id: '',
+        isla: islaSelect.value.id,
+        alerta: alerta.value,
+        latitud: alertCords.value?.lat,
+        longitud: alertCords.value?.lng,
+        id_usuario: user.value?._id,
+        tipo_alerta: alertSelect.value.tipo
+      }
+      if (!window.Telegram.WebApp.initDataUnsafe.user) return
+      let sendedAlert = await alertService.sendAlert(nuevalerta, window.Telegram.WebApp.initDataUnsafe.user)
+      window.Telegram.WebApp.MainButton.hide()
+      window.Telegram.WebApp.MainButton.hideProgress()
+      window.Telegram.WebApp.MainButton.enable()
+      pendingAlert.value = true
+      msgResponse.value = sendedAlert.data
+      //if(salida.status === 200) window.Telegram.WebApp.MainButton.hide()
+
+    }
+  })
 
   window.Telegram.WebApp.BackButton.onClick(() => {
     //router.back()
@@ -132,7 +160,7 @@ const settingTelegram = async () => {
 
 
   const params = new URLSearchParams(window.location.search);
-  const isle = params.get('isle') || '';
+  const isle = params.get('isle') || 'tnf';
 
   //Ver para que isla va a ser la alerta.
   if (isle) {
@@ -178,34 +206,6 @@ const settingTelegram = async () => {
 
 
 
-  window.Telegram.WebApp.MainButton.onClick(async () => {
-
-    //Methods
-    if (alerta.value) {
-      window.Telegram.WebApp.MainButton.disable()
-      window.Telegram.WebApp.MainButton.showProgress()
-      let tipoAlerta: string = Array.isArray(route.params.tipo) ? route.params.tipo[0] : route.params.tipo
-      if (!user.value?._id) return
-      let nuevalerta: AlertaType = {
-        _id: '',
-        isla: islaSelect.value.id,
-        alerta: alerta.value,
-        latitud: alertCords.value?.lat,
-        longitud: alertCords.value?.lng,
-        id_usuario: user.value?._id,
-        tipo_alerta: alertSelect.value.tipo
-      }
-      if (!window.Telegram.WebApp.initDataUnsafe.user) return
-      let sendedAlert = await alertService.sendAlert(nuevalerta, window.Telegram.WebApp.initDataUnsafe.user)
-      window.Telegram.WebApp.MainButton.hide()
-      window.Telegram.WebApp.MainButton.hideProgress()
-      window.Telegram.WebApp.MainButton.enable()
-      pendingAlert.value = true
-      msgResponse.value = sendedAlert.data
-      //if(salida.status === 200) window.Telegram.WebApp.MainButton.hide()
-
-    }
-  })
 }
 
 
