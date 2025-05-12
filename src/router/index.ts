@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import IndexBotView from '../views/bot/IndexBotView.vue'
 import SelectorIsla from '../views/bot/SelectorIslaView.vue'
@@ -11,7 +11,7 @@ import About from '@/views/AboutView.vue'
 import RoadMap from '@/views/RoadMapView.vue';
 import CookiesView from '@/views/CookiesView.vue'
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
