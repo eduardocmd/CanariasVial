@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-=======
-<script setup lang="ts">
-import { computed } from 'vue';
-import { useRoute } from "vue-router";
-import HeadderApp from "@/components/HeadderApp.vue";
-import FooterWeb from "@/components/FooterWeb.vue";
-import AsideMenu from './components/AsideMenu.vue';
-
-// Obtén la información de la ruta actual
-const route = useRoute();
-
-const isInBot = computed(() => route.meta.hideHeader === true);
-</script>
-
->>>>>>> origin/dev
 <template>
   <!-- Layout normal -->
   <div v-if="!isInBot">
@@ -64,6 +48,7 @@ const isInBot = computed(() => {
     height: calc(100vh - var(--menu-size));
     padding: 1rem;
   }
+
   .layout-wrapper {
     padding-left: var(--menu-size);
     padding-top: var(--menu-size);
