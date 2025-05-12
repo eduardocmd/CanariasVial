@@ -33,16 +33,13 @@ import MapaAlertas from '@/components/MapaAlertas.vue';
 </template>
 
 <style scoped>
-<<<<<<< HEAD
-h1{
+h1 {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-=======
->>>>>>> origin/dev
 .logo {
   width: 20px;
   height: 20px;
