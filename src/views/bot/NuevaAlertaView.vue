@@ -1,13 +1,25 @@
 <template>
   <main v-if="!loading">
     <section v-if="!pendingAlert" id="datosAlerta">
-      <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
-      <h3>{{ islaSelect.isla }}</h3>
-      <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
-        style="overflow: hidden; overflow-wrap: break-word; "></textarea>
+      <div>
+        <h3>{{ islaSelect.isla }}</h3>
+        <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
+      </div>
+      <div>
 
-      <MapaSelector @coordenadas-seleccionadas="manejarCoordenadas" />
-      <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
+        <MapaSelector @coordenadas-seleccionadas="manejarCoordenadas" />
+
+        <section>
+          <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
+            style="overflow: hidden; overflow-wrap: break-word; "></textarea>
+
+          <!--<VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>-->
+        </section>
+
+      </div>
+
+
+
 
     </section>
     <section v-else id="salidaAlerta">
@@ -228,10 +240,15 @@ main {
   text-align: center;
 }
 
+h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+
 #alerta {
 
-  min-height: 130px;
-  margin-bottom: 2em;
+
+  margin: 1em 0;
   font-size: 17px;
   color: black;
   line-height: 21px;

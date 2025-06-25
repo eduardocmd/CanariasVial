@@ -1,9 +1,11 @@
 <template>
-    <button @click="solicitarUbicacion" id="ubi">
-        📍
-    </button>
 
-    <div id="map" style="height: 300px; width: 100%; position: relative;"></div>
+
+    <div id="map" style="height: 300px; width: 100%; position: relative;">
+        <button @click="solicitarUbicacion" id="ubi">
+            📍
+        </button>
+    </div>
 
 
 
@@ -83,23 +85,29 @@ const solicitarUbicacion = () => {
 <style>
 #map {
     margin-top: 20px;
+    position: relative;
+    /* Muy importante para que el botón se posicione dentro */
 }
 
 #ubi {
-    position: fixed;
-    bottom: 100px;
+    position: absolute;
+    bottom: 10px;
     right: 10px;
-    z-index: 10000;
+    z-index: 1000;
+    /* Suficiente para estar por encima del mapa */
     background-color: var(--color-button);
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 1rem;
+    font-size: 1.5rem;
+    padding: 6px 12px;
 }
 
 #ubi:hover {
     background-color: #0056b3;
 }
+
 
 .emoji-marker {
     font-size: 2rem;
