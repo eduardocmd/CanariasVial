@@ -1,6 +1,6 @@
 <template>
     <!-- Botón de micrófono -->
-    <MainButtton id="micro" valueText="🎤"  @click="toggleRecognition" :disabled="recognitionActive" />
+    <MainButtton id="micro" valueText="🎤" @click="toggleRecognition" :disabled="recognitionActive" />
 
     <p v-if="recognitionActive" style="margin: 0 ; color: green;">🎙️ Reconociendo...</p>
 </template>
@@ -55,11 +55,10 @@ const toggleRecognition = () => {
 };
 </script>
 <style scoped>
-#micro{
-    position: fixed;
+#micro {
+
     bottom: 20px;
     right: 10px;
     z-index: 100;
 }
-
 </style>
