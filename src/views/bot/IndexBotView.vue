@@ -4,14 +4,14 @@
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
         <RouterLink :to="{ name: 'bot-cameras' }">
-            <button id="camera" ></button>
-          </RouterLink>
+          <button v-if="currentIsle === 'tnf'" id="camera"></button>
+        </RouterLink>
+
         <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'bot-adminmemu' }">
           <h2>Admin</h2>
         </RouterLink>
         <aside>
           <mainButtton @click="irNuevaAlerta()" valueText="Nueva Alerta" />
-         
         </aside>
       </header>
       <MapaAlertas></MapaAlertas>
@@ -34,7 +34,7 @@ import('@/assets/basebot.css');
 import * as userService from '@/services/user'
 import mainButtton from '@/components/assets/mainButtton.vue';
 import type { Isla } from "@/models/Isla"
-import { ref, onMounted } from "vue"
+import { ref, onMounted, computed } from "vue"
 import islas from '@/islas.json'
 import router from '@/router'
 import type { UserType } from "@/models/TelegramUser"
@@ -46,7 +46,14 @@ const intancia = ref('')
 const IslaFavorite = ref()
 const userFromDb = ref<UserType>()
 const loading = ref(false)
+import { useIsleStore } from '@/stores/isle'
 
+
+// Instanciamos el store
+const isleStore = useIsleStore()
+
+
+const currentIsle = computed(() => isleStore.isle)
 const settingTelegram = () => {
   window.Telegram.WebApp.ready()
   window.Telegram.WebApp.BackButton.onClick(() => {
@@ -70,7 +77,7 @@ const settingTelegram = () => {
 onMounted(async () => {
   loading.value = true
   settingTelegram()
- 
+
   let dataUser = window.Telegram.WebApp.initDataUnsafe.user
   if (!dataUser) return
   const userInDb = await userService.telegramUserInDB(dataUser.id)
@@ -92,7 +99,7 @@ onMounted(async () => {
   let getUser = await userService.getUserFromIdTelegram(dataUser.id)
   userFromDb.value = getUser.data
 
-  let findedIsle = islas.find((isl: Isla) => isl.id === getUser.data.favorite_isle)
+  let findedIsle = islas.find((isl: Isla) => isl.id === currentIsle.value)
   if (findedIsle) IslaFavorite.value = findedIsle
 
 
@@ -104,18 +111,15 @@ onMounted(async () => {
 
 const irNuevaAlerta = () => {
 
-  if (IslaFavorite.value) {
-    router.push({ name: 'bot-nuevaalerta' });
-  } else {
-    router.push({ name: 'bot-selectorisla' });
-  }
+
+  router.push({ name: 'bot-nuevaalerta' });
+
 }
 
 
 </script>
 
 <style scoped>
-
 #camera {
   width: 50px;
   height: 50px;

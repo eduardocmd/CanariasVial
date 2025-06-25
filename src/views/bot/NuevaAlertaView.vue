@@ -2,7 +2,7 @@
   <main v-if="!loading">
     <section v-if="!pendingAlert" id="datosAlerta">
       <VoiceRecognition @transcriptText="alerta = $event" :text="alerta"></VoiceRecognition>
-      {{ alerta }}
+      <h3>{{ islaSelect.isla }}</h3>
       <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
         style="overflow: hidden; overflow-wrap: break-word; "></textarea>
       <MapaSelector @coordenadas-seleccionadas="manejarCoordenadas" />
@@ -36,6 +36,12 @@ import AlertsSelector from "@/components/bot/AlertsSelector.vue";
 import RefreshTime from "@/components/bot/RefreshTime.vue";
 import MainLoader from "@/components/MainLoader.vue"
 import MapaSelector from "@/components/MapaSelector.vue";
+import { useIsleStore } from '@/stores/isle'
+
+
+// Instanciamos el store
+const isleStore = useIsleStore()
+
 // Obtén la información de la ruta actual
 const route = useRoute()
 const ruta = ref()
@@ -159,8 +165,14 @@ const settingTelegram = async () => {
   })
 
 
+
+  let findedIsle = islas.find((isl: Isla) => isl.id === isleStore.isle)
+
+  islaSelect.value = findedIsle
+
   const params = new URLSearchParams(window.location.search);
-  const isle = params.get('isle') || 'tnf';
+  console.log(params)
+  const isle = params.get('isla');
 
   //Ver para que isla va a ser la alerta.
   if (isle) {
@@ -174,13 +186,7 @@ const settingTelegram = async () => {
     }
 
   }
-  if (user.value) {
 
-    let idIslaUsuario = user.value.favorite_isle
-    if (!idIslaUsuario) return
-    let findedIsle = islas.find((isl: Isla) => isl.id === idIslaUsuario)
-    if (findedIsle) islaSelect.value = findedIsle
-  }
 
 
   //Comprobar si el usuario está en el canal unido

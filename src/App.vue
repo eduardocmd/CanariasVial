@@ -4,16 +4,35 @@ import { useRoute } from "vue-router";
 import HeadderApp from "@/components/HeadderApp.vue";
 import FooterWeb from "@/components/FooterWeb.vue";
 import AsideMenu from './components/AsideMenu.vue';
+import { useIsleStore } from '@/stores/isle'
 
 // Obtén la información de la ruta actual
 const route = useRoute();
+// Instanciamos el store
+const isleStore = useIsleStore()
+
+
+const currentIsle = computed(() => isleStore.isle)
+function cambiarIsle(nuevoIsle: string) {
+  isleStore.setIsle(nuevoIsle)
+}
 
 const isInBot = computed(() => route.meta.hideHeader === true);
 </script>
-
 <template>
-  <!-- Layout normal -->
-  <div v-if="!isInBot">
+  <template v-if="!currentIsle">
+    <h2>Selecciona tu isla</h2>
+    <button @click="cambiarIsle('tnf')">Tenerife</button>
+    <button @click="cambiarIsle('lpgc')">LPGC</button>
+  </template>
+
+  <template v-else-if="isInBot">
+    <!-- Vista para el bot -->
+    <RouterView />
+  </template>
+
+  <template v-else>
+    <!-- Layout normal -->
     <HeadderApp />
     <AsideMenu />
     <main class="layout-wrapper">
@@ -22,12 +41,9 @@ const isInBot = computed(() => route.meta.hideHeader === true);
       </div>
       <FooterWeb />
     </main>
-  </div>
+  </template>
 
-  <!-- Vista para el bot -->
-  <RouterView v-else />
 </template>
-
 <style scoped>
 .layout-content {
   border-radius: 2rem;
