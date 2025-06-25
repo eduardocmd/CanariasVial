@@ -29,6 +29,8 @@ onMounted(() => {
         setMarker(e.latlng.lat, e.latlng.lng);
     });
 
+
+
     map.value.invalidateSize();
 
     // Inicializar el LocationManager de Telegram
@@ -41,11 +43,20 @@ const setMarker = (lat: number, lng: number) => {
     selectedCoords.value = { lat: parseFloat(lat.toFixed(6)), lng: parseFloat(lng.toFixed(6)) };
     emit('coordenadas-seleccionadas', selectedCoords.value);
 
+    const iconHtml = L.divIcon({
+        html: '📍',
+        className: 'emoji-marker',
+        iconSize: [32, 32],
+        iconAnchor: [32, 32],
+    });
+
     if (marker.value) {
         marker.value.setLatLng([lat, lng]);
+        marker.value.setIcon(iconHtml);
     } else {
-        marker.value = L.marker([lat, lng]).addTo(map.value!);
+        marker.value = L.marker([lat, lng], { icon: iconHtml }).addTo(map.value!);
     }
+
     map.value?.setView([lat, lng], 15);
 };
 
@@ -69,7 +80,7 @@ const solicitarUbicacion = () => {
 };
 </script>
 
-<style scoped>
+<style>
 #map {
     margin-top: 20px;
 }
@@ -88,5 +99,12 @@ const solicitarUbicacion = () => {
 
 #ubi:hover {
     background-color: #0056b3;
+}
+
+.emoji-marker {
+    font-size: 2rem;
+    /* Tamaño del emoji */
+    text-align: center;
+    line-height: 1;
 }
 </style>

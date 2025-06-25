@@ -12,7 +12,11 @@ const map = ref<L.Map>();
 const center = ref<[number, number]>([28.4696, -16.2536]); // Tipo LatLngTuple
 const zoom = ref(10);
 const alertas = ref();
+import { useIsleStore } from '@/stores/isle'
 
+
+// Instanciamos el store
+const isleStore = useIsleStore()
 onMounted(async () => {
     if (map.value) {
         map.value.setView(center.value, zoom.value);
@@ -21,7 +25,7 @@ onMounted(async () => {
     }
 
 
-    alertas.value = (await getAlertas()).data;
+    alertas.value = (await getAlertas(isleStore.isle)).data;
 
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map.value);

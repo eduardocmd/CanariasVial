@@ -3,16 +3,19 @@ import axios from 'axios';
 import type{ ApiResponse } from '@/models/ApiResponse';
 import type { WebAppInitData, WebAppUser } from '@twa-dev/types';
 import type { AlertaType } from '@/models/Alerts';
-export const getAlertas = async () : Promise<ApiResponse> => {
+export const getAlertas = async ( isle? : string) : Promise<ApiResponse> => {
 
     let salida: ApiResponse = {
       status: 500,
       data: 'Error interno del servidor',
     };
+      // Construir la URL con o sin isla
+  const baseUrl = `${import.meta.env.VITE_APP_Web_IP}/alertas`;
+  const url = isle ? `${baseUrl}?isla=${encodeURIComponent(isle)}` : baseUrl;
     const configuracion = {
   
       method: 'GET',
-      url: `${import.meta.env.VITE_APP_Web_IP}/alertas`,
+      url: url,
       
       headers: {
         'Content-Type': 'application/json', // Establece el tipo de contenido como JSON
