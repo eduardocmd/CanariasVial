@@ -1,16 +1,20 @@
 <template>
-<section v-if="!loading">
-    <h1 class="msg"> No puedes enviar alertas en menos de 5m.Tiempo restante:  {{ remainingTime }}</h1>
-    <div class="clock"></div>
-</section>
-<section v-else>
-    
-</section>
+    <section v-if="!loading">
+        <h1 class="msg"> No puedes enviar alertas en menos de 5m.Tiempo restante: {{ remainingTime }}</h1>
+        <div class="clock"></div>
+
+        <RouterLink :to="{ name: 'bot' }">
+            <mainButtton valueText="Ir al inicio" />
+        </RouterLink>
+    </section>
+    <section v-else>
+
+    </section>
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import * as alertService from '@/services/alertas'
-
+import mainButtton from '@/components/assets/mainButtton.vue';
 const loading = ref(false)
 const props = defineProps(['userId'])
 const emit = defineEmits<{
@@ -23,17 +27,22 @@ const Alert = ref()
 onMounted(async () => {
     loading.value = true
     let responseisActive = await alertService.refreshTime(props.userId)
-    loading.value = false
+
     if (responseisActive.status === 200) Alert.value = responseisActive.data
     if (Alert.value == '') emit("refreshTime", false);
+    getSeconds(responseisActive)
     setInterval(() => {
-        let resto = new Date(responseisActive.data).getTime() - new Date().getTime() + 5 * 60 * 1000;
-        if (Alert.value) remainingTime.value = `${Math.floor(resto / (1000 * 60))}m y ${Math.floor(resto / 1000) % 60}s`
-        if ( resto < 0) emit("refreshTime", false);
+        getSeconds(responseisActive)
     }, 1000)
+    loading.value = false
 
 })
 
+const getSeconds = (responseisActive: any) => {
+    let resto = new Date(responseisActive.data).getTime() - new Date().getTime() + 5 * 60 * 1000;
+    if (Alert.value) remainingTime.value = `${Math.floor(resto / (1000 * 60))}m y ${Math.floor(resto / 1000) % 60}s`
+    if (resto < 0) emit("refreshTime", false);
+}
 
 </script>
 <style scoped>

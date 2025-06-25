@@ -5,6 +5,7 @@
       <h3>{{ islaSelect.isla }}</h3>
       <textarea v-model="alerta" placeholder="Introduce la alerta" id="alerta" rows="1" type="text"
         style="overflow: hidden; overflow-wrap: break-word; "></textarea>
+
       <MapaSelector @coordenadas-seleccionadas="manejarCoordenadas" />
       <AlertsSelector @alertaSeleccionada="handleAlertChange" :isla="islaSelect"></AlertsSelector>
 
