@@ -82,7 +82,7 @@ main {
 
 #selector {
   width: 220px;
-  height: 120px;
+  height: 180px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
