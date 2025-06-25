@@ -8,7 +8,7 @@
     </main>
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import * as userService from '@/services/user'
 import('../../assets/basebot.css');
 import * as islaService from '@/services/isla'
@@ -17,6 +17,16 @@ import router from '@/router';
 //Models
 import type { UserType } from '@/models/TelegramUser'
 import type { Isla } from '@/models/Isla'
+import { useIsleStore } from '@/stores/isle'
+
+
+// Instanciamos el store
+const isleStore = useIsleStore()
+
+
+
+
+
 const islas = ref<Isla[]>(listaIslas);
 const userFromDb = ref<UserType>();
 const selectIsle = (selectedIsla: Isla) => {
@@ -26,6 +36,7 @@ const selectIsle = (selectedIsla: Isla) => {
 }
 const saveIsla = async () => {
     let islaSelected = islas.value.find((i) => i.select === true)
+    isleStore.setIsle(islaSelected?.id || '')
     if (islaSelected && userFromDb.value?._id) await islaService.saveFavoriteIsle(islaSelected.id, userFromDb.value._id)
     window.Telegram.WebApp.MainButton.hide()
     router.push({ name: 'bot' });
@@ -38,12 +49,9 @@ onMounted(async () => {
         isla.select = false
     })
 
-    let dataUser = window.Telegram.WebApp.initDataUnsafe.user
-    if(!dataUser) return
-    let user = await userService.getUserFromIdTelegram(dataUser.id )
-    userFromDb.value = user.data
-    //Autoseleccionar isla si el usuario tenía ya una seleccionada
-    let findedIsle = islas.value.find((isla) => isla.id == userFromDb.value?.favorite_isle)
+
+
+    let findedIsle = islas.value.find((isla) => isla.id == isleStore.isle)
     if (findedIsle) findedIsle.select = true
 
     window.Telegram.WebApp.BackButton.show()
