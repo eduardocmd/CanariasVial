@@ -4,8 +4,9 @@
       <header>
         <h1 v-if="IslaFavorite">{{ IslaFavorite.isla }} Vial</h1>
         <RouterLink :to="{ name: 'bot-cameras' }">
-          <button id="camera"></button>
+          <button v-if="currentIsle === 'tnf'" id="camera"></button>
         </RouterLink>
+
         <RouterLink v-if="userFromDb?.type_user === 'admin'" :to="{ name: 'bot-adminmemu' }">
           <h2>Admin</h2>
         </RouterLink>

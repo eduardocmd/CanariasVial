@@ -1,7 +1,8 @@
 <template>
     <main>
         <section v-for="isla in islas" @click="selectIsle(isla)" :class="{ 'selected': isla.select }" :key="isla.isla">
-            <div class="isla" :style="{ 'background-image': 'url(' + isla.image + ')' }"></div>
+            <div class="isla" :style="{ 'background-image': 'url(' + baseurl + isla.image + ')' }">
+            </div>
             <h2>{{ isla.isla }}</h2>
         </section>
         <div class="space"></div>
@@ -18,7 +19,7 @@ import router from '@/router';
 import type { UserType } from '@/models/TelegramUser'
 import type { Isla } from '@/models/Isla'
 import { useIsleStore } from '@/stores/isle'
-
+const baseurl = import.meta.env.BASE_URL
 
 // Instanciamos el store
 const isleStore = useIsleStore()
