@@ -1,5 +1,5 @@
 <template>
-    <div id="map" style="height: 300px; width: 100%;"></div>
+    <div id="map" style="height: 350px; width: 100%;"></div>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
@@ -18,6 +18,7 @@ import { useIsleStore } from '@/stores/isle'
 // Instanciamos el store
 const isleStore = useIsleStore()
 onMounted(async () => {
+    centrarMapaSegunIsla();
     if (map.value) {
         map.value.setView(center.value, zoom.value);
     } else {
@@ -60,6 +61,17 @@ const getImagen = (tipoAlerta: string): string => {
     const tipo = alertasJSON.find((tipos) => tipos.tipo == tipoAlerta);
     console.log(tipo)
     return tipo ? tipo.image : '';
+};
+const centrarMapaSegunIsla = () => {
+    if (isleStore.isle === 'lpgc') {
+        center.value = [28.1235, -15.4363]; // Coordenadas Gran Canaria (puedes ajustar)
+    } else {
+        center.value = [28.4696, -16.2536]; // Coordenadas Tenerife
+    }
+
+    if (map.value) {
+        map.value.setView(center.value, zoom.value);
+    }
 };
 </script>
 <style scoped>
