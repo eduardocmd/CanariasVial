@@ -2,7 +2,7 @@
     <div id="map" style="height: 350px; width: 100%;"></div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import L from 'leaflet';
 import { getAlertas } from '@/services/alertas';
 import alertasJSON from '@/alertas.json';
@@ -29,7 +29,13 @@ onMounted(async () => {
     alertas.value = (await getAlertas(isleStore.isle)).data;
 
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map.value);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '',
+        subdomains: 'abcd',
+        maxZoom: 19,
+        maxNativeZoom: 19
+    }).addTo(map.value!);
+
 
 
 
@@ -57,6 +63,41 @@ onMounted(async () => {
 
 
 });
+
+watch(() => isleStore.isle, async (nuevaIsla) => {
+    centrarMapaSegunIsla();
+    alertas.value = (await getAlertas(nuevaIsla)).data;
+
+    // Limpia marcadores anteriores para no acumular (opcional)
+    if (map.value) {
+        map.value.eachLayer((layer) => {
+            // Excluye la capa base (tileLayer)
+            if (!(layer instanceof L.TileLayer)) {
+                map.value?.removeLayer(layer);
+            }
+        });
+
+        // Añade los nuevos marcadores
+        alertas.value.forEach((alerta: AlertaType) => {
+            if (!alerta.latitud || !alerta.longitud) return;
+            const imagen = getImagen(alerta.tipo_alerta);
+            const iconoPersonalizado = L.icon({
+                iconUrl: imagen,
+                iconSize: [38, 95],
+                iconAnchor: [22, 94],
+                popupAnchor: [-3, -76]
+            });
+
+            const marker = L.marker([alerta.latitud, alerta.longitud], { icon: iconoPersonalizado }).addTo(map.value!);
+            marker.bindPopup(alerta.alerta);
+        });
+
+        map.value.invalidateSize();
+    }
+});
+
+
+
 const getImagen = (tipoAlerta: string): string => {
     const tipo = alertasJSON.find((tipos) => tipos.tipo == tipoAlerta);
     console.log(tipo)
@@ -74,7 +115,11 @@ const centrarMapaSegunIsla = () => {
     }
 };
 </script>
-<style scoped>
+<style>
+.leaflet-control-attribution {
+    display: none !important;
+}
+
 /* Estilos adicionales para el mapa */
 #map {
     margin-top: 20px;
