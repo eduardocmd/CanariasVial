@@ -33,6 +33,7 @@ onMounted(async () => {
         attribution: '',
         subdomains: 'abcd',
         maxZoom: 19,
+        minZoom: 9, // 👈 límite mínimo
         maxNativeZoom: 19
     }).addTo(map.value!);
 

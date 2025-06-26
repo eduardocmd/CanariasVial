@@ -5,6 +5,8 @@ import HeadderApp from "@/components/HeadderApp.vue";
 import FooterWeb from "@/components/FooterWeb.vue";
 import AsideMenu from './components/AsideMenu.vue';
 import { useIsleStore } from '@/stores/isle'
+import SelectorIslaView from './views/bot/SelectorIslaView.vue';
+import SelectorIslaWeb from './components/SelectorIslaWeb.vue';
 
 // Obtén la información de la ruta actual
 const route = useRoute();
@@ -21,9 +23,7 @@ const isInBot = computed(() => route.meta.hideHeader === true);
 </script>
 <template>
   <template v-if="!currentIsle">
-    <h2>Selecciona tu isla</h2>
-    <button @click="cambiarIsle('tnf')">Tenerife</button>
-    <button @click="cambiarIsle('lpgc')">LPGC</button>
+    <SelectorIslaWeb></SelectorIslaWeb>
   </template>
 
   <template v-else-if="isInBot">
