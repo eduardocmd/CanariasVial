@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import IndexBotView from '../views/bot/IndexBotView.vue'
-import SelectorIsla from '../views/bot/SelectorIslaView.vue'
 import NuevaAlerta from '../views/bot/NuevaAlertaView.vue'
 import SettingsView from '../views/bot/SettingsBotView.vue'
 import CamerasView from '../views/bot/CamerasView.vue'
@@ -10,6 +9,7 @@ import Alertas from '../views/AlertasView.vue';
 import About from '@/views/AboutView.vue'
 import RoadMap from '@/views/RoadMapView.vue';
 import CookiesView from '@/views/CookiesView.vue'
+import SelectorIslaView from '../views/bot/SelectorIslaView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -75,7 +75,7 @@ const router = createRouter({
     {
       path: '/bot/selectorisla',
       name: 'bot-selectorisla',
-      component: SelectorIsla,
+      component: SelectorIslaView,
       meta: { hideHeader: true, noCache: true }
     },
     {
