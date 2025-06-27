@@ -1,11 +1,23 @@
 <template>
   <main class="alertas">
-    <section class="alerta" v-for="alerta in alertas" :key="alerta._id" :class="alerta.tipo_alerta">
-      <div class="data">
-        <h3>{{ alerta.alerta }}</h3>
-      </div>
-      <p class="fecha">{{ fecha(alerta) }} {{ alerta.tipo_alerta }}</p>
-    </section>
+    <template v-if="alertas && alertas?.length > 0">
+      <section class="alerta" v-for="alerta in alertas" :key="alerta._id" :class="alerta.tipo_alerta">
+        <div class="data">
+          <h3>{{ alerta.alerta }}</h3>
+        </div>
+        <p class="fecha">{{ fecha(alerta) }} {{ alerta.tipo_alerta }}</p>
+      </section>
+
+    </template>
+    <template v-else>
+      <section class="alerta noalerts">
+        <div class="data">
+          <h3>No hay alertas recientes</h3>
+        </div>
+
+      </section>
+    </template>
+
   </main>
 </template>
 
@@ -27,9 +39,12 @@
   border-radius: 1.5rem;
 
   display: flex;
-  flex-direction: column; /* Asegura que el contenido fluya de arriba hacia abajo */
-  word-wrap: break-word; /* Rompe las palabras largas */
-  overflow-wrap: break-word; /* Asegura que el texto se ajuste bien */
+  flex-direction: column;
+  /* Asegura que el contenido fluya de arriba hacia abajo */
+  word-wrap: break-word;
+  /* Rompe las palabras largas */
+  overflow-wrap: break-word;
+  /* Asegura que el texto se ajuste bien */
   box-sizing: border-box;
   width: 90%;
   max-width: 600px;
@@ -40,30 +55,41 @@
 }
 
 .data h3 {
-  word-break: break-word; /* Rompe palabras muy largas si es necesario */
-  overflow: hidden; /* Evita que el texto desborde el contenedor */
-  text-overflow: ellipsis; /* Opcional: añade puntos suspensivos si el texto es muy largo */
+  word-break: break-word;
+  /* Rompe palabras muy largas si es necesario */
+  overflow: hidden;
+  /* Evita que el texto desborde el contenedor */
+  text-overflow: ellipsis;
+  /* Opcional: añade puntos suspensivos si el texto es muy largo */
 }
 
 
 /* Colores dinámicos según el tipo de alerta */
-.alerta{
+.alerta {
   background-color: #592d00;
 }
 
 .alerta.accidente {
-  background-color: #e63946; /* Rojo para accidentes */
+  background-color: #e63946;
+  /* Rojo para accidentes */
 }
+
 .alerta.obras {
-  background-color: #ffba08; /* Amarillo para obras */
+  background-color: #ffba08;
+  /* Amarillo para obras */
 }
+
 .alerta.retenciones {
-  background-color: #8a4fff; /* Verde para tráfico fluido */
+  background-color: #8a4fff;
+  /* Verde para tráfico fluido */
 }
+
 .alerta.obstaculos {
-  background-color: #184b7a; /* Naranja para obstáculos */
+  background-color: #184b7a;
+  /* Naranja para obstáculos */
 }
-.alerta.viacortada{
+
+.alerta.viacortada {
   background-color: #ff7e33;
 }
 
@@ -88,6 +114,14 @@
   color: #ddd;
 }
 
+.noalerts {
+  div {
+    justify-content: center;
+  }
+
+  background-color: var(--color-background);
+}
+
 @media screen and (min-width: 768px) {
   .alertas {
     width: 600px;
@@ -96,7 +130,8 @@
     overflow-y: auto;
     background-color: var(--color-background-soft);
   }
-  
+
+
 }
 </style>
 
@@ -105,13 +140,20 @@ import alertasJSON from '@/alertas.json';
 
 import type { AlertaType } from '@/models/Alerts';
 import { getAlertas } from '@/services/alertas';
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 
+import { useIsleStore } from '@/stores/isle'
 const alertas = ref<Array<AlertaType>>();
+// Instanciamos el store
+const isleStore = useIsleStore()
 
 onMounted(async () => {
-  alertas.value = (await getAlertas()).data;
+  alertas.value = (await getAlertas(isleStore.isle)).data;
 });
+watch(() => isleStore.isle, async (nuevaIsla) => {
+
+  alertas.value = (await getAlertas(nuevaIsla)).data;
+})
 
 const getImagen = (tipoAlerta: string): string => {
   const tipo = alertasJSON.find((tipos) => tipos.tipo == tipoAlerta);

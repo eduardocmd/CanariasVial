@@ -77,6 +77,7 @@ h1 {
 
 
 #logo {
+    display: none;
     height: 60px;
     width: 60px;
     background-size: 100%;
@@ -139,11 +140,12 @@ input:checked+.slider::before {
 }
 
 .isle-switch {
+
     display: inline-flex;
     border: 2px solid var(--color-primary);
     border-radius: 999px;
     overflow: hidden;
-    margin-top: 0.5rem;
+    margin: 1rem;
 }
 
 .isle-switch button {
@@ -152,6 +154,8 @@ input:checked+.slider::before {
     padding: 0.4rem 1rem;
     cursor: pointer;
     font-weight: bold;
+    font-size: 1rem;
+    margin: 0;
     color: var(--color-primary);
     transition: background 0.3s, color 0.3s;
 }
@@ -163,7 +167,15 @@ input:checked+.slider::before {
 
 
 @media screen and (min-width: 768px) {
+
+    .isle-switch {
+
+
+        margin: 0;
+    }
+
     #logo {
+        display: inline-block;
         width: 100px;
         height: 100px;
 
