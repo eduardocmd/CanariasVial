@@ -29,6 +29,7 @@ onMounted(() => {
         attribution: '&copy; OpenStreetMap contributors & Carto',
         subdomains: 'abcd',
         maxZoom: 19,
+        minZoom: 9, // 👈 límite mínimo
         maxNativeZoom: 19
     }).addTo(map.value!);
 

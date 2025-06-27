@@ -4,14 +4,18 @@
         <div id="logo" :style="{ 'background-image': 'url(./logo.png)' }"></div>
         <div id="header-text">
             <h1>Canarias Vial</h1>
-            <h2>{{ isleStore.isle }}</h2>
-            <label class="switch">
-                <input type="checkbox" v-model="activo" />
-                <span class="slider"></span>
-            </label>
 
-            <p>Estado: {{ activo ? 'Activado ✅' : 'Desactivado ❌' }}</p>
+            <div class="isle-switch">
+                <button :class="{ active: activo }" @click="setIsle(true)">
+                    Tenerife
+                </button>
+                <button :class="{ active: !activo }" @click="setIsle(false)">
+                    Gran Canaria
+                </button>
+            </div>
         </div>
+
+
 
     </header>
 </template>
@@ -24,7 +28,11 @@ import { watch } from 'vue';
 // Instanciamos el store
 const isleStore = useIsleStore()
 const activo = ref(false)
-
+function setIsle(valor: boolean) {
+    activo.value = valor
+    const newisle = valor ? 'tnf' : 'lpgc'
+    isleStore.setIsle(newisle)
+}
 watch(activo, (nuevoValor) => {
     const newisle = nuevoValor ? 'tnf' : 'lpgc'
     isleStore.setIsle(newisle)
@@ -69,6 +77,7 @@ h1 {
 
 
 #logo {
+    display: none;
     height: 60px;
     width: 60px;
     background-size: 100%;
@@ -130,8 +139,43 @@ input:checked+.slider::before {
     transform: translateX(20px);
 }
 
+.isle-switch {
+
+    display: inline-flex;
+    border: 2px solid var(--color-primary);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 1rem;
+}
+
+.isle-switch button {
+    background: transparent;
+    border: none;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    margin: 0;
+    color: var(--color-primary);
+    transition: background 0.3s, color 0.3s;
+}
+
+.isle-switch button.active {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+
 @media screen and (min-width: 768px) {
+
+    .isle-switch {
+
+
+        margin: 0;
+    }
+
     #logo {
+        display: inline-block;
         width: 100px;
         height: 100px;
 
