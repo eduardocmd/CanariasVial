@@ -6,7 +6,7 @@ import FooterWeb from "@/components/FooterWeb.vue";
 import AsideMenu from './components/AsideMenu.vue';
 import { useIsleStore } from '@/stores/isle'
 import SelectorIslaView from './views/bot/SelectorIslaView.vue';
-import SelectorIslaWeb from './components/SelectorIslaWeb.vue';
+import SelectorIslaWeb from './components/SwitchIslaWeb.vue';
 
 // Obtén la información de la ruta actual
 const route = useRoute();
