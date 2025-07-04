@@ -1,5 +1,5 @@
 <template>
-    <div id="map" style="height: 350px; width: 100%;"></div>
+    <div id="map"></div>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
@@ -123,6 +123,10 @@ const centrarMapaSegunIsla = () => {
 
 /* Estilos adicionales para el mapa */
 #map {
+    height: 80vh;
+    width: 100%;
+
+    margin: 2rem;
     margin-top: 20px;
     /* Espacio entre el contenido y el mapa */
 }
