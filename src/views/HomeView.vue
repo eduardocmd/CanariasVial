@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+import AlertList from '@/components/AlertList.vue';
 import MapaAlertas from '@/components/MapaAlertas.vue';
 
 
@@ -7,8 +8,10 @@ import MapaAlertas from '@/components/MapaAlertas.vue';
 
 <template>
   <main>
-    <h2>Bienvenido a la web de <span class="title">Canarias Vial</span></h2>
-
+    <div id="info">
+      <AlertList></AlertList>
+      <MapaAlertas />
+    </div>
     <div class="d-flex">
       <a href="https://t.me/+6cbnkbEqc4ZjMWNk" target="_blank">
         <p class="enlaces">
@@ -27,17 +30,17 @@ import MapaAlertas from '@/components/MapaAlertas.vue';
         </p>
       </a>
     </div>
-
-    <MapaAlertas />
   </main>
+
 </template>
 
 <style scoped>
-h1 {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#info {
+
+  display: flex;
+  height: 80vh;
+  align-items: center;
+
 }
 
 .logo {

@@ -28,6 +28,8 @@ import { watch } from 'vue';
 // Instanciamos el store
 const isleStore = useIsleStore()
 const activo = ref(false)
+
+activo.value = isleStore.isle == 'tnf' ? true : false
 function setIsle(valor: boolean) {
     activo.value = valor
     const newisle = valor ? 'tnf' : 'lpgc'
