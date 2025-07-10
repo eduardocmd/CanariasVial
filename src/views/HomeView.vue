@@ -9,8 +9,9 @@ import MapaAlertas from '@/components/MapaAlertas.vue';
 <template>
   <main>
     <div id="info">
-      <AlertList></AlertList>
       <MapaAlertas />
+      <AlertList></AlertList>
+
     </div>
     <div class="d-flex">
       <a href="https://t.me/+6cbnkbEqc4ZjMWNk" target="_blank">
@@ -38,8 +39,10 @@ import MapaAlertas from '@/components/MapaAlertas.vue';
 #info {
 
   display: flex;
-  height: 80vh;
+  flex-wrap: wrap;
+
   align-items: center;
+  justify-content: center;
 
 }
 
@@ -47,5 +50,17 @@ import MapaAlertas from '@/components/MapaAlertas.vue';
   width: 20px;
   height: 20px;
   vertical-align: middle;
+}
+
+@media screen and (min-width: 768px) {
+  #info {
+
+    flex-wrap: nowrap;
+
+  }
+
+
+
+
 }
 </style>
