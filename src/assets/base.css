@@ -67,7 +67,8 @@ overflow: hidden;
     overflow: hidden;
   }
   #app {
-   --menu-size: 8rem;
+   --menu-size: 8rem; 
+    --aside-size: 6rem;
     min-height: 100vh;
     background-color: #181818;
   
