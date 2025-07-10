@@ -123,11 +123,25 @@ const centrarMapaSegunIsla = () => {
 
 /* Estilos adicionales para el mapa */
 #map {
-    height: 80vh;
+    height: 40vh;
     width: 100%;
 
-    margin: 2rem;
+    margin: 1rem;
     margin-top: 20px;
     /* Espacio entre el contenido y el mapa */
+}
+
+@media screen and (min-width: 768px) {
+
+    #map {
+        height: 80vh;
+        width: 100%;
+
+        margin: 2rem;
+        margin-top: 20px;
+        /* Espacio entre el contenido y el mapa */
+    }
+
+
 }
 </style>
