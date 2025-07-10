@@ -2,10 +2,16 @@
     <aside>
 
         <ul>
-            <RouterLink class="links" v-for="(site) in sitemap " :key="site.name" :to="{ name: site.name }">
-                <li :title="site.name" :class="{ 'selected': site.name === currentRouteName }">
+            <RouterLink class="links" v-for="(site) in sitemap" :key="site.name" :to="{ name: site.name }">
+                <li :title="site.name"
+                    :class="{ 'selected': (currentRoute.path.includes(site.name)) || (currentRoute.path === '/' && site.name === 'home') }">
                     <div class="fill"></div>
-                    <component :is="Icono(site.name)" />
+                    <div class="icons" :style="{
+                        WebkitMaskImage: `url(${getLogo(site.filename)})`,
+                        maskImage: `url(${getLogo(site.filename)})`,
+                    }"></div>
+
+
                 </li>
             </RouterLink>
         </ul>
@@ -17,7 +23,7 @@ aside {
     width: 100%;
     overflow: hidden;
     box-sizing: border-box;
-    height: var(--menu-size);
+    height: var(--aside-size);
     bottom: 0;
     background-color: var(--color-background-soft);
     left: 50%;
@@ -60,7 +66,7 @@ svg {
 
 li {
     position: relative;
-    padding: 0.5rem 2rem;
+    padding: 0.5rem 1.2rem;
     box-sizing: border-box;
 
 }
@@ -90,7 +96,37 @@ li.selected .fill {
     opacity: 1;
 }
 
+.icons {
+    width: 28px;
+    height: 28px;
 
+    /* Color que tendrá el icono */
+    background-color: var(--color-text);
+    background-size: contain;
+    background-position: center;
+
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+
+    display: inline-block;
+}
+
+.logo {
+    width: 30px;
+    height: 30px;
+
+    box-shadow: 10px 0px 39px -2px rgba(0, 0, 0, 0.33);
+    -webkit-box-shadow: 10px 0px 39px -2px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 10px 0px 39px -2px rgba(0, 0, 0, 0.33);
+    background-color: transparent;
+    background-size: contain;
+    background-position: center;
+
+    z-index: 1;
+    display: inline-block;
+
+}
 
 
 
@@ -98,15 +134,13 @@ li.selected .fill {
     aside {
         position: fixed;
         display: flex;
-
         background-color: transparent;
         align-items: center;
         top: 0;
         left: 0;
         transform: translateX(0);
         height: calc(100vh);
-
-        width: var(--menu-size);
+        width: var(--aside-size);
 
 
     }
@@ -115,24 +149,8 @@ li.selected .fill {
 
         height: 70%;
         align-items: center;
-
         flex-direction: column;
     }
-
-
-
-
-
-    svg {
-        width: 2.5rem;
-        height: 2.5rem;
-
-
-
-    }
-
-
-
 
 
 }
@@ -140,29 +158,40 @@ li.selected .fill {
 <script setup lang="ts">
 
 import { computed } from 'vue';
-import Home from '@/components/icons/HomeIcon.vue'
-import About from '@/components/icons/AboutIcon.vue'
-import Alerta from '@/components/icons/AlertaIcon.vue'
+
 import { useRoute } from 'vue-router';
-import sitemap from '@/router/sitemap.json'
+
+
+
+const sitemap = [
+    {
+        "route": "/",
+        "name": "home",
+        "filename": "HomeIcon.svg"
+    },
+    {
+        "route": "/alertas",
+        "name": "alertas",
+        "filename": "AlertIcon.svg"
+    },
+
+    {
+        "route": "/about",
+        "name": "about",
+        "filename": "AboutIcon.svg"
+    }
+
+]
 const currentRoute = useRoute();
 const currentRouteName = computed(() => {
     return currentRoute.name || '/';
 });
 
-const Icono: any = (url: string) => {
+const getLogo = (filename: any) => {
 
-    switch (url) {
-        case 'home':
-            return Home
-        case 'alertas':
-            return Alerta
-        case 'about':
-            return About
-        default:
-            return Home
-    }
-
+    let url = `${import.meta.env.BASE_URL}icons/${filename}`
+    console.log(url)
+    return url
 }
 
 

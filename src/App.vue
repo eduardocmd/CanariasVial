@@ -63,7 +63,7 @@ const isInBot = computed(() => route.meta.hideHeader === true);
   }
 
   .layout-wrapper {
-    padding-left: var(--menu-size);
+    padding-left: var(--aside-size);
     padding-top: var(--menu-size);
     background-color: var(--color-background-soft);
   }
